@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "kafka-node": "^5.0.0"
   }
 }
