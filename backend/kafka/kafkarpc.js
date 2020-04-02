@@ -50,6 +50,7 @@ KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
                 data:content}),
                 partition:0}
         ];
+        console.log(payloads)
         self.producer.send(payloads, function(err, data){
             if(err)
                 console.log(err);
@@ -66,7 +67,7 @@ KafkaRPC.prototype.setupResponseQueue = function(producer,topic_name, next){
     self = this;
 
     //subscribe to messages
-    var consumer = self.connection.getConsumer('test');
+    var consumer = self.connection.getConsumer('test2');
     consumer.on('message', function (message) {
         var data = JSON.parse(message.value);
         //get the correlationId

@@ -22,9 +22,8 @@ function handleTopicRequest(topic_name, fname) {
                     partition: 0
                 }
             ];
-             console.log(payloads)
+             
             producer.send(payloads, function (err, data) {
-                 console.log(data);
             });
             return;
         });
@@ -34,4 +33,4 @@ function handleTopicRequest(topic_name, fname) {
 // Add your TOPICs here
 //first argument is topic name
 //second argument is a function that will handle this topic request
-handleTopicRequest("test", login);
+handleTopicRequest("test1", login);

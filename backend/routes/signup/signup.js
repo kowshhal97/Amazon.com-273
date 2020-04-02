@@ -6,7 +6,7 @@ router.get('/',(req,res)=>{
     res.send("SIGNUP API is working!")
 })
 router.post('/',(req,res)=>{
-    kafka.make_request('test', req.body, (err, result) => {
+    kafka.make_request('test1', req.body, (err, result) => {
         res.send(result)
       });
 })
