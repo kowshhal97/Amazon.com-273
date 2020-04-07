@@ -13,7 +13,6 @@ const App = () => {
       
       
       <div>
-        
         <Route path='/user/products' component={Products} />
         <Route path='/user/product/Productdetails' component={ProductDetails} />
   
