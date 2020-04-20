@@ -2,16 +2,11 @@ const express=require('express');
 const router = express.Router();
 
 
-router.get('/',(req,res)=>{
+router.put('/:cartId',(req,res)=>{
     
 })
 
-router.put('/:id',(req,res)=>{
-    
-})
-
-
-router.delete('/:id',(req,res)=>{
+router.delete('/:cartId',(req,res)=>{
     
 })
 

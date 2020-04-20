@@ -14,16 +14,9 @@ router.use('/cards',cards);
 
 
 
-router.get('/:id',(req,res)=>{
-   
-})
 
 router.put('/:id',(req,res)=>{
     
-})
-
-router.get('/',(req,res)=>{
-    res.send('profile test working!')
 })
 
 module.exports=router;
