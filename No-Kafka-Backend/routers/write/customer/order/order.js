@@ -11,13 +11,6 @@ router.put('/:orderId',(req,res)=>{
     
 })
 
-router.get('/:orderId',(req,res)=>{
-    
-})
-
-router.get('/:userId',(req,res)=>{
-    
-})
 
 
 
