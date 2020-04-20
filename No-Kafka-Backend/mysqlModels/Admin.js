@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
+const User=require('./User')
 
 const Admin = sequelize.define('admin', {
   firstName: {
@@ -7,15 +8,9 @@ const Admin = sequelize.define('admin', {
   },
   lastName: {
     type: Sequelize.STRING,
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
+  }
 });
+
+Admin.belongsTo(User);
 
 module.exports = Admin;
