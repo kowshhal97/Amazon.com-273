@@ -1,10 +1,16 @@
 const express=require('express');
 const router = express.Router();
-const kafka= require('./../../kafka/client')
 
 
-router.get('/',(req,res)=>{
+
+router.put('/:userId/:cardId',(req,res)=>{
+   
+})
+
+
+router.delete('/:userid/:cardId',(req,res)=>{
     
 })
+
 
 module.exports=router;

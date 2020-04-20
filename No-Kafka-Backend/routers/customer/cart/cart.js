@@ -2,23 +2,17 @@ const express=require('express');
 const router = express.Router();
 
 
-router.post('/:userId',(req,res)=>{
+router.put('/:cartId',(req,res)=>{
     
 })
 
-
-router.put('/:orderId',(req,res)=>{
+router.delete('/:cartId',(req,res)=>{
     
 })
 
-router.get('/:orderId',(req,res)=>{
-    
-})
 
 router.get('/:userId',(req,res)=>{
-    
+    res.send('profile test working!')
 })
-
-
 
 module.exports=router;
