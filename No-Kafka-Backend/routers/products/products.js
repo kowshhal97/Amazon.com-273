@@ -6,12 +6,25 @@ router.get('/',(req,res)=>{
     
 })
 
-<<<<<<< HEAD
-router.post('/',(req,res)=>{
-=======
-router.put('/:id',(req,res)=>{
->>>>>>> kowshhalDev
+router.get('/:id',(req,res)=>{
     
 })
+
+router.post('/',(req,res)=>{
+    
+})
+
+router.put('/:id',(req,res)=>{
+   
+})
+
+router.delete('/:id',(req,res)=>{
+    
+})
+
+router.get('/:productId/comments',(req,res)=>{
+
+})
+
 
 module.exports=router;
