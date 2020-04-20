@@ -12,7 +12,7 @@ class ProductDetails extends Component {
         <div>
             <Header />
           <AutogridLayout />
-          </div>  
+       </div>
        
       );
     }

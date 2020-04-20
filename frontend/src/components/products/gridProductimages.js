@@ -33,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
         cols: 2,
        },
        {
+        img: image,
+         title: 'Image1',
+        author: 'author',
+        cols: 2,
+       },
+       {
         // [etc...]
        }
      ];
