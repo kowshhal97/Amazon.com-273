@@ -1,16 +1,21 @@
-const express = require('express')
-require('./db/SQLdatabase')
-const cors = require('cors')
-const customerRouter = require('./routers/customer');
-const app = express()
 
-app.use(cors({ origin: true, credentials: true }))
-app.use(express.json({ extended: false }))
+
+const app=require('./app')
+
+const adminRouter=require('./routers/admin/admin');
+const customerRouter=require('./routers/customer/customer');
+const sellerRouter=require('./routers/seller/seller');
+
+//route configurations
+
+app.use('/admin',adminRouter);
+app.use('/customer',customerRouter);
+app.use('/seller',sellerRouter);
+
 const port = process.env.PORT || 3000
 
-app.use(express.json())
-
-app.use(customerRouter)
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 })
+
+
