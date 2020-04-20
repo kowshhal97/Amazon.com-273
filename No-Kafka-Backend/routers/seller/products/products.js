@@ -3,7 +3,7 @@ const router = express.Router();
 const kafka= require('./../../kafka/client')
 
 
-router.get('/',(req,res)=>{
+router.get('/:id',(req,res)=>{
     
 })
 
