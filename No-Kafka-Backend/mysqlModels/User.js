@@ -1,13 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
 
-const Admin = sequelize.define('admin', {
-  firstName: {
-    type: Sequelize.STRING,
-  },
-  lastName: {
-    type: Sequelize.STRING,
-  },
+const User = sequelize.define('user', {
+  
   email: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -16,6 +11,10 @@ const Admin = sequelize.define('admin', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  userType:{
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
-module.exports = Admin;
+module.exports = User;

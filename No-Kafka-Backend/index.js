@@ -9,8 +9,6 @@ const loginRouter=require('./routers/seller/seller');
 const signupRouter=require('./routers/seller/seller');
 const productsRouter=require('./routers/seller/seller');
 const commentRouter=require('./routers/comments/comments');
-const cardsRouter=require('./routers/cards/cards');
-const votesRouter=require('./routers/votes/votes')
 
 //route configurations
 
@@ -21,8 +19,15 @@ app.use('/products',productsRouter);
 app.use('/login',loginRouter);
 app.use('/signup',signupRouter);
 app.use('/comments',commentRouter);
-app.use('/cards',cardsRouter);
-app.use('/votes',votesRouter);
+
+
+
+require('./mysqlModels/Customer')
+require('./mysqlModels/Seller')
+require('./mysqlModels/Admin')
+require('./mysqlModels/Category')
+require('./mysqlModels/User')
+
 
 const port = process.env.PORT || 3000
 

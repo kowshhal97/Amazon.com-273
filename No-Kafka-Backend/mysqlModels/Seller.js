@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
+const Product=require('./Product');
+const User=require('./User')
 
 const Seller = sequelize.define('seller', {
   firstName: {
@@ -7,14 +9,6 @@ const Seller = sequelize.define('seller', {
     allowNull: false,
   },
   lastName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  password: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -37,5 +31,10 @@ const Seller = sequelize.define('seller', {
     type: Sequelize.STRING,
   },
 });
+
+Seller.hasMany(Product);
+
+Seller.belongsTo(User)
+
 
 module.exports = Seller;
