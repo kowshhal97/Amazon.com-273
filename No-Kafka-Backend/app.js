@@ -12,5 +12,4 @@ app.use(express.json())
 //app configurations
 
 
-
 module.exports=app;

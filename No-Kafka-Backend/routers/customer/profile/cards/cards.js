@@ -3,12 +3,12 @@ const router = express.Router();
 
 
 
-router.put('/:userId/:cardId',(req,res)=>{
+router.put('/:cardId',(req,res)=>{
    
 })
 
 
-router.delete('/:userid/:cardId',(req,res)=>{
+router.delete('/:cardId',(req,res)=>{
     
 })
 

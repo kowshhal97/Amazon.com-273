@@ -1,10 +1,9 @@
 const express=require('express');
 const router = express.Router();
-const kafka= require('./../../kafka/client')
 
+const products=require('./products/products');
+const profile=require('./profile/profile');
 
-router.get('/',(req,res)=>{
-    
-})
+router.use('/product',products);
 
 module.exports=router;
