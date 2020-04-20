@@ -4,11 +4,7 @@ const Product=require('./Product');
 const User=require('./User')
 
 const Seller = sequelize.define('seller', {
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  lastName: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   },

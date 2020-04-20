@@ -11,11 +11,7 @@ const Cart = require('./Cart');
 const User=require('./User')
 
 const Customer = sequelize.define('customer', {
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  lastName: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   }
