@@ -6,11 +6,7 @@ router.get('/',(req,res)=>{
     
 })
 
-<<<<<<< HEAD
-router.post('/',(req,res)=>{
-=======
 router.put('/:id',(req,res)=>{
->>>>>>> kowshhalDev
     
 })
 
