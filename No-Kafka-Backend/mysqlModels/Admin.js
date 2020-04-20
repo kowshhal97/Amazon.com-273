@@ -8,7 +8,8 @@ const Admin = sequelize.define('admin', {
   },
   lastName: {
     type: Sequelize.STRING,
-  }
+  },
+
 });
 
 Admin.belongsTo(User);

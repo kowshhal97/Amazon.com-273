@@ -21,6 +21,14 @@ app.use('/signup',signupRouter);
 app.use('/comments',commentRouter);
 
 
+
+require('./mysqlModels/Customer')
+require('./mysqlModels/Seller')
+require('./mysqlModels/Admin')
+require('./mysqlModels/Category')
+require('./mysqlModels/User')
+
+
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {

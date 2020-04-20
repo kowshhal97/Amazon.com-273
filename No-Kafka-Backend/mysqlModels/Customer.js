@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
 
 const Address = require('./CustomerAddress')
-const Card = require('./Product')
+const Card = require('./Card')
 const Votes = require('./votes')
 const Comments = require('./Comments')
 const Product = require('./Product');
