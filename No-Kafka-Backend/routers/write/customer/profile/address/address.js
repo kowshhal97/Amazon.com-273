@@ -50,7 +50,7 @@ router.put('/:addressId',async (req,res)=>{
             }
         });
         if ( address=== null) {
-            return res.sendStatus(404).send("Address not found!");
+            return res.status(404).send("Address not found!");
         }
         else {
             const newAddress=await Address.update({
@@ -64,13 +64,13 @@ router.put('/:addressId',async (req,res)=>{
                 phoneNumber:phoneNumber,
             },{where:{id:id}})
 
-        return res.sendStatus(200).send(newAddress);
+        return res.status(200).send(newAddress);
         }
     }
     catch (err) {
         console.log(err);
     }
-    return res.sendStatus(500).send("Internal Server Error!");
+    return res.status(500).send("Internal Server Error!");
    
 })
 
@@ -84,7 +84,7 @@ router.delete('/:addressId',async (req,res)=>{
                 id:id
             }
         })
-        return res.sendStatus(200).send(address);
+        return res.status(200).send(address);
         }
     catch (err) {
         console.log(err);
