@@ -23,7 +23,7 @@ router.post('/', async (req,res)=>{
             rating: req.body.rating,
             description: req.body.description
         })
-        return res.status(200).send(product);
+        return res.status(201).send(product);
     } catch(err) {
         console.log(err)
         return res.status(500).send('Internal Server Error!');
