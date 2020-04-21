@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const Seller = require('../../../../mysqlModels/Seller');
 
 //GET Seller by Id
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const seller = await seller.findOne({
+    const seller = await Seller.findOne({
       where: {
         id: id,
       },
@@ -13,7 +14,7 @@ router.get('/:id', async (req, res) => {
     if (seller === null) {
       return res.status(404).send('User not found!');
     }
-    return res.status(200).send(customer);
+    return res.status(200).send(seller);
   } catch (err) {
     console.log(err);
     return res.status(500).send('Internal Server Error!');
