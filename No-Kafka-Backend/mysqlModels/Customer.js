@@ -14,7 +14,11 @@ const Customer = sequelize.define('customer', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
+  },
+  profilePicUrl: {
+    type: Sequelize.STRING,
+  },
+
 });
 
 Customer.hasMany(Address);
