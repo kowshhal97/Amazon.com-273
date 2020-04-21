@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         }, { transaction: transaction })
         if (user.userType === "customer") {
             var customer = await Customer.create({ name: req.body.name }, { transaction: transaction })
-            customer = await customer.setUser(user);
+         customer.setUser(user);
         }
         else if (user.userType === "seller") {
             var seller = await Seller.create({ name: req.body.name }, { transaction: transaction })

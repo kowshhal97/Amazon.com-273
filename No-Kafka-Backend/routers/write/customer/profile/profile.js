@@ -10,9 +10,6 @@ router.use('/votes',votes);
 router.use('/address',address);
 router.use('/cards',cards);
 
-
-
-
 router.put('/:id',(req,res)=>{
     
 })
