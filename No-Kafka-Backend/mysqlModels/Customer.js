@@ -21,6 +21,7 @@ Customer.hasMany(Address);
 Customer.hasMany(Card);
 Customer.hasMany(Votes);
 Customer.hasMany(Comments);
+
 Customer.belongsToMany(Product, { through: Cart });
 
 Customer.belongsTo(User);
