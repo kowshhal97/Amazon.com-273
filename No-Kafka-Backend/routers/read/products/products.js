@@ -6,14 +6,10 @@ router.get('/',(req,res)=>{
     
 })
 
-router.get('/:id',(req,res)=>{
+router.get('/:sellerId',(req,res)=>{
     
 })
 
-
-router.get('/:productId/comments',(req,res)=>{
-
-})
 
 
 module.exports=router;
