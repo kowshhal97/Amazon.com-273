@@ -2,10 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
 
 const CustomerAddress = sequelize.define('customerAddress', {
-  firstName: {
-    type: Sequelize.STRING,
-  },
-  lastName: {
+  name: {
     type: Sequelize.STRING,
   },
   address1: {
