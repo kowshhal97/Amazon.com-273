@@ -45,6 +45,7 @@ router.post('/', async (req, res) => {
                 })
                 res.status(200).send(admin);
             }
+            return
         }
         return res.status(401).send("UnAuthorized!");
     }
