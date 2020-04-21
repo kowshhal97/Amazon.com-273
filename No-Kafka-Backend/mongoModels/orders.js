@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+    customerId: String,
     customerName: {
         type: String
     },
@@ -32,8 +33,11 @@ const OrderSchema = new Schema({
         perQuantityPrice: Number,
         totalPrice: Number,
         orderStatus: String,
-        gift: Boolean,
-        orderHistory: [{
+        gift: {
+            gift: Boolean,
+            giftMessage: String
+        },
+        orderUpdates: [{
             date: Date,
             deliveryStatus: String
         }]
