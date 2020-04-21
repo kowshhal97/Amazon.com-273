@@ -5,9 +5,6 @@ const OrderSchema = new Schema({
     customerName: {
         type: String
     },
-    sellerName: {
-        type: String
-    },
     orderDate: {
         type: Date
     },
@@ -30,14 +27,15 @@ const OrderSchema = new Schema({
     },
     products: [{
         productName: String,
+        sellerName: String,
         quantity: Number,
         perQuantityPrice: Number,
         totalPrice: Number,
         orderStatus: String,
+        gift: Boolean,
         orderHistory: [{
             date: Date,
-            deliveryStatus: String,
-            gift: Boolean
+            deliveryStatus: String
         }]
 
     }]
