@@ -26,6 +26,9 @@ const Seller = sequelize.define('seller', {
   zipcode: {
     type: Sequelize.STRING,
   },
+  profilePicUrl: {
+    type: Sequelize.STRING,
+  },
 });
 
 Seller.hasMany(Product);

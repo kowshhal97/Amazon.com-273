@@ -46,7 +46,7 @@ router.put('/:cardId',async (req,res)=>{
             }
         });
         if ( card=== null) {
-            return res.sendStatus(404).send("Card not found!");
+            return res.status(404).send("Card not found!");
         }
         else {
             const card=await Card.update({
@@ -57,13 +57,13 @@ router.put('/:cardId',async (req,res)=>{
                 name:name,
             },{where:{id:id}})
 
-        return res.sendStatus(200).send(card);
+        return res.status(200).send(card);
         }
     }
     catch (err) {
         console.log(err);
     }
-    return res.sendStatus(500).send("Internal Server Error!");
+    return res.status(500).send("Internal Server Error!");
    
 })
 
@@ -77,7 +77,7 @@ router.delete('/:cardId',async (req,res)=>{
                 id:id
             }
         })
-        return res.sendStatus(200).send(card);
+        return res.status(200).send(card);
         }
     catch (err) {
         console.log(err);
