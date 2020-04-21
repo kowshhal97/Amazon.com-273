@@ -3,6 +3,8 @@ const sequelize = require('../db/SQLdatabase');
 const Comments = require('./Comments')
 const Votes=require('./votes')
 
+const ProductImages=require('./productImages')
+
 const Product = sequelize.define('product', {
   productName: {
     type: Sequelize.STRING,
@@ -26,6 +28,8 @@ const Product = sequelize.define('product', {
 
 Product.hasMany(Comments);
 Product.hasMany(Votes);
+
+Product.hasMany(ProductImages)
 
 
 module.exports = Product;
