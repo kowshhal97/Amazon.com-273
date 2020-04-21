@@ -6,8 +6,10 @@ const Product = require('./../../../../mysqlModels/Product')
 
 
 
-router.post('/', async (req, res) => {
-    const { quantity,productId,customerId } = req.body
+router.post('/:userId/:productId', async (req, res) => {
+    const { quantity } = req.body
+    const customerId=req.params.userId
+    const productId=req.params.productId
     try {
         const user = await Customer.findOne({
             where: {
