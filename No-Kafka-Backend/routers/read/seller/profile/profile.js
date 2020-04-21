@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const sellers = await Seller.find();
+        const sellers = await Seller.findAll();
         return res.status(200).send(sellers);
     } catch(err) {
         console.log(err);
