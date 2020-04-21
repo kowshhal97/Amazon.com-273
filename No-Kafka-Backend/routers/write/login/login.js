@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
                 const seller = await Seller.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ all: true, nested: true }]
+                    }, include: [{ all: true, nested: false }]
                 })
                 res.status(200).send(seller);
             }
