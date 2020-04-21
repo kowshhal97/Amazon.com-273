@@ -19,15 +19,15 @@ router.post('/', async (req, res) => {
         }, { transaction: transaction })
         if (user.userType === "customer") {
             var customer = await Customer.create({ name: req.body.name }, { transaction: transaction })
-         customer.setUser(user);
+            customer.setUser(user);
         }
         else if (user.userType === "seller") {
             var seller = await Seller.create({ name: req.body.name }, { transaction: transaction })
-            seller = await seller.setUser(user);
+            seller.setUser(user);
         }
         else {
             var admin = await Admin.create({ name: req.body.name }, { transaction: transaction })
-            admin = await admin.setUser(user);
+            admin.setUser(user);
         }
         transaction.commit()
         return res.status(200).send(user);
@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
     return res.status(500).send("Internal Server Error!");
 
 })
-
 
 
 module.exports = router;

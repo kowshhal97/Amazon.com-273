@@ -1,14 +1,10 @@
 const express=require('express');
 const router = express.Router();
-const comments=require('./comments/comments')
-const votes=require('./votes/votes')
+
 
 const Customer = require('./../../../../mysqlModels/Customer');
 
 
-
-router.use('/comments',comments);
-router.use('/votes',votes);
 
 
 

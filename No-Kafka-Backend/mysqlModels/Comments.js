@@ -5,10 +5,6 @@ const Comments = sequelize.define('comments', {
   comment: {
     type: Sequelize.STRING,
     allowNull: false,
-  },
-  date:{
-    type: Sequelize.DATE,
-    allowNull: false,
   }
 });
 
