@@ -5,8 +5,8 @@ const Product = require('../../../mysqlModels/Product');
 
 
 
-router.post('/', async (req,res)=>{
-    const sellerId = req.body.id;
+router.post('/', async (req,res) => {
+    const sellerId = req.body.sellerId;
     try {
         const seller = await Seller.findOne({
             where: {
@@ -21,7 +21,9 @@ router.post('/', async (req,res)=>{
             sellerName: req.body.sellerName,
             price: req.body.price,
             rating: req.body.rating,
-            description: req.body.description
+            description: req.body.description,
+            sellerId: req.body.sellerId,
+            categoryId: req.body.categoryId
         })
         return res.status(201).send(product);
     } catch(err) {
@@ -40,4 +42,4 @@ router.delete('/:id',(req,res)=>{
 
 
 
-module.exports=router;
+module.exports = router;
