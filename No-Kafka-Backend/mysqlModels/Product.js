@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../db/SQLdatabase');
 const Comments = require('./Comments')
+const Votes=require('./votes')
 
 const Product = sequelize.define('product', {
   productName: {
@@ -24,6 +25,7 @@ const Product = sequelize.define('product', {
 });
 
 Product.hasMany(Comments);
+Product.hasMany(Votes);
 
 
 module.exports = Product;
