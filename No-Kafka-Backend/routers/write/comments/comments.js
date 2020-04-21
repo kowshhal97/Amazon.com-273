@@ -5,7 +5,6 @@ const Comments = require('./../../../mysqlModels/Comments')
 const Product = require('./../../../mysqlModels/Product')
 
 
-
 router.post('/:userId/:productId', async (req, res) => {
     const { comment } = req.body
     const userId = req.params.userId;
