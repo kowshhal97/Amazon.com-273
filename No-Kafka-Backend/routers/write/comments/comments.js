@@ -6,7 +6,7 @@ const Product = require('./../../../mysqlModels/Product')
 
 
 
-router.post('/:userId//:productId', async (req, res) => {
+router.post('/:userId/:productId', async (req, res) => {
     const { comment } = req.body
     const userId = req.params.userId;
     const productId = req.params.productId;
@@ -54,7 +54,7 @@ router.delete('/:id', async (req, res) => {
                 id:id
             }
         })
-        return res.status(200).send(result);
+        return res.sendStatus(200);
         }
     catch (err) {
         console.log(err);
@@ -85,7 +85,7 @@ router.put('/:id', async (req, res) => {
     catch (err) {
         console.log(err);
     }
-    return res.status(500).send("Internal Server Error!");
+    return res.sendStatus(500);
 
 })
 
