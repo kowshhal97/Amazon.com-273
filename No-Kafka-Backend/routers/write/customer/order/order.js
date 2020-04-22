@@ -1,6 +1,7 @@
 const express=require('express');
 const router = express.Router();
 const Order = require('../../../../mongoModels/orders');
+const Sale = require('../../../../mongoModels/sales');
 
 
 router.post('/:userId',async (req, res) => {
@@ -8,6 +9,17 @@ router.post('/:userId',async (req, res) => {
     try {
         const order = new Order({customerId, ...req.body})
         await order.save();
+        order.products.map(async (product) => {
+            var seller = await Sale.findOne({sellerName: product.sellerName})
+            console.log("seller", seller);
+            if(seller !== null) {
+                seller.sales += product.totalPrice;
+                await seller.save();
+            } else {
+                var sale = new Sale({sellerName: product.sellerName, sales: product.totalPrice});
+                await sale.save();
+            }
+        })
         res.status(201).send(order);
     } catch(err) {
         console.log(err);

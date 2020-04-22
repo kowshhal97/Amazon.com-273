@@ -21,6 +21,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//Get All Sellers
 router.get('/', async (req, res) => {
     try {
         const sellers = await Seller.findAll();
