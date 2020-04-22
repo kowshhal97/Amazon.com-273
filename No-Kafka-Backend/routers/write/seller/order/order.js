@@ -2,7 +2,7 @@ const express=require('express');
 const router = express.Router();
 const Order = require('../../../../mongoModels/orders');
 
-// Update order Status by Admin
+// Update order Status by Seller
 router.put('/:orderId', async (req, res) => {
     const { orderStatus, orderUpdateItem, productId } = req.body; 
     try {

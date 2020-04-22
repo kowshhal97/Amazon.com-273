@@ -2,8 +2,7 @@ const express=require('express');
 const router = express.Router();
 const Order = require('../../../../mongoModels/orders');
 
-
-
+// Get all orders by Admin
 router.get('/', async (req, res) => {
     try {
         const orders = await Order.find({});
@@ -13,6 +12,7 @@ router.get('/', async (req, res) => {
         return res.status(500).send('Internal Server Error!')
     }
 })
+
 
 
 
