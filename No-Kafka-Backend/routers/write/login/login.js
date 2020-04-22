@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
                 const customer = await Customer.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ all: true, nested: true }]
+                    }, include: [{ all: true, nested: false }]
                 })
                 res.status(200).send(customer);
             }
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
                 const admin = await Admin.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ all: true, nested: true }]
+                    }, include: [{ all: true, nested: false }]
                 })
                 res.status(200).send(admin);
             }
