@@ -28,6 +28,7 @@ const OrderSchema = new Schema({
         phoneNumber: String   
     },
     products: [{
+        productId: String,
         productName: String,
         sellerName: String,
         quantity: Number,
@@ -39,7 +40,10 @@ const OrderSchema = new Schema({
             giftMessage: String
         },
         orderUpdates: [{
-            date: Date,
+            date: {
+                type: Date,
+                default: Date.now
+            },
             deliveryStatus: String
         }]
 
