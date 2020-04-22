@@ -7,7 +7,8 @@ const OrderSchema = new Schema({
         type: String
     },
     orderDate: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     billing: {
         name: String,
