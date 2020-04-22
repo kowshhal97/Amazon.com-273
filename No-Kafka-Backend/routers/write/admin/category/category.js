@@ -13,7 +13,31 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.put('/:id',(req, res)=>{
+router.put('/:id',async (req, res)=>{
+
+    const {categoryName}=req.body
+    const id=req.params.id;
+    try {
+        const category = await Category.findOne({
+            where: {
+                id:id
+            }
+        });
+        if ( Category=== null) {
+            return res.status(404).send("Category not found!");
+        }
+        else {
+            const newCategory=await Category.update({
+               categoryName:categoryName
+            },{where:{id:id}})
+
+        return res.status(200).send(newCategory);
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return res.status(500).send("Internal Server Error!");
     
 })
 

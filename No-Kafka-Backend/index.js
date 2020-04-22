@@ -12,12 +12,6 @@ app.use('/read',readRouter);
 app.use('/write',writeRouter);
 
 
-require('./mysqlModels/Customer')
-require('./mysqlModels/Seller')
-require('./mysqlModels/Admin')
-require('./mysqlModels/Category')
-require('./mysqlModels/User')
-
 
 const port = process.env.PORT || 3000
 
