@@ -1,4 +1,4 @@
-const express=require('express');
+const express = require('express');
 const router = express.Router();
 const Seller = require('../../../mysqlModels/Seller');
 const Product = require('../../../mysqlModels/Product');
@@ -32,8 +32,13 @@ router.post('/', async (req,res) => {
     }
 })
 
-router.put('/:id', (req,res) => {
-
+router.put('/:id', (req, res) => {
+    try {
+        
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send('Internal Server Error!');
+    }
    
 })
 
