@@ -20,12 +20,29 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
+    try {
 
-    res.send(await Votes.findAll({
-        where: { id: id },
-        attributes: ['productId', [sequelize.fn('AVG',
-            sequelize.col('rating')), 'ratingAvg']],
-    }))
+        const rating=await Votes.findAll({
+            where: { id: id },
+            attributes: ['productId', [sequelize.fn('AVG',
+                sequelize.col('rating')), 'ratingAvg']],
+        });
+
+        const product = await Product.findOne({
+            where:{
+                id:req.params.id
+            }
+        });
+        product.rating=rating[0];
+        return res.status(200).send(product);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal Server Error!');
+    }
+
+    
+
+
 })
 
 
