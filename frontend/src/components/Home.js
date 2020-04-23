@@ -7,7 +7,7 @@ class Home extends Component {
     render() {
       return (
         <div>
-          <h2> Amazon home page </h2>
+          <h2> the home page </h2>
           
         </div>
        
