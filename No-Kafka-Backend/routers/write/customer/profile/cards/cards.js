@@ -72,12 +72,12 @@ router.put('/:cardId',async (req,res)=>{
 router.delete('/:cardId',async (req,res)=>{
     const id=req.params.cardId;
     try {
-        const card=await Card.destroy({
+        await Card.destroy({
             where:{
                 id:id
             }
         })
-        return res.status(200).send(card);
+        return res.sendStatus(200);
         }
     catch (err) {
         console.log(err);

@@ -49,7 +49,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const result = await Cart.destroy({
             where: {
-                userId: id
+                customerId: id
             }
         })
         return res.sendStatus(200);
@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
     try {
         const cart = await Cart.findOne({
             where: {
-                userId: id
+                customerId: id
             }
         });
         if (cart === null) {
@@ -75,7 +75,7 @@ router.put('/:id', async (req, res) => {
         else {
             const updatedCart = await Cart.update({
                 quantity: quantity,
-            }, { where: { id: id } })
+            }, { where: { customerId: id } })
             return res.status(200).send(updatedCart);
         }
     }
