@@ -4,7 +4,7 @@ const Product = require('./../../../../mysqlModels/Product');
 
 
 router.get('/:id',async (req,res)=>{
-    const id = req.params.sellerId;
+    const id = req.params.id;
     try {
         const products = await Product.findAll({
             where: {
