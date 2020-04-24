@@ -1,6 +1,6 @@
 import React from 'react';
-import Products from './clientComponents/products/products';
-import ProductDetails from './clientComponents/products/productDetails';
+import Products from './products/products';
+import ProductDetails from './products/productDetails';
 import cart from './clientComponents/cartComp/cart';
 import Home from './Home';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
