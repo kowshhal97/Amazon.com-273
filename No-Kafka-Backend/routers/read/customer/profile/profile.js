@@ -1,0 +1,46 @@
+const express=require('express');
+const router = express.Router();
+
+
+const Customer = require('./../../../../mysqlModels/Customer');
+
+
+router.get('/:id',async(req,res)=>{
+
+    const id=req.params.id;
+    try {
+        const customer = await Customer.findOne({
+            where: {
+                id: id
+            },include: [{ all: true, nested: false }]
+        });
+        if (customer === null) {
+            return res.status(404).send("User not found!");
+        }
+        // for(let i=0;i<customer.products.length;i++){
+        //     customer.products[i]=customer.products[i].cart
+        // }
+
+        return res.status(200).send(customer);
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return res.status(500).send("Internal Server Error!");
+   
+})
+
+
+router.get('/',async (req,res)=>{
+    try {
+        const customers = await Customer.findAll({include: [{ all: true, nested: false }]
+        });
+        return res.status(200).send(customers);
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return res.status(500).send("Internal Server Error!");
+})
+
+module.exports=router;
