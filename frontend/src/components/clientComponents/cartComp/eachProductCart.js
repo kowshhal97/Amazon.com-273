@@ -1,81 +1,107 @@
 import React, { Component } from 'react'
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Link from '@material-ui/core/Link';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form'
+//import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button'
 
-class EachProduct extends Component {
-    constructor(props){
-        super(props)
+class EachProductCart extends Component {
+    constructor(props) {
+        super(props);
+        console.log(props)
         this.state = {
-            redirect: '',
-           
-              quantity:1
-          };
+            giftMessage: this.props.product.giftMessage ? this.props.product.giftMessage : '',
+            showTextArea: this.props.product.gift
+        }
     }
 
-    laterClicked = () => {
-        
-    }
-
-    handleChangeQuantity = (e) => {
+    onChangeMessage = (e) => {
+        console.log(e.target.value)
         this.setState({
-            quantity: e.target.value
+            giftMessage: e.target.value
         })
     }
+
+    giftCheckBox = (e) => {
+        if (e.target.checked) {
+            this.setState({
+                showTextArea: true
+            })
+        }
+        else {
+            this.setState({
+                showTextArea: false,
+                giftMessage: ''
+            })
+        }
+    }
+
 
 
     render() {
         return (
             <div>
                 <div>
-                    <Grid container spacing={3}>
-
-                        <Grid item xs={12} sm={3}>
-
-                            <img
-                                alt=''
-                                style={{ width: '100%' }}
-                                src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                            ></img>
-                        </Grid>
-                        <Grid item xs={12} sm={9}>
-
-                            <p>product details</p>
-                            <Grid item xs={3}>
-
-                            <Select
-
-                                id="quantity"
-                                value={this.state.quantity}
-                                onChange={this.handleChangeQuantity}
-                            >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={6}>6</MenuItem>
-                                <MenuItem value={7}>7</MenuItem>
-                                <MenuItem value={8}>8</MenuItem>
-                                <MenuItem value={9}>9</MenuItem>
-                                <MenuItem value={10}>10</MenuItem>
-
-                            </Select>
-                            </Grid>
-                            <Link href="#" onClick={this.laterClicked} variant="body2">
-                               save for later
+                    <Row>
+                        <Col xs={2}>
+                            <Link to={{ pathname: '//', state: {} }}>
+                                <img
+                                    alt=''
+                                    style={{ width: '100%' }}
+                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                ></img>
                             </Link>
-                            <Link href="#" onClick={this.deleteClicked} variant="body2">
-                               Delete
-                            </Link>
-                        </Grid>
+                        </Col>
+                        <Col xs={9}>
+                            <Row>
+                                product name
+                                </Row>
+                            <Row>
+                                <small style={{ color: 'green' }}>In stock</small>
+                            </Row>
+                            <Row>
+                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
 
-                    </Grid>
+                            </Row>
+
+                            <Row>
+                                <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
+                                />
+
+                            </Row>
+                            <Row>
+                                {this.state.showTextArea && <div>
+
+                                    <Form>
+                                        <Form.Control as="textarea" rows="3" placeholder="Enter gift message..." onChange={this.onChangeMessage} value={this.state.giftMessage} />
+                                    </Form>
+                                    <Button variant="info">Save</Button>
+                                </div>}
+                            </Row>
+                            <Row>
+                                Qty
+                                <Form>
+                                    <Form.Group controlId="exampleForm.SelectCustom">
+                                        <Form.Control as="select" custom>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Form>
+                            </Row>
+                        </Col>
+                        <Col xs={1}>
+                            <strong><p style={{ color: '#B12704' }}>$11.98</p></strong>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )
     }
 }
 
-export default EachProduct;
+export default EachProductCart;

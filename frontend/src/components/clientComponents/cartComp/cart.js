@@ -1,87 +1,199 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Container from '@material-ui/core/Container';
-import EachProduct from './eachProductCart';
-import Save4Later from './save4Later';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+//import Button from 'react-bootstrap/Button';
+//import EachProductCart from './eachProductCart';
 
 
-class cart extends Component {
+class Cart extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            redirect: '',
-            products: [{ a: 1, b: 2, c: 3 },
-            { a: 4, b: 5, c: 6 },
-            { a: 7, b: 8, c: 9 }],
-            laterProducts:[{ a: 1, b: 2, c: 3 },
-                { a: 4, b: 5, c: 6 },
-                { a: 7, b: 8, c: 9 }]
-        };
+
+    giftCheckBox = (e) => {
+        if (e.target.checked) {
+            this.setState({
+                showTextArea: true
+            })
+        }
+        else {
+            this.setState({
+                showTextArea: false,
+                giftMessage: ''
+            })
+        }
     }
 
+    deleteClicked = (product, event) => {
+        console.log(product)
+        console.log(event)
+//delete and update store.
 
-    componentDidMount() {
-        //from store get the list of products in the cart
-
+    }
+    save4laterClicked = (product, event) => {
+        console.log(product)
+        console.log(event)
 
     }
 
-  
+    changeQuantity = (product, event) => {
+        console.log(product)
+        console.log(event.target.value)
+        //change subtotal
+    }
+
 
     render() {
+        let subtotal = 0;
 
+        let products = [{
+            cartid:1,
+            gift: true,
+            giftMessage: 'hello',
+            price: '10',
+            flag: 0,
+            quantity: 2,
+            productid: 1,
+            customerid: 3,
+            productName: 'product 1',
+            sellerName: 'seller 1',
+            productPrice: 3,
+            rating: 3,
+            sellerid: 1,
+            productPhoto: ''
+        },
+        {
+            cartid:2,
+            gift: false,
+            giftMessage: '',
+            price: '10',
+            flag: 1,
+            quantity: 1,
+            productid: 1,
+            customerid: 3,
+            productName: 'product 1',
+            sellerName: 'seller 1',
+            productPrice: 3,
+            rating: 3,
+            sellerid: 1,
+            productPhoto: ''
+        }]
+
+        for(let i =0; i < products.length;i++){
+            let cost = 0;
+            console.log(products[i].price)
+            if(products[i].price){
+                cost = (Number(products[i].quantity) *Number( products[i].price));
+
+            }
+            subtotal+=cost;
+        }
         return (
             <div>
                 <div>
+                    <h3>Shopping Cart</h3>
 
-                </div>
-                <div>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={9}>
-                            <h2>Shopping cart</h2>
-                            <List dense >
-                                {this.state.products.map((value, index) => {
-                                    return <EachProduct key={index} productValue={value} />
+                    <Row>
+                        <Col md={10}>
+                            <h5 style={{ float: 'right' }}>price</h5>
 
-                                })}
+                            <Card >
+                                <ListGroup variant="flush">
 
+                                    {products.length && <div>
+                                        {products.map((product, i) => {
+                                            return (
+                                                <ListGroup.Item key = {i}> 
+                                                      <Row>
+                        <Col xs={2}>
+                            <Link to={{ pathname: '//', state: {} }}>
+                                <img
+                                    alt=''
+                                    style={{ width: '100%' }}
+                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                ></img>
+                            </Link>
+                        </Col>
+                        <Col xs={9}>
+                            <Row>
+                            {product.productName}
+                                </Row>
+                            <Row>
+                                <small style={{ color: 'green' }}>In stock</small>
+                            </Row>
+                            <Row>
+                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
 
-                            </List>
+                            </Row>
 
-                            <h2>Save for Later</h2>
-                            <List dense >
-                                {this.state.laterProducts.map((value, index) => {
-                                    return <Save4Later productValue={value} />
+                            <Row>
+                                <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
+                                checked={product.gift}/>
 
-                                })}
+                            </Row>
+                            <Row>
+                                {/* {this.state.showTextArea && <div>
 
+                                    <Form>
+                                        <Form.Control as="textarea" rows="3" placeholder="Enter gift message..." onChange={this.onChangeMessage} value={this.state.giftMessage} />
+                                    </Form>
+                                    <Button variant="info">Save</Button>
+                                </div>} */}
+                            </Row>
+                            <Row>
+                                <Col xs={2}>                             <small>  Qty</small> 
+                                <Form>
+                                    <Form.Group controlId="exampleForm.SelectCustom">
+                                        
+                                        <Form.Control as="select" custom onChange={(e)=>this.changeQuantity(product, e)}>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Form>
+                                </Col>
+                               {/* // onClick={(value, e) => this.fetchResume(stu, e)} */}
+                                    |    <Link onClick={(value, event)=>this.deleteClicked(product, event)}> <small>Delete</small></Link> |
+                                    <Link onClick={(value, event)=>this.save4laterClicked(product, event)}><small> Save for later</small></Link>
 
-                            </List>
+                                    
+                            </Row>
+                        </Col>
+                        <Col xs={1}>
+                            <strong><p style={{ color: '#B12704' }}>$11.98</p></strong>
+                        </Col>
+                    </Row>
 
+                                               {/* <EachProductCart product={product} key={i} /> */}
+                                               </ListGroup.Item>
 
-                        </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <Container fixed>
+                                            )
 
-                                <Card border={1} >
+                                        })}
 
-                                    <CardContent>
-                                        <h4><strong>{"Subtotal ( " + this.state.products.length + " items): "}</strong></h4>
-                                        <h4>{this.state.price + " $"}</h4>
+                                    </div>}
+                                </ListGroup>
+                            </Card>
+                        </Col>
+                        <Col md={2}>
+                            {subtotal}
+                        </Col>
+                    </Row>
 
-                                    </CardContent>
-                                </Card>
-                            </Container>
-                        </Grid>
-                    </Grid>
                 </div>
             </div>
         )
     }
 }
 
-export default cart;
+export default Cart;
