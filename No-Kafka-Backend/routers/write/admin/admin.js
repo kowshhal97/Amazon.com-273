@@ -6,7 +6,7 @@ const order=require('./order/order')
 
 
 router.use('/category',category)
-router.use('/order', order)
+router.use('/orders', order)
 
 
 

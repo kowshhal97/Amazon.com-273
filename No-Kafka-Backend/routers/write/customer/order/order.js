@@ -1,6 +1,8 @@
 const express=require('express');
 const router = express.Router();
 const Order = require('../../../../mongoModels/orders');
+const Sale = require('../../../../mongoModels/sales');
+const Purchase = require('../../../../mongoModels/customerPurchase');
 
 
 router.post('/:userId',async (req, res) => {
@@ -8,6 +10,25 @@ router.post('/:userId',async (req, res) => {
     try {
         const order = new Order({customerId, ...req.body})
         await order.save();
+        var customer = await Purchase.findOne({customerId: customerId});
+        if(customer !== null) {
+            customer.purchase += order.billing.totalPrice;
+            await customer.save();
+        } else {
+            var customer = new Purchase({customerId: customerId, customerName: req.body.customerName, purchase: order.billing.totalPrice })
+            await customer.save()
+        }
+        order.products.map(async (product) => {
+            var seller = await Sale.findOne({sellerName: product.sellerName})
+            console.log("seller", seller);
+            if(seller !== null) {
+                seller.sales += product.totalPrice;
+                await seller.save();
+            } else {
+                var sale = new Sale({sellerName: product.sellerName, sales: product.totalPrice});
+                await sale.save();
+            }
+        })
         res.status(201).send(order);
     } catch(err) {
         console.log(err);

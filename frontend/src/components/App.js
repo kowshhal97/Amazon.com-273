@@ -1,7 +1,12 @@
 import React from 'react';
+<<<<<<< HEAD
 import Products from './clientComponents/products/products';
 import ProductDetails from './clientComponents/products/productDetails';
 //import cart from './clientComponents/cartComp/cart_material';
+=======
+import Products from './products/products';
+import ProductDetails from './products/productDetails';
+>>>>>>> ea7ff44f2e5e6d8db24dd6d874a332eb94136f83
 import cart from './clientComponents/cartComp/cart';
 import Home from './Home';
 //import header from './clientComponents/orders/orderHeader';
@@ -23,6 +28,8 @@ import SellerOpenOrders from './sellerComponents/orders/open';
 import AdminOrders from './adminComponents/orders/orders';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SignUp from './SignUp/SingUp';
+import SignIn from './Login/SingIn';
 
 const App = () => {
   return (
@@ -31,7 +38,8 @@ const App = () => {
       <Route exact path="/" component={Home} />
       </div>
       <div>
-        
+         <Route path='/signup' component={SignUp} />
+         <Route path='/signin' component={SignIn} />
         <Route path='/user/products' component={Products} />
         <Route path='/user/product/Productdetails' component={ProductDetails} />
         <Route path='/user/cart/' component={cart} />
