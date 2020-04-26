@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import exportData from '../../../config/config';
 import moment from 'moment';
 import ProdctCard from '../products/productCard';
-
+import Header from '../../header/header'
 class UserHome extends Component {
   constructor(props) {
         super(props);
@@ -18,50 +18,15 @@ class UserHome extends Component {
         }
     }
 
-    getProducts = () => {
-
-    }
+   
 
     render() {
 
-        let prodvalues = [{
-                productId: 'p_1',
-                productName: 'product 1',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                sellerid:1,
-                productPhoto:'' 
-            },
-            {
-                productId: 'p_3',
-                productName: 'product 3',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                sellerid:1,
-                productPhoto:'' 
-            },
-            {
-                productId: 'p_2',
-                productName: 'product 2',
-                sellerName: 'seller 2',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                sellerid:1,
-                productPhoto:''         
-        }]
+     
         return (
             <div>
                 <div>
-                   {/* <NavBar/> */}
-                    <h2>Header</h2>
+                    <Header/>      
                     </div>
                     <Container fluid>
                        <Row> 
