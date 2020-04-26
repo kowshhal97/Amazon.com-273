@@ -1,14 +1,12 @@
 
 const express = require('express');
 const router = express.Router();
-
 const Cart = require('./../../../../mysqlModels/Cart')
 
 
-
-router.get('/:id', async (req, res) => {
+router.get('/:userId', async (req, res) => {
     try {
-        const cart = await Cart.findOne({ where: { customerId: req.params.id } });
+        const cart = await Cart.findOne({ where: { customerId: req.params.userId}});
         return res.status(200).send(cart);
     }
     catch (err) {

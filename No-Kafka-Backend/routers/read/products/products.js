@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
     try {
 
         const rating=await Votes.findAll({
-            where: { id: id },
+            where: { productId: id },
             attributes: ['productId', [sequelize.fn('AVG',
                 sequelize.col('rating')), 'ratingAvg']],
         });
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
         const product = await Product.findOne({
             where:{
                 id:req.params.id
-            }
+            }, include: [{ all: true, nested: false }]
         });
         product.rating=rating[0];
         return res.status(200).send(product);

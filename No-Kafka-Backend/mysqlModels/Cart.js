@@ -8,6 +8,11 @@ const Cart = sequelize.define('cart', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  flag:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
 });
+
 
 module.exports = Cart;

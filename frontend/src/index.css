@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* .vertical-timeline vertical-timeline--animate vertical-timeline--two-columns{
+  background-color:'#adb5bd'
+
+}
+.vertical-timeline.vertical-timeline--two-columns:before{
+  background-color:'#adb5bd'
+} */

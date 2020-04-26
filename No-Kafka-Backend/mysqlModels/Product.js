@@ -3,6 +3,7 @@ const sequelize = require('../db/SQLdatabase');
 const Comments = require('./Comments')
 const Votes=require('./votes')
 
+const Cart=require('./Cart')
 const ProductImages=require('./productImages')
 
 const Product = sequelize.define('product', {
@@ -15,7 +16,7 @@ const Product = sequelize.define('product', {
     allowNull: false,
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DOUBLE,
     allowNull: false,
   },
   rating: {
