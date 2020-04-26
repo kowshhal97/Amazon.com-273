@@ -2,6 +2,8 @@ const express=require('express');
 const router = express.Router();
 
 
+const Address=require('./../../../../mysqlModels/CustomerAddress');
+const Cards=require('./../../../../mysqlModels/Card');
 const Customer = require('./../../../../mysqlModels/Customer');
 
 
@@ -17,10 +19,6 @@ router.get('/:id',async(req,res)=>{
         if (customer === null) {
             return res.status(404).send("User not found!");
         }
-        // for(let i=0;i<customer.products.length;i++){
-        //     customer.products[i]=customer.products[i].cart
-        // }
-
         return res.status(200).send(customer);
     }
     catch (err) {
