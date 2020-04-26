@@ -6,9 +6,9 @@ const Cart = require('./../../../../mysqlModels/Cart')
 
 
 
-router.get('/:id', async (req, res) => {
+router.get('/:userId/:productId', async (req, res) => {
     try {
-        const cart = await Cart.findOne({ where: { customerId: req.params.id } });
+        const cart = await Cart.findOne({ where: { customerId: req.params.userId,productId:req.params.productId } });
         return res.status(200).send(cart);
     }
     catch (err) {
