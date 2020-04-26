@@ -1,14 +1,7 @@
 import React from 'react';
-<<<<<<< HEAD
-import Products from './clientComponents/products/products';
-import ProductDetails from './clientComponents/products/productDetails';
-//import cart from './clientComponents/cartComp/cart_material';
-=======
-import Products from './products/products';
-import ProductDetails from './products/productDetails';
->>>>>>> ea7ff44f2e5e6d8db24dd6d874a332eb94136f83
+
 import cart from './clientComponents/cartComp/cart';
-import Home from './Home';
+
 //import header from './clientComponents/orders/orderHeader';
 import Orders from './clientComponents/orders/orders';
 import CancelledOrders from './clientComponents/orders/cancelledOrders';
@@ -16,6 +9,14 @@ import OpenOrders from './clientComponents/orders/openOrders';
 import OrderDetails from './clientComponents/orders/orderDetails';
 import CancelOrder from './clientComponents/orders/cancelOrder';
 import OrderStatus from './clientComponents/orders/orderStatus';
+
+
+// client prodcts realted flows
+import UserHome from './clientComponents/userHome/userHome';
+import Prods from './clientComponents/products/productCard';
+import Products from './products/products';
+import ProductDetails from './products/productDetails';
+
 
 
 //Seller Components
@@ -28,8 +29,15 @@ import SellerOpenOrders from './sellerComponents/orders/open';
 import AdminOrders from './adminComponents/orders/orders';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// Common components 
 import SignUp from './SignUp/SingUp';
 import SignIn from './Login/SingIn';
+import Home from './Home';
+
+
+
+
 
 const App = () => {
   return (
@@ -40,6 +48,8 @@ const App = () => {
       <div>
          <Route path='/signup' component={SignUp} />
          <Route path='/signin' component={SignIn} />
+         <Route path='/products' component={Prods} />
+         <Route path='/userHome' component={UserHome} />
         <Route path='/user/products' component={Products} />
         <Route path='/user/product/Productdetails' component={ProductDetails} />
         <Route path='/user/cart/' component={cart} />
