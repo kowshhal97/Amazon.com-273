@@ -12,7 +12,7 @@ router.get('/:id',async(req,res)=>{
         const customer = await Customer.findOne({
             where: {
                 id: id
-            },include: [{ all: true, nested: false }]
+            },include: [{ model: Address, as: 'customerAddresses'},{model:Cards,as:'cards'}]
         });
         if (customer === null) {
             return res.status(404).send("User not found!");
