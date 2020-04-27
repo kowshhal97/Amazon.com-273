@@ -12,3 +12,10 @@
     color: white !important;
 }
 
+.block-example {
+    width: 20rem;
+    height: 50rem;
+    margin: 0.5rem;
+    background-color: rgb(250, 242, 242);
+    display: inline-block;
+}
