@@ -29,18 +29,18 @@ router.get('/:id', async (req, res) => {
             attributes: ['productId', [sequelize.fn('AVG',
                 sequelize.col('rating')), 'ratingAvg']],
         });
-
+        
         const product = await Product.findOne({
             where:{
                 id:req.params.id
             },include: [{ model:ProductImages,as:'productImages'}]});
-        product.rating=rating[0];
+            console.log(rating)
+        product.dataValues.rating=rating[0].dataValues.ratingAvg;
         return res.status(200).send(product);
     } catch (err) {
         console.log(err);
         return res.status(500).send('Internal Server Error!');
     }
-
 })
 
 
