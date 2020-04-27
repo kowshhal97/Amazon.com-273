@@ -16,6 +16,7 @@
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
     "react-bootstrap-icons": "^1.0.1-alpha3",
+    "react-bootstrap-star-rating": "^3.5.5-alpha.0.3",
     "react-cookie": "^4.0.3",
     "react-cookies": "^0.1.1",
     "react-dom": "^16.13.0",

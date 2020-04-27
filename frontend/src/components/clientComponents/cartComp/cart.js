@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
+import Header from '../../header/header'
 //import Button from 'react-bootstrap/Button';
 //import EachProductCart from './eachProductCart';
 
@@ -93,6 +94,7 @@ class Cart extends Component {
         return (
             <div>
                 <div>
+                <Header/>
                     <h3>Shopping Cart</h3>
 
                     <Row>

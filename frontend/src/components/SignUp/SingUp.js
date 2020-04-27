@@ -165,7 +165,7 @@ class Register extends Component {
                   </select>
                 </div>
                 <div className="form-group login-form-control">
-                <Button variant="warning" size="lg" block onClick={this.signup}>
+                <Button variant="warning" size="sm" block onClick={this.signup}>
                      Create your Amazon account          
                         </Button>   
                 </div>

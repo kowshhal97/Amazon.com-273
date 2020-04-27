@@ -177,14 +177,14 @@ class Login extends Component {
                 </div>
                 
                 <div className="form-group login-form-control">
-                <Button variant="warning" size="lg" block onClick={this.submitLogin}>
+                <Button variant="warning" size="sm" block onClick={this.submitLogin}>
                      Login Account          
                         </Button>              
                 </div>
                 <small>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
                  
                   <div>
-                  <Button variant="outline-dark" size="lg" block>
+                  <Button variant="outline-dark" size="sm" block>
                      Creat your Amazon account
                   </Button> 
               </div>

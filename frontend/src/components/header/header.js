@@ -1,12 +1,13 @@
 import React from 'react';
-import SearchBar from '../searchbar/searchbar';
+
 import Menu from '../Menu/menu';
+import CategoryList from '../Menu/categoryList';
 
 const Header = () => {
     return (
         <div>
-            <SearchBar />
             <Menu />
+          <CategoryList/>
         </div>
     );
 }

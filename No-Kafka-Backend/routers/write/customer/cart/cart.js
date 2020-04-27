@@ -5,8 +5,9 @@ const Cart = require('./../../../../mysqlModels/Cart')
 const Product = require('./../../../../mysqlModels/Product')
 
 
+
 router.post('/:userId/:productId', async (req, res) => {
-    const { quantity } = req.body
+    const { quantity,flag } = req.body
     const customerId=req.params.userId
     const productId=req.params.productId
     try {
@@ -31,7 +32,8 @@ router.post('/:userId/:productId', async (req, res) => {
                 const newCart = await Cart.create({
                     quantity: quantity,
                     customerId: customerId,
-                    productId: productId
+                    productId: productId,
+                    flag:flag
                 })
                 return res.status(200).send(newCart);
             }
@@ -59,17 +61,23 @@ router.delete('/:id', async (req, res) => {
     return res.sendStatus(500);
 })
 
-router.put('/:userId/:productId', async (req, res) => {
-    const { quantity } = req.body
+router.put('/:id', async (req, res) => {
+    const { quantity,flag } = req.body
+    const id = req.params.id;
     try {
-        const cart = await Cart.findOne({where: { customerId: req.params.userId,productId:req.params.productId }});
+        const cart = await Cart.findOne({
+            where: {
+                customerId: id
+            }
+        });
         if (cart === null) {
             return res.sendStatus(404);
         }
         else {
             const updatedCart = await Cart.update({
                 quantity: quantity,
-            }, {where: { customerId: req.params.userId,productId:req.params.productId } })
+                flag:flag
+            }, { where: { customerId: id } })
             return res.status(200).send(updatedCart);
         }
     }
