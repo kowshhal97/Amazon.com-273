@@ -3,12 +3,15 @@ const router = express.Router();
 const Product = require('./../../../mysqlModels/Product');
 const Votes = require('./../../../mysqlModels/votes')
 
+
+const ProductImages=require('./../../../mysqlModels/productImages')
+
 const sequelize = require('sequelize')
 
 
 router.get('/', async (req, res) => {
     try {
-        const products = await Product.findAll();
+        const products = await Product.findAll({include: [{ model:ProductImages,as:'productImages'} ]});
         return res.status(200).send(products);
     } catch (err) {
         console.log(err);
@@ -30,8 +33,7 @@ router.get('/:id', async (req, res) => {
         const product = await Product.findOne({
             where:{
                 id:req.params.id
-            }, include: [{ all: true, nested: false }]
-        });
+            },include: [{ model:ProductImages,as:'productImages'}]});
         product.rating=rating[0];
         return res.status(200).send(product);
     } catch (err) {

@@ -5,8 +5,8 @@ const Customer = require('./../../../mysqlModels/Customer');
 const Seller = require('./../../../mysqlModels/Seller');
 const Admin = require('./../../../mysqlModels/Admin');
 
-const Address=require('./../../../mysqlModels/CustomerAddress');
-const Cards=require('./../../../mysqlModels/Card');
+const Address = require('./../../../mysqlModels/CustomerAddress');
+const Cards = require('./../../../mysqlModels/Card');
 
 
 
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
                 const customer = await Customer.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ model: Address, as: 'customerAddresses'},{model:Cards,as:'cards'}]
+                    }, include: [{ model: Address, as: 'customerAddresses' }, { model: Cards, as: 'cards' }]
                 })
                 res.status(200).send(customer);
             }
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
                 const seller = await Seller.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ all: true, nested: false }]
+                    }
                 })
                 res.status(200).send(seller);
             }
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
                 const admin = await Admin.findOne({
                     where: {
                         userId: user.id
-                    }, include: [{ all: true, nested: false }]
+                    }
                 })
                 res.status(200).send(admin);
             }
