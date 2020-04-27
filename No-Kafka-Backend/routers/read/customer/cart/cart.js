@@ -3,13 +3,20 @@ const express = require('express');
 const router = express.Router();
 
 const Cart = require('./../../../../mysqlModels/Cart')
+const Product = require('./../../../../mysqlModels/Product')
 
 
-
-router.get('/:userId/:productId', async (req, res) => {
+router.get('/:userId', async (req, res) => {
     try {
-        const cart = await Cart.findOne({ where: { customerId: req.params.userId,productId:req.params.productId } });
-        return res.status(200).send(cart);
+        const cart = await Cart.findOne({ where: { customerId: req.params.userId} });
+
+        const product = await Product.findOne({
+            where:{
+                id:req.params.id
+            },include: [{ model:ProductImages,as:'productImages'}]});
+
+        var output={...cart,...product}
+        return res.status(200).send(output);
     }
     catch (err) {
         console.log(err);
