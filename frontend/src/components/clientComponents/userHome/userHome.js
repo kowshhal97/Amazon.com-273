@@ -58,7 +58,7 @@ class UserHome extends Component {
                        <ProdctCard/>
                        <ProdctCard/>
                        <ProdctCard/>
-                       <ProdctCard/>
+                     
                        </Col>
                 </Row>
                <Row>PageNation</Row>        
