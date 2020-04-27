@@ -8,15 +8,36 @@ const ProductImages = require('./../../../../mysqlModels/productImages')
 
 router.get('/:userId', async (req, res) => {
     try {
-        const cart = await Cart.findOne({ where: { customerId: req.params.userId} });
+        const cart = await Cart.findAll({ where: { customerId: req.params.userId,flag:0 } });
+        let output = []
+        for (let i of cart) {
+            const product = await Product.findOne({
+                where: {
+                    id: i.productId
+                }, include: [{ model: ProductImages, as: 'productImages' }]
+            });
+            output.push({ ...i.dataValues, ...product.dataValues })
+        }
+        return res.status(200).send(output);
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return res.status(500).send("Internal Server Error!");
+})
 
-        const product = await Product.findOne({
-            where:{
-                id:cart.productId
-            },include: [{ model:ProductImages,as:'productImages'}]});
-
-            console.log(product)
-        var output={...cart.dataValues,...product.dataValues}
+router.get('/saveToLater/:userId', async (req, res) => {
+    try {
+        const cart = await Cart.findAll({ where: { customerId: req.params.userId,flag:1 } });
+        let output = []
+        for (let i of cart) {
+            const product = await Product.findOne({
+                where: {
+                    id: i.productId
+                }, include: [{ model: ProductImages, as: 'productImages' }]
+            });
+            output.push({ ...i.dataValues, ...product.dataValues })
+        }
         return res.status(200).send(output);
     }
     catch (err) {
