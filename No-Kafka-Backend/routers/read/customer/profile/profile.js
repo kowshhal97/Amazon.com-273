@@ -4,6 +4,9 @@ const router = express.Router();
 
 const Customer = require('./../../../../mysqlModels/Customer');
 
+const Address = require('./../../../../mysqlModels/CustomerAddress');
+
+const Cards = require('./../../../../mysqlModels/Card');
 
 router.get('/:id',async(req,res)=>{
 

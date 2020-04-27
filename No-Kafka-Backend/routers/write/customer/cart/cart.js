@@ -7,7 +7,7 @@ const Product = require('./../../../../mysqlModels/Product')
 
 
 router.post('/:userId/:productId', async (req, res) => {
-    const { quantity } = req.body
+    const { quantity,flag } = req.body
     const customerId=req.params.userId
     const productId=req.params.productId
     try {
@@ -32,7 +32,8 @@ router.post('/:userId/:productId', async (req, res) => {
                 const newCart = await Cart.create({
                     quantity: quantity,
                     customerId: customerId,
-                    productId: productId
+                    productId: productId,
+                    flag:flag
                 })
                 return res.status(200).send(newCart);
             }
@@ -61,7 +62,7 @@ router.delete('/:id', async (req, res) => {
 })
 
 router.put('/:id', async (req, res) => {
-    const { quantity } = req.body
+    const { quantity,flag } = req.body
     const id = req.params.id;
     try {
         const cart = await Cart.findOne({
@@ -75,6 +76,7 @@ router.put('/:id', async (req, res) => {
         else {
             const updatedCart = await Cart.update({
                 quantity: quantity,
+                flag:flag
             }, { where: { customerId: id } })
             return res.status(200).send(updatedCart);
         }
