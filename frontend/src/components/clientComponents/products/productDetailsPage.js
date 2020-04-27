@@ -25,19 +25,48 @@ class ProductDetailsPage extends Component {
    
 
 render(){
+    let product = {
+        productid:1,
+        gift: true,
+        productDiscription: 'hello please buy this product this is very very cheap not only that its very common stuff' ,
+        price: '10',
+        flag: 0,
+        productid: 1,
+        customerid: 3,
+        productName: 'Addidas mens sport shoes',
+        sellerName: 'seller 1',
+        productPrice: 30,
+        rating: 3,
+        sellerid: 1,
+        productPhoto: ''
+    }
+
     return(
     
 
    <div>
         <Header/>
-      <h3> This is Products Details page </h3> 
+      <h3>  {product.productName} </h3> 
       <div>
        <Container >
            <Row>
     <Col><ProductImages/></Col>
     <Col xs={6}>
-        2 of 3 (wider)
-        
+    <Row>
+                                   {product.productName}
+                                </Row>
+                            <Row>
+                                <small style={{ color: 'green' }}>In stock</small>
+                            </Row>
+                            <Row>
+                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
+                            </Row>
+                            <Row>
+    <strong><p style={{ color: '#B12704' }}> price: ${product.productPrice}</p></strong>
+                            </Row>
+                            <Row>
+                            <h2>Details</h2>{product.productDiscription}
+                            </Row>
         </Col>
     <Col> 
     <span className="block-cart  border border-light">
@@ -45,14 +74,14 @@ render(){
                   To  buy, Select quanitity
                    </div><div>
                    <Button variant="warning" size="sm" block onClick={this.signup}>
-                   Add to Cart          
+                                      Add to Cart          
                         </Button>  
                         </div>
                         
                         <div>
 
                         <Dropdown>
-  <Dropdown.Toggle variant="success" id="dropdown-basic">
+  <Dropdown.Toggle variant="" size="sm" block id="dropdown-basic">
     Add to List
   </Dropdown.Toggle>
 
