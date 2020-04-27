@@ -13,8 +13,6 @@ import OrderStatus from './clientComponents/orders/orderStatus';
 
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
-import Products from './clientComponents/products/productCard';
-
 import ProductDetails from './clientComponents/products/productDetailsPage';
 
 
@@ -49,8 +47,7 @@ const App = () => {
          <Route path='/signup' component={SignUp} />
          <Route path='/signin' component={SignIn} />
          <Route path='/userHome' component={UserHome} />
-        <Route path='/user/products' component={Products} />
-        <Route path='/user/product/Productdetails' component={ProductDetails} />
+        <Route path='/user/Productdetails' component={ProductDetails} />
 
         
         <Route path='/user/cart/' component={cart} />
