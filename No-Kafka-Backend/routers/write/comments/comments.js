@@ -48,7 +48,7 @@ router.post('/:userId/:productId', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const id=req.params.id;
     try {
-        const result=await Comments.destroy({
+        const result= Comments.destroy({
             where:{
                 id:id
             }
