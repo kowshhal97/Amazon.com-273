@@ -10,6 +10,7 @@ router.post('/:userId',async (req, res) => {
     try {
         const order = new Order({customerId, ...req.body})
         await order.save();
+
         var customer = await Purchase.findOne({customerId: customerId});
         if(customer !== null) {
             customer.purchase += order.billing.totalPrice;
@@ -18,6 +19,7 @@ router.post('/:userId',async (req, res) => {
             var customer = new Purchase({customerId: customerId, customerName: req.body.customerName, purchase: order.billing.totalPrice })
             await customer.save()
         }
+
         order.products.map(async (product) => {
             var seller = await Sale.findOne({sellerName: product.sellerName})
             console.log("seller", seller);
@@ -29,6 +31,7 @@ router.post('/:userId',async (req, res) => {
                 await sale.save();
             }
         })
+        
         res.status(201).send(order);
     } catch(err) {
         console.log(err);

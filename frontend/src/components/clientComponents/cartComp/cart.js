@@ -9,6 +9,9 @@ import Button from 'react-bootstrap/Button';
 import Save4Later from './save4Later';
 import { connect } from 'react-redux';
 import { getCartProducts } from '../../../store/actions/clientActions/cartActions';
+//import Button from 'react-bootstrap/Button';
+//import EachProductCart from './eachProductCart';
+
 
 //change it to local storage
 let user_id = 1;

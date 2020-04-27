@@ -5,6 +5,9 @@ const app=require('./app')
 const readRouter=require('./routers/read/read');
 const writeRouter=require('./routers/write/write');
 
+// const redisWrite=require('./db/RedisWrite');
+
+//  const redisRead=require('./db/RedisRead');
 
 //route configurations
 

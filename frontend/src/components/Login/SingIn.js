@@ -1,130 +1,200 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import logo from '../../images/Amazonlogo.jpg';
-import Box from '@material-ui/core/Box';
+import React, { Component } from "react";
+import axios from "axios";
+import Button from 'react-bootstrap/Button'
+import cookie from "react-cookies";
+import { Redirect } from "react-router";
 
 
-// const defaultProps = {
-//     bgcolor: 'background.paper',
-//     m: 1,
-//     border: 3,
-//     style: { width: '50rem', height: '70rem' },
-//   };
+class Login extends Component {
+  constructor() {
+    super();
 
+    this.state = {
+      Email: "",
+      Password: "",
+      Profile: "",
+      formValidationFailure: false,
+      isValidationFailure: true,
+      errorRedirect: false
+    };
 
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-
-
-
- const SignIn = (props) => {
-  const classes = useStyles();
-
-  const loginHelper=(e)=>{
-      props.login(e,props.type)
-// props.setUser(props.type)
+    //Bind events
+    this.emailChangeHandler = this.emailChangeHandler.bind(this);
+    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+    this.profileChangeHandler = this.profileChangeHandler.bind(this);
+    this.submitLogin = this.submitLogin.bind(this);
   }
-  return (
-   
-    <Container component="main" maxWidth="xs">
-       
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-           <img src={logo} />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-        {props.type} Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-            <div>Email (phone for mobile accounts)</div>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={props.changeEmail}
-          />
-           <div>Password</div>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            onChange={props.changePassword}
-          />
-         By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={loginHelper}
-          >
-             Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-            </Grid>
-            <Grid  item>
-           {" ------New to Amazon? -------"}
-            
-            </Grid>
-          </Grid>
-        </form>
-        <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-            onClick=''
-          >
-             Create Account
-          </Button>
+
+  emailChangeHandler = e => {
+    this.setState({
+      Email: e.target.value
+    });
+  };
+
+  passwordChangeHandler = e => {
+    this.setState({
+      Password: e.target.value
+    });
+  };
+
+  profileChangeHandler = e => {
+    this.setState({
+      Profile: e.target.value
+    });
+  };
+
+  submitLogin = e => {
+    // e.preventDefault();
+
+    // var data = {
+    //   Email: this.state.Email,
+    //   Password: this.state.Password,
+    //   Profile: this.state.Profile
+    // };
+
+    // if (this.state.Email === "" || this.state.Password === "") {
+    //   this.setState({
+    //     formValidationFailure: true
+    //   });
+
+    //   console.log("Form Error!");
+    // } else {
+    //   axios.defaults.withCredentials = true;
+
+    //   axios
+    //     .post("http://localhost:3001/login", data)
+    //     .then(response => {
+    //       if (response.status === 200) {
+    //         this.setState({
+    //           isValidationFailure: true,
+    //           formValidationFailure: false
+    //         });
+    //       }
+    //     })
+    //     .catch(err => {
+    //       if (err) {
+    //         if (err.status === 401) {
+    //           this.setState({
+    //             isValidationFailure: false
+    //           });
+    //           console.log("Error message", err.response.status);
+    //         } else {
+    //           this.setState({
+    //             errorRedirect: true
+    //           });
+    //         }
+    //       }
+    //     });
+    // }
+  };
+
+  render() {
+    let redrirectVar = null;
+    if (cookie.load("cookie")) {
+      redrirectVar = <Redirect to="/userHome" />;
+    }
+
+    // if (this.state.errorRedirect) {
+    //   redrirectVar = <Redirect to="/error" />;
+    // }
+
+    let errorPanel = null;
+    if (!this.state.isValidationFailure) {
+      errorPanel = (
+        <div>
+          <div className="alert alert-danger" role="alert">
+            <strong>Validation Error!</strong> Username and Password doesn't
+            match!
+          </div>
+        </div>
+      );
+    }
+
+    let formErrorPanel = null;
+    console.log("FormvalidationFailure", this.state.formValidationFailure);
+    if (this.state.formValidationFailure) {
+      formErrorPanel = (
+        <div>
+          <div className="alert alert-danger" role="alert">
+            <strong>Validation Error!</strong> Username and Password are
+            required!
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="container fill-graywhite">
+          {redrirectVar}
+          <div className="container content">
+        
+          <div> Amazon</div>
+            <div className="login-container">
+           
+              <div className="login-form-container col-lg-4 col-md-4 col-sm-12 offset-lg-4 offset-md-4 border">
+                <div className="login-form-heading input-group pad-top-10 input-group-lg">
+                 <h2>Sign-In</h2>
+                </div>
+                <hr />
+                {errorPanel}
+                {formErrorPanel}
+                <div className="form-group login-form-control">
+                <label class="control-label col-sm-2">Email</label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    className="form-control form-control-lg"
+                    placeholder="Email Address"
+                    onChange={this.emailChangeHandler}
+                    required
+                  />
+                </div>
+                <div className="form-group login-form-control">
+                <label class="control-label col-sm-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    className="form-control form-control-lg"
+                    placeholder="Password"
+                    onChange={this.passwordChangeHandler}
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2">SelectType</label>
+                  <select
+                    class="form-control"
+                    onChange={this.profileChangeHandler}
+                  >
+                    <option value="select">Select</option>
+                    <option value="User">User</option>
+                    <option value="Seller">Seller</option>   
+                    <option value="Admin">Admin</option>
+                  </select>
+                </div>
+                
+                <div className="form-group login-form-control">
+                <Button variant="warning" size="sm" block onClick={this.submitLogin}>
+                     Login Account          
+                        </Button>              
+                </div>
+                <small>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
+                 
+                  <div>
+                  <Button variant="outline-dark" size="sm" block>
+                     Creat your Amazon account
+                  </Button> 
+              </div>
+                    
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-   
-    </Container>
-   
-  );
+    );
+  }
 }
-export default SignIn;
+export default Login;

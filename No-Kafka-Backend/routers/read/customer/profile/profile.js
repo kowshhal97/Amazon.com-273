@@ -4,6 +4,9 @@ const router = express.Router();
 
 const Customer = require('./../../../../mysqlModels/Customer');
 
+const Address = require('./../../../../mysqlModels/CustomerAddress');
+
+const Cards = require('./../../../../mysqlModels/Card');
 
 router.get('/:id',async(req,res)=>{
 
@@ -33,8 +36,7 @@ router.get('/:id',async(req,res)=>{
 
 router.get('/',async (req,res)=>{
     try {
-        const customers = await Customer.findAll({include: [{ all: true, nested: false }]
-        });
+        const customers = await Customer.findAll();
         return res.status(200).send(customers);
     }
     catch (err) {

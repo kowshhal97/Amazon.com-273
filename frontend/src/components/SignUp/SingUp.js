@@ -1,147 +1,186 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import logo from '../../images/Amazonlogo.jpg'
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import React, { Component } from "react";
+import axios from "axios";
+import { Redirect } from "react-router";
+import Button from 'react-bootstrap/Button'
 
 
+class Register extends Component {
+  constructor() {
+    super();
 
+    this.state = {
+      YourName: "",
+      Email: "",
+      Profile: "",
+      Password: "",
+      isNewUserCreated: false,
+      validationError: false,
+      errorRedirect: false
+    };
 
+    //bind
+    this.firstNameChangeHandler = this.firstNameChangeHandler.bind(this);
+    this.emailChangeHandler = this.emailChangeHandler.bind(this);
+    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+    this.profileChangeHandler = this.profileChangeHandler.bind(this);
+    this.signup = this.signup.bind(this);
+  }
 
-export default function SignUp(props) {
-  const classes = useStyles();
+  firstNameChangeHandler = e => {
+    this.setState({
+      YourName: e.target.value
+    });
+  };
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-         <img src ={logo}/>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-  {props.type} Create account
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={3}>
-             YourName
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="Name"
-                name="Name"
-                variant="outlined"
-                required
-                fullWidth
-                id="Name"
-                label="Name"
-                autoFocus
-                onChange={props.changeName}
-              />
-            </Grid>
-                Email
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={props.changeEmail}
-              />
-            </Grid>
-                 Password
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={props.changePassword}
-              />
-            </Grid>
-            Re-Enter Password
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={props.changePassword}
-              />
-            </Grid>
-            {props.type==='student'?(
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="major"
-                label="major"
-                type="major"
-                id="major"
-                autoComplete="major"
-                onChange={props.major}
-              />
-            </Grid>):(null)}
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-            onClick={(e)=>{
-                props.signup(e,props.type);
-            }}>
-            Create your Amazon account
-          </Button>
-          By creating an account, you agree to Amazon's Conditions of Use and Privacy Notice.
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/signIn" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+  emailChangeHandler = e => {
+    this.setState({
+      Email: e.target.value
+    });
+  };
+
+  passwordChangeHandler = e => {
+    this.setState({
+      Password: e.target.value
+    });
+  };
+
+  profileChangeHandler = e => {
+    this.setState({
+      Profile: e.target.value
+    });
+  };
+
+  signup = e => {
+    // if (
+    //   this.state.FirstName === "" ||
+    //   this.state.Email === "" ||
+    //   this.state.Password === ""
+    // ) {
+    //   this.setState({
+    //     validationError: true
+    //   });
+    // } else {
+    //   var data = {
+    //     FirstName: this.state.FirstName,
+    //     Email: this.state.Email,
+    //     Password: this.state.Password,
+    //     Accounttype: 1
+    //   };
+
+    //   e.preventDefault();
+
+    //   axios.defaults.withCredentials = true;
+
+    //   axios.post("http://localhost:3001/signup", data).then(response => {
+    //     if (response.status === 200) {
+    //       this.setState({
+    //         isNewUserCreated: true
+    //       });
+    //     } else {
+    //       this.setState({
+    //         isNewUserCreated: false
+    //       });
+    //     }
+    //   });
+    // }
+  };
+
+  render() {
+    let redirectVar = null;
+    if (this.state.isNewUserCreated === true) {
+      redirectVar = <Redirect to="/signIn" />;
+    }
+
+    // if (this.state.errorRedirect === true) {
+    //   redirectVar = <Redirect to="/error" />;
+    // }
+
+    let errorAlert = null;
+    if (this.state.validationError) {
+      errorAlert = (
+        <div>
+          <div className="alert alert-danger" role="alert">
+            <strong>Error!</strong> Fill all the fields to proceed!
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+       
+        <div className="container fill-graywhite">
+          {redirectVar}
+          <div className="container content">
+            <div className="login-container">
+             
+
+              <div className="login-form-container col-lg-6 col-md-6 col-sm-12 offset-lg-3 offset-md-3 border">
+                <h2>Create account</h2>
+                <div className="form-group login-form-control pad-top-20">
+                <label class="control-label col-sm-2">YourName</label>
+                  <input
+                    type="text"
+                    name="yourname"
+                    id="yourname"
+                    className="form-control form-control-lg"
+                    placeholder="Your Name"
+                    onChange={this.firstNameChangeHandler}
+                    required
+                  />
+                </div>
+                <div className="form-group login-form-control">
+                <label class="control-label col-sm-2">Email</label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    className="form-control form-control-lg"
+                    placeholder="Email Address"
+                    onChange={this.emailChangeHandler}
+                    required
+                  />
+                </div>
+                <div className="form-group login-form-control">
+                <label class="control-label col-sm-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    className="form-control form-control-lg"
+                    placeholder="Password"
+                    onChange={this.passwordChangeHandler}
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2">SelectType</label>
+                  <select
+                    class="form-control"
+                    onChange={this.profileChangeHandler}
+                  >
+                    <option value="select">Select</option>
+                    <option value="User">User</option>
+                    <option value="Seller">Seller</option>   
+                  </select>
+                </div>
+                <div className="form-group login-form-control">
+                <Button variant="warning" size="sm" block onClick={this.signup}>
+                     Create your Amazon account          
+                        </Button>   
+                </div>
+                <small>By creating an account, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
+               <div>
+                 Already have an account?
+                 </div> 
+              </div>
+              <div>{errorAlert}</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </Container>
-  );
+    );
+  }
 }
+
+export default Register
