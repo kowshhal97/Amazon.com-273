@@ -27,10 +27,6 @@ class AddAddress extends React.Component {
 
     }
 
-    onCancelClick = e => {
-        
-    }
-
     render(){
         return(
           <div>
@@ -108,9 +104,6 @@ class AddAddress extends React.Component {
                     <br/>
                     <Button variant="warning" type="submit">
                         Add Address
-                    </Button>
-                    <Button variant="light" onClick={this.onCancelClick}>
-                        Cancel
                     </Button>
                 </Form>
             </Container>                

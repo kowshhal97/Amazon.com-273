@@ -77,7 +77,8 @@ class ManageAddresses extends React.Component {
                           </Card.Text>
                         </Card.Body>
                         <Card.Footer>
-                          <Button variant="outline-success" onClick={this.onEditClick}>Edit</Button>{' '}
+                          <Button variant="outline-success" onClick={this.onEditClick}>Edit</Button>
+                          &nbsp; &nbsp;
                           <Button variant="outline-danger">Delete</Button>
                         </Card.Footer>
                       </Card>)

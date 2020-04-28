@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 import { Button , Col, Container, Form } from 'react-bootstrap';
 import Header from "../../header/header";
 
@@ -13,7 +14,8 @@ class EditAddress extends React.Component {
             city: '',
             state: '',
             zipCode: '',
-            phoneNumber: ''
+            phoneNumber: '',
+            redirect: ''
         }
     }
 
@@ -28,7 +30,8 @@ class EditAddress extends React.Component {
     }
 
     onCancelClick = e => {
-        
+        e.preventDefault();
+        this.setState({ redirect: <Redirect to='/user/address/manageAddresses/' /> });
     }
 
     render(){
@@ -36,6 +39,7 @@ class EditAddress extends React.Component {
           <div>
             <Header />
             <Container>
+                {this.state.redirect}
                 <br/>
                 <h2>Edit address:</h2>
                 <br/>
