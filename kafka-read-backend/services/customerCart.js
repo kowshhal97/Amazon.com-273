@@ -23,7 +23,7 @@ getCartHandler = (msg, callback) => {
         console.log(err);
         res.status = 500
         res.data = "Internal Server Error!";
-        callback(null, res);
+        callback(null, res);    
     }
 }
 
