@@ -32,16 +32,20 @@ router.get('/:id', async (req, res) => {
                 return res.status(200).send(JSON.parse(productRedis));
             }
             else {
-                const rating = await Votes.findAll({
-                    where: { productId: id },
-                    attributes: ['productId', [sequelize.fn('AVG',
-                        sequelize.col('rating')), 'ratingAvg']],
-                });
                 const product = await Product.findOne({
                     where: {
                         id: req.params.id
                     }, include: [{ model: ProductImages, as: 'productImages' }]
                 });
+                if(product===null){
+                    return res.sendStatus(404)
+                }
+                const rating = await Votes.findAll({
+                    where: { productId: id },
+                    attributes: ['productId', [sequelize.fn('AVG',
+                        sequelize.col('rating')), 'ratingAvg']],
+                });
+              
                 product.dataValues.rating = rating[0].dataValues.ratingAvg;
                 res.status(200).send(product);
                 return redisWrite.setex('product_' + id, 36000, JSON.stringify(product));
