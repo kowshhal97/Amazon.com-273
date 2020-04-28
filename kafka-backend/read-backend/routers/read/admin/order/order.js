@@ -1,19 +1,16 @@
 const express=require('express');
 const router = express.Router();
-const Order = require('../../../../mongoModels/orders');
 
 // Get all orders by Admin
 router.get('/', async (req, res) => {
-    try {
-        const orders = await Order.find({});
-        return res.status(200).send(orders);
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send('Internal Server Error!')
-    }
+    req.body.path = 'getAllOrderHandler'
+    kafka.make_request('admin-order-read', req.body, (err, results) => {
+ 
+        console.log(results)
+         res.status(results.status).send(JSON.parse(results.data));
+    
+      });
+
 })
-
-
-
 
 module.exports = router;

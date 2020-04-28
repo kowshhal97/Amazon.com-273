@@ -1,6 +1,6 @@
 const Category = require('../mysqlModels/Category');
 
-getAllCategoryHandler = (msg, callback) => {
+getAllCategoryHandler = async (msg, callback) => {
     var res = {}
     try {
         const categories = await Category.findAll();
@@ -16,7 +16,7 @@ getAllCategoryHandler = (msg, callback) => {
     }
 }
 
-getCategoryByIdHandler = (msg, callback) => {
+getCategoryByIdHandler = async (msg, callback) => {
     var res = {};
     const id = msg.id;
     try {
