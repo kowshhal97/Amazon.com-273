@@ -3,7 +3,7 @@ const router = express.Router();
 const Seller = require('../../../mysqlModels/Seller');
 const Product = require('../../../mysqlModels/Product');
 
-const redisWrite=require('./../../../db/RedisWrite');
+const redisWrite = require('./../../../db/RedisWrite');
 
 router.post('/:id', async (req, res) => {
     const sellerId = req.params.id;
@@ -58,26 +58,31 @@ router.put('/:id', async (req, res) => {
             }, { where: { id: id } })
             res.status(200).send(updatedProduct);
 
-            redisWrite.setex('product_'+id,36000,req.body);
+            redisWrite.setex('product_' + id, 36000, JSON.stringify(await Product.findOne({
+                where: {
+                    id: id
+                }
+            })));
         }
     }
     catch (err) {
         console.log(err);
         return res.sendStatus(500);
     }
-    
+
 })
 
 router.delete('/:id', (req, res) => {
-    const id=req.params.id;
+    const id = req.params.id;
     try {
-        const result=product.destroy({
-            where:{
-                id:id
+        const result = Product.destroy({
+            where: {
+                id: id
             }
         })
-        return res.sendStatus(200);
-        }
+     res.sendStatus(200);
+        return redisWrite.del('product_'+id);
+    }
     catch (err) {
         console.log(err);
     }
