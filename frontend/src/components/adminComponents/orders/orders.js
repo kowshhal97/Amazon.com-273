@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import exportData from '../../../config/config';
 import moment from 'moment';
 import Form from 'react-bootstrap/Form';
+import Select from 'react-select';
 
 class AdminOrders extends Component {
 
@@ -25,9 +26,9 @@ class AdminOrders extends Component {
     }
 
     changeStatus = (update) => {
-        let i =0;
-        for( i=0; i<update.length;i++);
-        let latestStatus = update[i-1].deliveryStatus;
+        let i = 0;
+        for (i = 0; i < update.length; i++);
+        let latestStatus = update[i - 1].deliveryStatus;
         let title = exportData.deliveryStatus[latestStatus]
 
         // let latestStatus = update.pop().deliveryStatus;
@@ -59,6 +60,13 @@ class AdminOrders extends Component {
         )
 
     }
+
+    handleChangeOrder = selectedOption => {
+        console.log(`Option selected:`, selectedOption);
+      };
+      handleChangeSeller = selectedOption => {
+        console.log(`Option selected:`, selectedOption);
+      };
 
 
     render() {
@@ -165,118 +173,147 @@ class AdminOrders extends Component {
 
 
         }]
-
+        const options = [
+            { value: 'chocolate', label: 'Chocolate' },
+            { value: 'strawberry', label: 'Strawberry' },
+            { value: 'vanilla', label: 'Vanilla' },
+        ];
         return (
             <div>
                 <div>
                     <br></br>
-                    <Container>
-                        <Row>
-                            <Col md={2}>
+                    <Row>
+                        <Col md={2}>
 
 
+                        </Col>
+                        <Col md={9}>
+                            <Card>
+                                <br></br>
+                            <Row>
+                            <Col xs={1}>
                             </Col>
-                            <Col md={10}>
-                                {values.length && values.map((orders, i) => {
-                                    return (
-                                        <div key={i}>
-                                            {orders.products.map((product, i) => {
-                                                return (
-                                                    <div key={i}>
-                                                        <Card>
-                                                            <Card.Header >
-                                                                <Row>
-                                                                    <Col md={3}>
-                                                                        <Row>
-                                                                            <small className="text-muted">
-                                                                                ORDER PLACED</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <small className="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
-                                                                                moment(orders.orderDate).format('YYYY')}</small>
-                                                                        </Row>
-                                                                    </Col>
-                                                                    <Col md={6}>
-                                                                        <Row>
-                                                                            <small className="text-muted">
-                                                                                SHIP TO</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <small className="text-muted">{orders.shippingAddress.name}</small>
-                                                                        </Row>
-                                                                    </Col>
-                                                                    <Col md={3}>
-                                                                        <Row>
-                                                                            <small className="text-muted">
-                                                                                Order #</small>
-                                                                            <small className="text-muted">
-                                                                                {orders._id}</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <Link to={{ pathname: "/user/orders/details/", state: { orderInfo: orders, productInfo: product } }} >Order details</Link>
-                                                                        </Row>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Header >
+                                <Col xs={4}>
+                                    <Select
+                                        onChange={this.handleChangeSeller}
+                                        options={options}
+                                        isClearable={true}
+                                        placeholder="Select seller name"
+                                    />
+                                </Col>
+                                <Col xs={4}>
 
-                                                            <Card.Body>
+                                    <Select
+                                        onChange={this.handleChangeOrder}
+                                        options={options}
+                                        isClearable={true}
+                                        placeholder="Select order status"
+                                    />
+                                </Col>
 
-                                                                <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
-                                                                <Row>
-                                                                    <Col xs={2}>
-                                                                        <Link to={{ pathname: '//', state: {} }}>
-                                                                            <img
-                                                                                alt=''
-                                                                                style={{ width: '100%' }}
-                                                                                src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                            ></img>
-                                                                        </Link>
-                                                                    </Col>
-                                                                    <Col md={7}>
-                                                                        <Row>
-                                                                            {product.productName}
-                                                                        </Row>
-                                                                        <Row>
+                            </Row>
+                            <br></br>
 
-                                                                            <Link> {product.sellerName}</Link>
-                                                                        </Row>
-                                                                    </Col>
+                            </Card>
+                            <br></br>
+                            {values.length && values.map((orders, i) => {
+                                return (
+                                    <div key={i}>
+                                        {orders.products.map((product, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <Card>
+                                                        <Card.Header >
+                                                            <Row>
+                                                                <Col md={3}>
+                                                                    <Row>
+                                                                        <small className="text-muted">
+                                                                            ORDER PLACED</small>
+                                                                    </Row>
+                                                                    <Row>
+                                                                        <small className="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
+                                                                            moment(orders.orderDate).format('YYYY')}</small>
+                                                                    </Row>
+                                                                </Col>
+                                                                <Col md={6}>
+                                                                    <Row>
+                                                                        <small className="text-muted">
+                                                                            SHIP TO</small>
+                                                                    </Row>
+                                                                    <Row>
+                                                                        <small className="text-muted">{orders.shippingAddress.name}</small>
+                                                                    </Row>
+                                                                </Col>
+                                                                <Col md={3}>
+                                                                    <Row>
+                                                                        <small className="text-muted">
+                                                                            Order #</small>
+                                                                        <small className="text-muted">
+                                                                            {orders._id}</small>
+                                                                    </Row>
+                                                                    <Row>
+                                                                        <Link to={{ pathname: "/user/orders/details/", state: { orderInfo: orders, productInfo: product } }} >Order details</Link>
+                                                                    </Row>
+                                                                </Col>
+                                                            </Row>
+                                                        </Card.Header >
 
-                                                                    <Col md={3}>
-                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{pathname:"/user/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
+                                                        <Card.Body>
+
+                                                            <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
+                                                            <Row>
+                                                                <Col xs={2}>
+                                                                    <Link to={{ pathname: '//', state: {} }}>
+                                                                        <img
+                                                                            alt=''
+                                                                            style={{ width: '100%' }}
+                                                                            src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                        ></img>
+                                                                    </Link>
+                                                                </Col>
+                                                                <Col md={7}>
+                                                                    <Row>
+                                                                        {product.productName}
+                                                                    </Row>
+                                                                    <Row>
+
+                                                                        <Link> {product.sellerName}</Link>
+                                                                    </Row>
+                                                                </Col>
+
+                                                                <Col md={3}>
+                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{ pathname: "/user/orders/orderStatus/", state: { productInfo: product } }} style={{ color: 'black' }}>Track Package</Link></Button>
+
+                                                                    <br></br>
+                                                                    <br></br>
+                                                                    {product.orderStatus === 0 && <div>
+                                                                        <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{ pathname: "/user/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
 
                                                                         <br></br>
                                                                         <br></br>
-                                                                        {product.orderStatus === 0 && <div>
-                                                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{ pathname: "/user/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
+                                                                    </div>
+                                                                    }
+                                                                    {this.changeStatus(product.orderUpdates)}
 
-                                                                            <br></br>
-                                                                            <br></br>
-                                                                        </div>
-                                                                        }
-                                                                        {this.changeStatus(product.orderUpdates)}
+                                                                </Col>
+                                                            </Row>
+                                                        </Card.Body>
+                                                    </Card>
+                                                    <br></br>
+                                                </div>
 
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Body>
-                                                        </Card>
-                                                        <br></br>
-                                                    </div>
+                                            )
 
-                                                )
+                                        })}
+                                    </div>
+                                )
+                            })}
 
-                                            })}
-                                        </div>
-                                    )
-                                })}
+                        </Col>
 
-                            </Col>
 
-                            <Col md={2}></Col>
+                    </Row>
 
-                        </Row>
-
-                    </Container>
                 </div>
             </div>
         )

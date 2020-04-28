@@ -13,8 +13,6 @@ import OrderStatus from './clientComponents/orders/orderStatus';
 
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
-import Products from './clientComponents/products/productCard';
-
 import ProductDetails from './clientComponents/products/productDetailsPage';
 
 
@@ -43,15 +41,14 @@ const App = () => {
   return (
     <Router>
       <div>
-      <Route exact path="/" component={Home} />
       </div>
       <div>
          <Route path='/signup' component={SignUp} />
          <Route path='/signin' component={SignIn} />
          <Route path='/userHome' component={UserHome} />
-        <Route path='/user/products' component={Products} />
+        <Route path='/user/Productdetails' component={ProductDetails} />
 
-        <Route path='/user/product/Productdetails' component={ProductDetails} />
+        
         <Route path='/user/cart/' component={cart} />
         <Route path='/user/orders/details/' component={OrderDetails} />
         <Route exact path='/user/orders/' component={Orders} />
