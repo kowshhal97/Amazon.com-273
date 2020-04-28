@@ -3,11 +3,49 @@ const Address = require('../mysqlModels/CustomerAddress');
 const Cards = require('../mysqlModels/Card');
 
 getCustomerProfileById = (msg, callback) => {
+    var res = {};
+    const id = msg.id;
+    try {
+        const customer = await Customer.findOne({
+            where: {
+                id: id
+            },include: [{ model: Address, as: 'customerAddresses'},{model:Cards,as:'cards'}]
+        });
+        if (customer === null) {
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res)
+        }
+        // for(let i=0;i<customer.products.length;i++){
+        //     customer.products[i]=customer.products[i].cart
+        // }
 
+        res.status = 200
+        res.data = JSON.stringify(customer);
+        callback(null, res);
+    }
+    catch (err) {
+        console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
+    }
+    
 }
 
 getAllCustomerProfile = (msg, callback) => {
-    
+    try {
+        const customers = await Customer.findAll();
+        res.status = 200
+        res.data = JSON.stringify(customers);
+        callback(null, res);
+    }
+    catch (err) {
+        console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
+    }
 }
 
 function handle_request(msg, callback) {
