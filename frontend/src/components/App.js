@@ -41,7 +41,6 @@ const App = () => {
   return (
     <Router>
       <div>
-      <Route exact path="/" component={Home} />
       </div>
       <div>
          <Route path='/signup' component={SignUp} />
