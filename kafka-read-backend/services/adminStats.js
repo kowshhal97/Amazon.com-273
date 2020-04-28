@@ -2,11 +2,32 @@ const Sale = require('../mongoModels/sales');
 const Purchase = require('../mongoModels/customerPurchase');
 
 getTopSellerHandler = (msg, callback) => {
-
+    var res = {}
+    try {
+        const sellers = await Sale.find({}).sort({sales: -1}).limit(5);
+        res.status = 200
+        res.data = JSON.stringify(sellers);
+        callback(null, res);
+    } catch(err) {
+        console.log(err);
+        res.status = 500
+        res.data = 'Internal Server Error!';
+        callback(null, res);
+    }
 }
 
 getTopCustomerHandler = (msg, callback) => {
-
+    try {
+        const customers = await Purchase.find({}).sort({purchase: -1}).limit(5);
+        res.status = 200
+        res.data = JSON.stringify(customers);
+        callback(null, res);
+    } catch(err) {
+        console.log(err);
+        res.status = 500
+        res.data = 'Internal Server Error!';
+        callback(null, res);
+    }
 }
 
 function handle_request(msg, callback) {
