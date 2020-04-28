@@ -1,6 +1,5 @@
 const express=require('express');
 const router = express.Router();
-const Order = require('../../../../mongoModels/orders');
 
 
 // router.get('/:orderId', async (req, res) => {
@@ -17,15 +16,16 @@ const Order = require('../../../../mongoModels/orders');
 // })
 
 router.get('/:userId', async (req, res) => {
-    try {
-        const orders = await Order.find({customerId: req.params.userId})
-        return res.status(200).send(orders);
-    } catch(err) {
-        console.log(err);
-        return res.status(500).send('Internal Servr Error!')
-    }
-})
+    req.body.userId = req.params.userId;
+    req.body.path = 'getCustomerOrdersHandler';
+    kafka.make_request('customer-order-read', req.body, (err, results) => {
+  
+        console.log(results)
+        res.status(results.status).send(JSON.parse(results.data));
+  
+      });
 
+})
 
 
 module.exports=router;
