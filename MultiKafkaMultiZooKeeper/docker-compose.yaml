@@ -11,7 +11,7 @@ services:
     environment:
       KAFKA_LOG_DIRS: /kafka
       KAFKA_BROKER_ID: 1
-      KAFKA_CREATE_TOPICS: studentAuth:1:1,companyAuth:1:1,studentProfile:1:1,jobs:1:1,events:1:1,applications:1:1,messages:1:1,companyProfile:1:1,response_topic:1:1
+      KAFKA_CREATE_TOPICS: studentAuth:1:3,companyAuth:3:3,studentProfile:1:3,jobs:1:3,events:1:3,applications:1:3,messages:1:3,companyProfile:1:3,response_topic:1:3
       KAFKA_ADVERTISED_HOST_NAME: 52.36.13.211
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_LOG_RETENTION_HOURS: "168"
