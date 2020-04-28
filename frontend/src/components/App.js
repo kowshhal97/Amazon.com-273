@@ -9,7 +9,9 @@ import OpenOrders from './clientComponents/orders/openOrders';
 import OrderDetails from './clientComponents/orders/orderDetails';
 import CancelOrder from './clientComponents/orders/cancelOrder';
 import OrderStatus from './clientComponents/orders/orderStatus';
-
+import ManageAddresses from './clientComponents/address/ManageAddresses';
+import AddNewAddress from './clientComponents/address/AddNewAddress';
+import EditAddress from './clientComponents/address/EditAddress';
 
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
@@ -57,6 +59,10 @@ const App = () => {
         <Route exact path='/user/open/' component={OpenOrders} />
         <Route path='/user/cancelled/' component={CancelledOrders} />
         <Route path='/user/orders/orderStatus/' component={OrderStatus} />
+
+        <Route path='/user/address/manageAddresses/' component={ManageAddresses} />
+        <Route path='/user/address/addAddress/' component={AddNewAddress} />
+        <Route path='/user/address/editAddress/' component={EditAddress} />
 
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
