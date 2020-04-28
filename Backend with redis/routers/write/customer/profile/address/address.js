@@ -36,10 +36,7 @@ router.post('/:userId',async (req,res)=>{
     catch (err) {
         console.log(err);
     }
-    res.status(500).send("Internal Server Error!");
-
-    
-
+    return res.status(500).send("Internal Server Error!");
    
 })
 
