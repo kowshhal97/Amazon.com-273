@@ -36,8 +36,6 @@ router.get('/:id', (req, res) => {
                 return res.status(200).send(customer);
             }
         })
-
-
     }
     catch (err) {
         console.log(err);
