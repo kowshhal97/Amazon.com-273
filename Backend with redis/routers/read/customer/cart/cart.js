@@ -8,15 +8,16 @@ const ProductImages = require('./../../../../mysqlModels/productImages')
 
 router.get('/:userId', async (req, res) => {
     try {
-        const cart = await Cart.findOne({ where: { customerId: req.params.userId} });
+        const cart = await Cart.findOne({ where: { customerId: req.params.userId } });
 
         const product = await Product.findOne({
-            where:{
-                id:cart.productId
-            },include: [{ model:ProductImages,as:'productImages'}]});
+            where: {
+                id: cart.productId
+            }
+        });
 
-            console.log(product)
-        var output={...cart.dataValues,...product.dataValues}
+        console.log(product)
+        var output = { ...cart.dataValues, ...product.dataValues }
         return res.status(200).send(output);
     }
     catch (err) {
