@@ -1,6 +1,7 @@
 const express=require('express');
 const router = express.Router();
 
+const kafka=require('./../../../../kafka/client')
 
 router.get('/:id', async (req,res) => {
     req.body.id = req.params.id;
@@ -8,7 +9,10 @@ router.get('/:id', async (req,res) => {
     kafka.make_request('seller-products-read', req.body, (err, results) => {
   
         console.log(results)
-        res.status(results.status).send(JSON.parse(results.data));
+         if(results.status===200)
+         res.status(results.status).send(JSON.parse(results.data));
+         else
+         res.sendStatus(results.status)
   
       });
     

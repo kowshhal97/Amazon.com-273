@@ -1,6 +1,4 @@
 const express = require('express')
-require('./db/SQLdatabase')
-require('./db/MongoDatabase')
 const cors = require('cors')
 const app = express()
 

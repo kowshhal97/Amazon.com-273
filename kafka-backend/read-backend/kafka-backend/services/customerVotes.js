@@ -33,7 +33,7 @@ getVotesByProductId = async (msg, callback) => {
     try {
         const customer = await Customer.findOne({
             where: {
-                id: req.params.userId
+                id: msg.userId
             }});
         if (customer === null) {
             res.status = 404

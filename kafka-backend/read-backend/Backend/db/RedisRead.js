@@ -2,7 +2,7 @@ const redis = require("redis");
 
 
 
-const redisHost="Redis-Read-847191300740bace.elb.us-west-2.amazonaws.com"
+const redisHost="redisRead-117e47c355fa1b20.elb.us-west-2.amazonaws.com"
 const redisPort="6379"
 
 const redisClient = redis.createClient(redisPort, redisHost);

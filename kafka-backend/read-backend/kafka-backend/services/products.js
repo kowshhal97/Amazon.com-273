@@ -2,6 +2,8 @@ const Votes = require('../mysqlModels/votes');
 const Product = require('../mysqlModels/Product');
 const sequelize = require('sequelize')
 
+const ProductImages=require('./../mysqlModels/productImages')
+
 getAllProductHandler = async (msg, callback) => {
     var res = {}
     try {
