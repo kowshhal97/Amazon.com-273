@@ -2,10 +2,55 @@ const Votes = require('../mysqlModels/votes');
 const Customer = require('../mysqlModels/Customer');
 
 getVotesByCustomerId = (msg, callback) => {
-
+    var res = {}
+    const userId = msg.userId;
+    try {
+        const customer = await Customer.findOne({
+            where: {
+                id: userId
+            }});
+        if (customer === null) {
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
+        }
+        const votes = await Votes.findAll({ where: { customerId: userId}});
+        res.status = 200
+        res.data = JSON.stringify(votes);
+        callback(null, res);
+    }
+    catch (err) {
+        console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
+    }
 }
 
 getVotesByProductId = (msg, callback) => {
+    var res = {}
+    const productId = msg.productId;
+    try {
+        const customer = await Customer.findOne({
+            where: {
+                id: req.params.userId
+            }});
+        if (customer === null) {
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
+        }
+        const votes = await Votes.findAll({ where: { productId: productId}});
+        res.status = 200
+        res.data = JSON.stringify(votes);
+        callback(null, res);
+    }
+    catch (err) {
+        console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
+    }
     
 }
 

@@ -34,6 +34,7 @@ getCustomerProfileById = (msg, callback) => {
 }
 
 getAllCustomerProfile = (msg, callback) => {
+    var res = {}
     try {
         const customers = await Customer.findAll();
         res.status = 200

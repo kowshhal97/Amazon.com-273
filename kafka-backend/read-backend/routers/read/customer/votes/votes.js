@@ -1,49 +1,29 @@
-
 const express = require('express');
 const router = express.Router();
 
-const Votes = require('./../../../../mysqlModels/votes')
-
-const Customer=require('./../../../../mysqlModels/Customer')
-
-
 
 router.get('/:userId', async (req, res) => {
-
-    try {
-        const customer = await Customer.findOne({
-            where: {
-                id: req.params.userId
-            }});
-        if (customer === null) {
-            return res.status(404).send("User not found!");
-        }
-        const votes = await Votes.findAll({ where: { customerId: req.params.userId}});
-        return res.status(200).send(votes);
-    }
-    catch (err) {
-        console.log(err);
-    }
-    return res.status(500).send("Internal Server Error!");
+    req.body.userId = req.params.userId;
+    req.body.path = 'getVotesByCustomerId'
+    kafka.make_request('customer-votes-read', req.body, (err, results) => {
+  
+        console.log(results)
+        res.status(results.status).send(JSON.parse(results.data));
+  
+      });
+    
 })
 
 router.get('/:productId', async (req, res) => {
+    req.body.productId = req.params.productId;
+    req.body.path = 'getVotesByProductId'
+    kafka.make_request('customer-votes-read', req.body, (err, results) => {
+  
+        console.log(results)
+        res.status(results.status).send(JSON.parse(results.data));
+  
+      });
     
-    try {
-        const customer = await Customer.findOne({
-            where: {
-                id: req.params.userId
-            }});
-        if (customer === null) {
-            return res.status(404).send("User not found!");
-        }
-        const votes = await Votes.findAll({ where: { productId: req.params.productId}});
-        return res.status(200).send(votes);
-    }
-    catch (err) {
-        console.log(err);
-    }
-    return res.status(500).send("Internal Server Error!");
 })
 
 module.exports = router;
