@@ -9,6 +9,7 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:"Sumeet Deshpande",
+            address: "San Jose, California",
             productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
@@ -28,6 +29,8 @@ class Profile extends React.Component {
                               width={280} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
+                        Located At: {this.state.address}
+                        <br/>
                         <br/>
                         <center>
                             <Button variant="warning">Edit your Profile</Button>
@@ -36,9 +39,7 @@ class Profile extends React.Component {
                 </Card>
             </div>
             <div style={{float:"left", width:"50%"}}>
-                <h2>Product Reviews and Comments:</h2>
-                <br/>
-                <h3>Product Ratings: </h3>
+                <h2>Products Added:</h2>
                 <br/>
                 {this.state.productReviews.map((productReview)=>{
                     return (
@@ -50,26 +51,7 @@ class Profile extends React.Component {
                                 <a href="#">
                                     <h5>{productReview.productName}</h5>
                                 </a>
-                                Rating: {productReview.votes} 
-                                <hr/>
-                            </Media.Body>
-                        </Media>
-                    )
-                })}
-                <hr/>
-                <h3>Product Comments:</h3>
-                <br/>                
-                {this.state.productReviews.map((productReview)=>{
-                    return (
-                        <Media>
-                            <img width={64} height={64} className="mr-3"
-                                src={DefaultProfilePic}
-                                alt="Generic placeholder"/>
-                            <Media.Body>
-                                <a href="#">
-                                    <h5>{productReview.productName}</h5>
-                                </a>
-                                Comments: {productReview.comments} 
+                                Rating: {productReview.votes}
                                 <hr/>
                             </Media.Body>
                         </Media>

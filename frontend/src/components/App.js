@@ -16,7 +16,7 @@ import EditAddress from './clientComponents/address/EditAddress';
 import ManageCards from './clientComponents/cards/ManageCards';
 import AddCard from './clientComponents/cards/AddCard';
 import EditCard from './clientComponents/cards/EditCard';
-import Profile from './clientComponents/profile/Profile';
+import CustomerProfile from './clientComponents/profile/Profile';
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
 import ProductDetails from './clientComponents/products/productDetailsPage';
@@ -27,6 +27,7 @@ import ProductDetails from './clientComponents/products/productDetailsPage';
 import SellerOrders from './sellerComponents/orders/orders';
 import SellerCancelledOrders from './sellerComponents/orders/cancelledDelivered';
 import SellerOpenOrders from './sellerComponents/orders/open';
+import SellerProfile from './sellerComponents/profile/Profile';
 
 
 //Admin Components
@@ -70,11 +71,12 @@ const App = () => {
         <Route path='/user/cards/manageCards/' component={ManageCards} />
         <Route path='/user/cards/addCard/' component={AddCard} />
         <Route path='/user/cards/editCard/' component={EditCard} />
-        <Route path='/user/profile/' component={Profile} />
+        <Route path='/user/profile/' component={CustomerProfile} />
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
         <Route path='/seller/open/' component={SellerOpenOrders} />
+        <Route exact path='/seller/profile/' component={SellerProfile} />
 
         <Route exact path='/admin/orders/' component={AdminOrders} />
 
