@@ -5,15 +5,45 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import Header from '../../header/header'
+import Button from 'react-bootstrap/Button';
+import Save4Later from './save4Later';
+import { connect } from 'react-redux';
+import { getCartProducts } from '../../../store/actions/clientActions/cartActions';
 //import Button from 'react-bootstrap/Button';
 //import EachProductCart from './eachProductCart';
 
 
+//change it to local storage
+let user_id = 1;
 class Cart extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            subtotal: 0
+        }
+
+    }
+
+    async componentDidMount() {
+
+        await this.props.getCartProducts(user_id)
+
+         for(let i =0; i < this.props.cartProducts.length;i++){
+             let cost = 0;
+             console.log(this.props.cartProducts[i].price)
+             if(this.props.cartProducts[i].price){
+                 cost = (Number(this.props.cartProducts[i].quantity) * Number( this.props.cartProducts[i].price));
+
+             }
+             this.setState({
+                 subtotal:this.state.subtotal+ cost
+             })
+         }
+    }
 
     giftCheckBox = (e) => {
+        //gift checked API
         if (e.target.checked) {
             this.setState({
                 showTextArea: true
@@ -30,7 +60,7 @@ class Cart extends Component {
     deleteClicked = (product, event) => {
         console.log(product)
         console.log(event)
-//delete and update store.
+        //delete and update store.
 
     }
     save4laterClicked = (product, event) => {
@@ -42,142 +72,106 @@ class Cart extends Component {
     changeQuantity = (product, event) => {
         console.log(product)
         console.log(event.target.value)
+        let oldPrice = this.state.subtotal - (product.price * product.quantity);
+        let newPrice = product.price * event.target.value
+        console.log(oldPrice)
+
+        oldPrice += newPrice;
+        console.log(oldPrice)
+        this.setState({
+            subtotal: oldPrice
+        })
+        //   this.subtotal+=newPrice;
+        //  console.log(this.subtotal)
         //change subtotal
     }
 
 
     render() {
-        let subtotal = 0;
 
-        let products = [{
-            cartid:1,
-            gift: true,
-            giftMessage: 'hello',
-            price: '10',
-            flag: 0,
-            quantity: 2,
-            productid: 1,
-            customerid: 3,
-            productName: 'product 1',
-            sellerName: 'seller 1',
-            productPrice: 3,
-            rating: 3,
-            sellerid: 1,
-            productPhoto: ''
-        },
-        {
-            cartid:2,
-            gift: false,
-            giftMessage: '',
-            price: '10',
-            flag: 1,
-            quantity: 1,
-            productid: 1,
-            customerid: 3,
-            productName: 'product 1',
-            sellerName: 'seller 1',
-            productPrice: 3,
-            rating: 3,
-            sellerid: 1,
-            productPhoto: ''
-        }]
+        console.log(this.props.cartProducts);
 
-        for(let i =0; i < products.length;i++){
-            let cost = 0;
-            console.log(products[i].price)
-            if(products[i].price){
-                cost = (Number(products[i].quantity) *Number( products[i].price));
 
-            }
-            subtotal+=cost;
-        }
         return (
             <div>
                 <div>
-                <Header/>
-                    <h3>Shopping Cart</h3>
-
                     <Row>
-                        <Col md={10}>
-                            <h5 style={{ float: 'right' }}>price</h5>
+                        <Col md={9}>
+                            <h3>Shopping Cart</h3>
+                            <h5 style={{ float: 'right', marginRight: '3%' }}>price</h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={9}>
+
 
                             <Card >
                                 <ListGroup variant="flush">
 
-                                    {products.length && <div>
-                                        {products.map((product, i) => {
+                                    {this.props.cartProducts.length && <div>
+                                        {this.props.cartProducts.map((product, i) => {
                                             return (
-                                                <ListGroup.Item key = {i}> 
-                                                      <Row>
-                        <Col xs={2}>
-                            <Link to={{ pathname: '//', state: {} }}>
-                                <img
-                                    alt=''
-                                    style={{ width: '100%' }}
-                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                ></img>
-                            </Link>
-                        </Col>
-                        <Col xs={9}>
-                            <Row>
-                            {product.productName}
-                                </Row>
-                            <Row>
-                                <small style={{ color: 'green' }}>In stock</small>
-                            </Row>
-                            <Row>
-                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
+                                                <ListGroup.Item key={i}>
+                                                    <Row>
+                                                        <Col xs={2}>
+                                                            <Link to={{ pathname: '//', state: {} }}>
+                                                                <img
+                                                                    alt=''
+                                                                    style={{ width: '100%' }}
+                                                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                ></img>
+                                                            </Link>
+                                                        </Col>
+                                                        <Col xs={9}>
+                                                            <Row>
+                                                                {product.productName}
+                                                            </Row>
+                                                            <Row>
+                                                                <small style={{ color: 'green' }}>In stock</small>
+                                                            </Row>
+                                                            <Row>
+                                                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
 
-                            </Row>
+                                                            </Row>
 
-                            <Row>
-                                <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
-                                checked={product.gift}/>
+                                                            <Row>
+                                                                <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
+                                                                    checked={product.gift} />
 
-                            </Row>
-                            <Row>
-                                {/* {this.state.showTextArea && <div>
+                                                            </Row>
+                                                            <Row>
+                                                               
+                                                            </Row>
+                                                            <Row>
+                                                                <Col xs={2}>
+                                                                    <Form>
 
-                                    <Form>
-                                        <Form.Control as="textarea" rows="3" placeholder="Enter gift message..." onChange={this.onChangeMessage} value={this.state.giftMessage} />
-                                    </Form>
-                                    <Button variant="info">Save</Button>
-                                </div>} */}
-                            </Row>
-                            <Row>
-                                <Col xs={2}>                             <small>  Qty</small> 
-                                <Form>
-                                    <Form.Group controlId="exampleForm.SelectCustom">
-                                        
-                                        <Form.Control as="select" custom onChange={(e)=>this.changeQuantity(product, e)}>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </Form>
-                                </Col>
-                               {/* // onClick={(value, e) => this.fetchResume(stu, e)} */}
-                                    |    <Link onClick={(value, event)=>this.deleteClicked(product, event)}> <small>Delete</small></Link> |
-                                    <Link onClick={(value, event)=>this.save4laterClicked(product, event)}><small> Save for later</small></Link>
+                                                                        <Form.Control as="select" custom onChange={(e) => this.changeQuantity(product, e)}>
+                                                                            <option>1</option>
+                                                                            <option>2</option>
+                                                                            <option>3</option>
+                                                                            <option>4</option>
+                                                                            <option>5</option>
+                                                                            <option>6</option>
+                                                                            <option>7</option>
+                                                                            <option>8</option>
+                                                                            <option>9</option>
+                                                                            <option>10</option>
+                                                                        </Form.Control>
+                                                                    </Form>
+                                                                </Col>
+                                                                |    <Link onClick={(value, event) => this.deleteClicked(product, event)}> <small>Delete</small></Link> |
+                                                                     <Link onClick={(value, event) => this.save4laterClicked(product, event)}><small> Save for later</small></Link>
 
-                                    
-                            </Row>
-                        </Col>
-                        <Col xs={1}>
-                            <strong><p style={{ color: '#B12704' }}>$11.98</p></strong>
-                        </Col>
-                    </Row>
 
-                                               {/* <EachProductCart product={product} key={i} /> */}
-                                               </ListGroup.Item>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col xs={1}>
+                                                            <strong><p style={{ color: '#B12704' }}>{"$" + product.price}</p></strong>
+                                                        </Col>
+                                                    </Row>
+
+                                                </ListGroup.Item>
 
                                             )
 
@@ -186,16 +180,41 @@ class Cart extends Component {
                                     </div>}
                                 </ListGroup>
                             </Card>
+
+                            <p style={{ float: 'right', marginTop: '2%' }}><strong>{"Subtotal(" + this.props.cartProducts.length + " items): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></strong></p>
+
+
                         </Col>
-                        <Col md={2}>
-                            {subtotal}
+                        <Col md={3} >
+                            <Card style={{ background: '#f3f3f3', width: '90%' }}>
+                                <Card.Body>
+                                    <Row>
+                                        <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></h6>
+                                    </Row>
+                                    <Row>
+                                       
+                                    </Row>
+                                    <Row>
+                                        <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     </Row>
-
+                    <div>
+                        <br></br>
+                        <Save4Later />
+                    </div>
                 </div>
+
             </div>
         )
     }
 }
 
-export default Cart;
+//fetching from store
+const mapStateToProps = (state) => {
+    return { cartProducts: state.cartProducts }
+}
+
+export default connect(mapStateToProps, { getCartProducts })(Cart);

@@ -10,6 +10,12 @@ import OrderDetails from './clientComponents/orders/orderDetails';
 import CancelOrder from './clientComponents/orders/cancelOrder';
 import OrderStatus from './clientComponents/orders/orderStatus';
 
+import ManageAddresses from './clientComponents/address/ManageAddresses';
+import AddAddress from './clientComponents/address/AddAddress';
+import EditAddress from './clientComponents/address/EditAddress';
+import ManageCards from './clientComponents/cards/ManageCards';
+import AddCard from './clientComponents/cards/AddCard';
+import EditCard from './clientComponents/cards/EditCard';
 
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
@@ -41,7 +47,6 @@ const App = () => {
   return (
     <Router>
       <div>
-      <Route exact path="/" component={Home} />
       </div>
       <div>
          <Route path='/signup' component={SignUp} />
@@ -59,6 +64,12 @@ const App = () => {
         <Route path='/user/cancelled/' component={CancelledOrders} />
         <Route path='/user/orders/orderStatus/' component={OrderStatus} />
 
+        <Route path='/user/address/manageAddresses/' component={ManageAddresses} />
+        <Route path='/user/address/addAddress/' component={AddAddress} />
+        <Route path='/user/address/editAddress/' component={EditAddress} />
+        <Route path='/user/cards/manageCards/' component={ManageCards} />
+        <Route path='/user/cards/addCard/' component={AddCard} />
+        <Route path='/user/cards/editCard/' component={EditCard} />
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
