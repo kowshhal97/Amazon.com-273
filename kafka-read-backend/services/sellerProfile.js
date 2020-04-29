@@ -1,11 +1,41 @@
 const Seller = require('../mysqlModels/Seller');
 
-getSellerByIdHandler = (msg, callback) => {
-
+getSellerByIdHandler = async (msg, callback) => {
+    const id = msg.id;
+  try {
+    const seller = await Seller.findOne({
+      where: {
+        id: id,
+      },
+    });
+    if (seller === null) {
+        res.Status = 404;
+        res.data = 'User not found!';
+        callback(null, res);
+    }
+    res.status = 200
+    res.data = JSON.stringify(seller);
+    callback(null, res);
+  } catch (err) {
+    console.log(err);
+    res.status = 500
+    res.data = 'Internal Server Error!';
+    callback(null, res);
+  }
 }
 
-getAllSellerHandler = (msg, callback) => {
-
+getAllSellerHandler = async (msg, callback) => {
+    try {
+        const sellers = await Seller.findAll();
+        res.status = 200
+        res.data = JSON.stringify(sellers);
+        callback(null, res);
+    } catch(err) {
+        console.log(err);
+        res.status = 500
+        res.data = 'Internal Server Error!';
+        callback(null, res);
+    }
 }
 
 function handle_request(msg, callback) {
