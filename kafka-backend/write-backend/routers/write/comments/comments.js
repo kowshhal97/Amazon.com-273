@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Customer = require('./../../../mysqlModels/Customer')
-const Comments = require('./../../../mysqlModels/Comments')
-const Product = require('./../../../mysqlModels/Product')
 
 
 router.post('/:userId/:productId', async (req, res) => {
