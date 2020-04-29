@@ -1,6 +1,8 @@
 const express=require('express');
 const router = express.Router();
 
+const kafka=require('./../../../../kafka/client')
+
 router.get('/top/seller/', async (req, res) => {
     req.body.path = 'getTopSellerHandler'
     kafka.make_request('admin-stats-read', req.body, (err, results) => {

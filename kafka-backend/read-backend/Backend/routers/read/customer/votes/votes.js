@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 
+const kafka=require('./../../../../kafka/client')
+
 router.get('/:userId', async (req, res) => {
     req.body.userId = req.params.userId;
     req.body.path = 'getVotesByCustomerId'

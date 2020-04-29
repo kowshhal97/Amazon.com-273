@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const kafka=require('./../../../kafka/client')
+
 router.get('/', async (req, res) => {
     req.body.path = 'getAllProductHandler';
     kafka.make_request('products-read', req.body, (err, results) => {

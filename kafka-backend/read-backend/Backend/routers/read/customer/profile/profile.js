@@ -1,6 +1,6 @@
 const express=require('express');
 const router = express.Router();
-
+const kafka=require('./../../../../kafka/client')
 router.get('/:id', async (req,res) => {
     req.body.id = req.params.id;
     req.body.path = 'getCustomerProfileById'
