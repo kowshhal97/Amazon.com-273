@@ -16,7 +16,7 @@ import EditAddress from './clientComponents/address/EditAddress';
 import ManageCards from './clientComponents/cards/ManageCards';
 import AddCard from './clientComponents/cards/AddCard';
 import EditCard from './clientComponents/cards/EditCard';
-
+import Profile from './clientComponents/profile/Profile';
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
 import ProductDetails from './clientComponents/products/productDetailsPage';
@@ -70,6 +70,7 @@ const App = () => {
         <Route path='/user/cards/manageCards/' component={ManageCards} />
         <Route path='/user/cards/addCard/' component={AddCard} />
         <Route path='/user/cards/editCard/' component={EditCard} />
+        <Route path='/user/profile/' component={Profile} />
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
