@@ -8,7 +8,10 @@ router.get('/:userId', async (req, res) => {
     req.body.path = 'getCommentHandler'
     kafka.make_request('customer-comments-read', req.body, (err, results) => {
         console.log(results)
+          if(results.status===200)
          res.status(results.status).send(JSON.parse(results.data));
+         else
+         res.sendStatus(results.status)
     
       });
     

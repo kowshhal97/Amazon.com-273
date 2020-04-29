@@ -7,7 +7,10 @@ router.get('/:id', async (req,res) => {
     kafka.make_request('customer-profile-read', req.body, (err, results) => {
   
         console.log(results)
-        res.status(results.status).send(JSON.parse(results.data));
+         if(results.status===200)
+         res.status(results.status).send(JSON.parse(results.data));
+         else
+         res.sendStatus(results.status)
   
       });
 })
@@ -18,7 +21,10 @@ router.get('/', async (req,res) => {
     kafka.make_request('customer-profile-read', req.body, (err, results) => {
   
         console.log(results)
-        res.status(results.status).send(JSON.parse(results.data));
+         if(results.status===200)
+         res.status(results.status).send(JSON.parse(results.data));
+         else
+         res.sendStatus(results.status)
   
       });
     
