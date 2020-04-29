@@ -1,7 +1,7 @@
 const Comments = require('../mysqlModels/Comments');
 const Customer = require('../mysqlModels/Customer');
 
-getCommentHandler = (msg, callback) => {
+getCommentHandler = async (msg, callback) => {
     var res = {}
     const userId = msg.userId
     try {

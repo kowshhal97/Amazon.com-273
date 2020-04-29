@@ -1,6 +1,6 @@
 const Order = require('../mongoModels/orders');
 
-getCustomerOrdersHandler = (msg, callback) => {
+getCustomerOrdersHandler = async (msg, callback) => {
     var res = {}
     const userId = msg.userId;
     try {

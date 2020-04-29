@@ -2,7 +2,7 @@ const Customer = require('../mysqlModels/Customer');
 const Address = require('../mysqlModels/CustomerAddress');
 const Cards = require('../mysqlModels/Card');
 
-getCustomerProfileById = (msg, callback) => {
+getCustomerProfileById = async (msg, callback) => {
     var res = {};
     const id = msg.id;
     try {
@@ -33,7 +33,7 @@ getCustomerProfileById = (msg, callback) => {
     
 }
 
-getAllCustomerProfile = (msg, callback) => {
+getAllCustomerProfile = async (msg, callback) => {
     var res = {}
     try {
         const customers = await Customer.findAll();

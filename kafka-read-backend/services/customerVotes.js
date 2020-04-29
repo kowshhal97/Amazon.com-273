@@ -1,7 +1,7 @@
 const Votes = require('../mysqlModels/votes');
 const Customer = require('../mysqlModels/Customer');
 
-getVotesByCustomerId = (msg, callback) => {
+getVotesByCustomerId = async (msg, callback) => {
     var res = {}
     const userId = msg.userId;
     try {
@@ -27,7 +27,7 @@ getVotesByCustomerId = (msg, callback) => {
     }
 }
 
-getVotesByProductId = (msg, callback) => {
+getVotesByProductId = async (msg, callback) => {
     var res = {}
     const productId = msg.productId;
     try {

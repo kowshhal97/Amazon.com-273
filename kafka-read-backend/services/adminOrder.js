@@ -1,6 +1,6 @@
 const Order = require('../mongoModels/orders');
 
-getAllOrderHandler = (msg, callback) => {
+getAllOrderHandler = async (msg, callback) => {
     var res = {}
     try {
         const orders = await Order.find({});

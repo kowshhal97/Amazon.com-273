@@ -1,6 +1,6 @@
 const Product = require('../mysqlModels/Product');
 
-getSellerProductHandler = (msg, callback) => {
+getSellerProductHandler = async (msg, callback) => {
     var res = {}
     const id = msg.id;
     try {

@@ -1,7 +1,7 @@
 const Sale = require('../mongoModels/sales');
 const Purchase = require('../mongoModels/customerPurchase');
 
-getTopSellerHandler = (msg, callback) => {
+getTopSellerHandler = async (msg, callback) => {
     var res = {}
     try {
         const sellers = await Sale.find({}).sort({sales: -1}).limit(5);
@@ -16,7 +16,8 @@ getTopSellerHandler = (msg, callback) => {
     }
 }
 
-getTopCustomerHandler = (msg, callback) => {
+getTopCustomerHandler = async (msg, callback) => {
+    var res = {}
     try {
         const customers = await Purchase.find({}).sort({purchase: -1}).limit(5);
         res.status = 200

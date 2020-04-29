@@ -2,7 +2,7 @@ const Votes = require('../mysqlModels/votes');
 const Product = require('../mysqlModels/Product');
 const sequelize = require('sequelize')
 
-getAllProductHandler = (msg, callback) => {
+getAllProductHandler = async (msg, callback) => {
     var res = {}
     try {
         const products = await Product.findAll({include: [{ model:ProductImages,as:'productImages'} ]});
@@ -17,7 +17,7 @@ getAllProductHandler = (msg, callback) => {
     }
 }
 
-getProductByIdHandler = (msg, callback) => {
+getProductByIdHandler = async (msg, callback) => {
     var res = {}
     const id = msg.id;
     try {

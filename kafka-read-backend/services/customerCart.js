@@ -2,7 +2,7 @@ const Cart = require('../mysqlModels/Cart');
 const Product = require('../mysqlModels/Product');
 const ProductImages = require('../mysqlModels/productImages');
 
-getCartHandler = (msg, callback) => {
+getCartHandler = async (msg, callback) => {
     var res = {}
     const userId = msg.userId;
     try {

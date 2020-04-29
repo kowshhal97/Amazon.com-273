@@ -1,6 +1,7 @@
 const Seller = require('../mysqlModels/Seller');
 
 getSellerByIdHandler = async (msg, callback) => {
+  var res = {}
     const id = msg.id;
   try {
     const seller = await Seller.findOne({
