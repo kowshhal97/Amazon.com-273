@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col , Row, Container, Form, Card, Button, Media } from 'react-bootstrap';
+import { Col , Row, Container, Form, Card, Button, Media, Modal, Image } from 'react-bootstrap';
 import Header from "../../header/header";
 import DefaultProfilePic from '../../../images/default-profile.png'
 
@@ -17,6 +17,23 @@ class Profile extends React.Component {
         }
     }
 
+    onEditClick = e => {
+        e.preventDefault();
+        this.handleShow()
+    }
+
+    handleShow = () => {
+        this.setState({showModal: true})
+    }
+  
+    handleClose = () => {
+        this.setState({showModal: false})
+    }
+
+    onFileSelect = (e) => {
+        this.setState({selectedFile: e.target.files[0]});
+    }
+
     render() {
         return (
           <div>
@@ -24,21 +41,21 @@ class Profile extends React.Component {
             <div style={{float:"left", width:"25%", marginLeft:"15%"}}>
                 <h2>Your Profile:</h2>
                 <br/>
-                <Card style={{ width: '18rem' }}>
+                <Card>
                     <Card.Img variant="top" src={DefaultProfilePic} 
-                              width={280} height={200}/>
+                              width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
                         Located At: {this.state.address}
                         <br/>
                         <br/>
                         <center>
-                            <Button variant="warning">Edit your Profile</Button>
+                            <Button variant="warning" onClick={this.onEditClick}>Edit your Profile</Button>
                         </center>
                     </Card.Body>
                 </Card>
             </div>
-            <div style={{float:"left", width:"50%"}}>
+            <div style={{float:"left", marginLeft:"5%"}}>
                 <h2>Products Added:</h2>
                 <br/>
                 {this.state.productReviews.map((productReview)=>{
@@ -58,6 +75,43 @@ class Profile extends React.Component {
                     )
                 })}
             </div>
+            <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Profile</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <center>
+                        <Image src={DefaultProfilePic} width={280} height={200}>
+                        </Image>
+                    </center>
+                    <hr/>
+                    <div className="mb-3">
+                        <Form.File id="formcheck-api-regular">
+                            <Form.File.Label>Profile Picture:</Form.File.Label>
+                            <Button variant="primary" style={{float:"right"}}>Upload</Button>
+                            <Form.File.Input onChange={this.onFileSelect}/>
+                        </Form.File>
+                    </div>
+                    <Form>
+                        <Form.Group controlId="name">
+                            <Form.Label>Name:</Form.Label>
+                            <Form.Control placeholder="Name" />
+                        </Form.Group>
+                        <Form.Group controlId="address">
+                            <Form.Label>Located At:</Form.Label>
+                            <Form.Control placeholder="Address" />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="warning" onClick={this.handleClose}>
+                        Save Changes
+                    </Button>
+                    <Button variant="light" onClick={this.handleClose}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
           </div>
         );
     }
