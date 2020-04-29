@@ -2,7 +2,7 @@ const redis = require("redis");
 
 
 
-const redisHost="54.149.186.30"
+const redisHost="18.237.76.140"
 const redisPort="6379"
 
 const redisClient = redis.createClient(redisPort, redisHost);

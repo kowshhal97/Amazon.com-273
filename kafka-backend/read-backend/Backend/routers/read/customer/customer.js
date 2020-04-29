@@ -1,5 +1,6 @@
 const express=require('express');
 const router = express.Router();
+const kafka=require('./../../../kafka/client')
 
 const order=require('./order/order')
 const profile = require('./profile/profile')
