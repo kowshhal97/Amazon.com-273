@@ -17,6 +17,7 @@ import ManageCards from './clientComponents/cards/ManageCards';
 import AddCard from './clientComponents/cards/AddCard';
 import EditCard from './clientComponents/cards/EditCard';
 import CustomerProfile from './clientComponents/profile/Profile';
+import SingleImageUploadComponent from './test'
 // client prodcts realted flows
 import UserHome from './clientComponents/userHome/userHome';
 import ProductDetails from './clientComponents/products/productDetailsPage';
@@ -72,6 +73,7 @@ const App = () => {
         <Route path='/user/cards/addCard/' component={AddCard} />
         <Route path='/user/cards/editCard/' component={EditCard} />
         <Route path='/user/profile/' component={CustomerProfile} />
+        <Route path='/test/' component={SingleImageUploadComponent} />
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
