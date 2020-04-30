@@ -7,6 +7,7 @@ const Address = require('../mysqlModels/CustomerAddress');
 const Cards = require('../mysqlModels/Card');
 
 loginHandler = async (msg, callback) => {
+    var res = {}
     try {
         const user = await User.findOne({
             where: {
@@ -15,7 +16,9 @@ loginHandler = async (msg, callback) => {
         });
         console.log(user)
         if (user === null) {
-            return res.status(404).send("User not found!");
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else if (user.password === msg.password) {
             if (user.userType === 'customer') {
@@ -24,7 +27,10 @@ loginHandler = async (msg, callback) => {
                         userId: user.id
                     }, include: [{ model: Address, as: 'customerAddresses' }, { model: Cards, as: 'cards' }]
                 })
-                res.status(200).send(customer);
+                //res.status(200).send(customer);
+                res.status = 200
+                res.data = JSON.stringify(customer);
+                callback(null, res);
             }
             else if (user.userType === 'seller') {
                 const seller = await Seller.findOne({
@@ -32,7 +38,10 @@ loginHandler = async (msg, callback) => {
                         userId: user.id
                     }
                 })
-                res.status(200).send(seller);
+                //res.status(200).send(seller);
+                res.status = 200
+                res.data = JSON.stringify(seller);
+                callback(null, res);
             }
             else {
                 const admin = await Admin.findOne({
@@ -40,17 +49,24 @@ loginHandler = async (msg, callback) => {
                         userId: user.id
                     }
                 })
-                res.status(200).send(admin);
+                //res.status(200).send(admin);
+                res.status = 200
+                res.data = JSON.stringify(admin);
+                callback(null, res);
             }
             return
         }
-        return res.status(401).send("UnAuthorized!");
+        res.status = 401
+        res.data = "UnAuthorized!";
+        callback(null, res)
     }
     catch (err) {
-
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+
 }
 
 function handle_request(msg, callback) {

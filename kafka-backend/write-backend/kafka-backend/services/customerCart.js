@@ -3,6 +3,7 @@ const Cart = require('../mysqlModels/Cart')
 const Product = require('../mysqlModels/Product')
 
 addCartHandler = async (msg, callback) => {
+    var res = {}
     const { quantity,flag } = msg
     const customerId = msg.userId
     const productId = msg.productId
@@ -13,7 +14,9 @@ addCartHandler = async (msg, callback) => {
             }
         });
         if (user === null) {
-            return res.sendStatus(404);
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else {
             const product = await Product.findOne({
@@ -22,7 +25,10 @@ addCartHandler = async (msg, callback) => {
                 }
             });
             if (product === null) {
-                return res.sendStatus(404);
+                res.status = 404
+                res.data = "Product not found!";
+                callback(null, res);
+                //return res.sendStatus(404);
             }
             else {
                 const newCart = await Cart.create({
@@ -31,17 +37,23 @@ addCartHandler = async (msg, callback) => {
                     productId: productId,
                     flag:flag
                 })
-                return res.status(200).send(newCart);
+                res.status = 200
+                res.data = JSON.stringify(newCart);
+                callback(null, res);
+                //return res.status(200).send(newCart);
             }
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
 }
 
 deleteCartHandler = async (msg, callback) => {
+    var res = {}
     const id = msg.id;
     try {
         const result = await Cart.destroy({
@@ -49,15 +61,20 @@ deleteCartHandler = async (msg, callback) => {
                 customerId: id
             }
         })
-        return res.sendStatus(200);
+        res.status = 200
+        callback(null, res);
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
+    
 }
 
 updateCartHandler = async (msg, callback) => {
+    var res = {}
     const { quantity,flag } = msg
     const id = msg.id;
     try {
@@ -67,20 +84,26 @@ updateCartHandler = async (msg, callback) => {
             }
         });
         if (cart === null) {
-            return res.sendStatus(404);
+            res.status = 404
+            res.data = "Cart not found!";
+            callback(null, res);
         }
         else {
             const updatedCart = await Cart.update({
                 quantity: quantity,
                 flag:flag
             }, { where: { customerId: id } })
-            return res.status(200).send(updatedCart);
+            res.status = 200
+            res.data = JSON.stringify(updatedCart);
+            callback(null, res);
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
 }
 
 function handle_request(msg, callback) {
@@ -95,7 +118,7 @@ function handle_request(msg, callback) {
     if (msg.path === 'updateCartHandler') {
         delete msg.path
         updateCartHandler(msg, callback)
-      }
+    }
 
   };
   

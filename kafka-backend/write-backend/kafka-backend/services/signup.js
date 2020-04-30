@@ -6,6 +6,7 @@ const Admin = require('../mysqlModels/Admin');
 const sequelize = require('../db/SQLdatabase')
 
 signupHandler = async (msg, callback) => {
+    var res = {}
     const transaction = await sequelize.transaction();
     try {
         const user = await User.create({
@@ -26,13 +27,18 @@ signupHandler = async (msg, callback) => {
             admin.setUser(user);
         }
         transaction.commit()
-        return res.status(200).send(user);
+        //return res.status(200).send(user);
+        res.status = 200
+        res.data = JSON.stringify(user);
+        callback(null, res);
     }
     catch (err) {
         console.log(err)
         transaction.rollback();
     }
-    return res.status(500).send("Internal Server Error!");
+    res.status = 500
+    res.data = "Internal Server Error!";
+    callback(null, res);
 }
 
 function handle_request(msg, callback) {

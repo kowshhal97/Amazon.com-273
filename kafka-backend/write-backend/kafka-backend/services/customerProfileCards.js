@@ -2,7 +2,8 @@ const Customer = require('../mysqlModels/Customer')
 const Card = require('../mysqlModels/Card')
 
 addCardHandler = async (msg, callback) => {
-    const {name,cardNumber,expirationDate,cvv} = msg
+    var res = {}
+    const {name, cardNumber, expirationDate, cvv} = msg
     const id = msg.userId;
     try {
         const user = await Customer.findOne({
@@ -11,7 +12,9 @@ addCardHandler = async (msg, callback) => {
             }
         });
         if (user === null) {
-            return res.status(404).send("User not found!");
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else {
             const newCard=await Card.create({
@@ -21,18 +24,25 @@ addCardHandler = async (msg, callback) => {
                 cvv:cvv,
                 name:name,
             })
-        return res.status(200).send(newCard);
+        //return res.status(200).send(newCard);
+            res.status = 200
+            res.data = JSON.stringify(newCard);
+            callback(null, res);
         }
         
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+    
 }
 
 updateCardHandler = async (msg, callback) => {
-    const {name,cardNumber,expirationDate,cvv} = msg
+    var res = {}
+    const {name, cardNumber, expirationDate, cvv} = msg
     const id = msg.cardId;
     try {
         const card = await Card.findOne({
@@ -40,28 +50,36 @@ updateCardHandler = async (msg, callback) => {
                 id:id
             }
         });
-        if ( card=== null) {
-            return res.status(404).send("Card not found!");
+        if ( card === null) {
+            res.status = 404
+            res.data = "Card not found!";
+            callback(null, res);
         }
         else {
-            const card=await Card.update({
+            const card = await Card.update({
                 customerId:id,
                 cardNumber:cardNumber,
                 expirationDate:expirationDate,
                 cvv:cvv,
                 name:name,
             },{where:{id:id}})
-
-        return res.status(200).send(card);
+            res.status = 200
+            res.data = JSON.stringify(card);
+            callback(null, res);
+            
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+    
 }
 
 deleteCardHandler = async (msg, callback) => {
+    var res = {}
     const id=msg.cardId;
     try {
         await Card.destroy({
@@ -69,12 +87,17 @@ deleteCardHandler = async (msg, callback) => {
                 id:id
             }
         })
-        return res.sendStatus(200);
+        
+        res.status = 200
+        callback(null, res);
         }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+
 }
 
 function handle_request(msg, callback) {

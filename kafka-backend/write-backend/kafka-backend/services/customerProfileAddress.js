@@ -2,6 +2,7 @@ const Customer=require('../mysqlModels/Customer')
 const Address=require('../mysqlModels/CustomerAddress')
 
 addAddressHandler = async (msg, callback) => {
+    var res = {}
     const {name,address1,address2,city,state,country,zipCode,phoneNumber} = msg
     const id = msg.userId;
     try {
@@ -11,7 +12,10 @@ addAddressHandler = async (msg, callback) => {
             }
         });
         if (user === null) {
-            return res.status(404).send("User not found!");
+            //return res.status(404).send("User not found!");
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else {
             const newAddress=await Address.create({
@@ -25,18 +29,24 @@ addAddressHandler = async (msg, callback) => {
                 zipCode:zipCode,
                 phoneNumber:phoneNumber,
             })
-        return res.status(200).send(newAddress);
+        //return res.status(200).send(newAddress);
+            res.status = 200
+            res.data = JSON.stringify(newAddress);
+            callback(null, res);
         }
         
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
 }
 
 updateAddressHandler = async (msg, callback) => {
-    const {name,address1,address2,city,state,country,zipCode,phoneNumber} = msg
+    var res = {}
+    const {name, address1, address2, city, state, country, zipCode, phoneNumber} = msg
     const id = msg.addressId;
     try {
         const address = await Address.findOne({
@@ -44,8 +54,10 @@ updateAddressHandler = async (msg, callback) => {
                 id:id
             }
         });
-        if ( address=== null) {
-            return res.status(404).send("Address not found!");
+        if ( address === null) {
+            res.status = 404
+            res.data = "Address not found!";
+            callback(null, res);
         }
         else {
             const newAddress=await Address.update({
@@ -58,30 +70,41 @@ updateAddressHandler = async (msg, callback) => {
                 zipCode:zipCode,
                 phoneNumber:phoneNumber,
             },{where:{id:id}})
-
-        return res.status(200).send(newAddress);
+            res.status = 200
+            res.data = JSON.stringify(newAddress);
+            callback(null, res);
+        
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+
 }
 
 deleteAddressHandler = async (msg, callback) => {
+    var res = {}    
     const id = msg.addressId;
     try {
-        const address=await Address.destroy({
+        const address = await Address.destroy({
             where:{
                 id:id
             }
         })
-        return res.status(200).send(address);
+        res.status = 200
+        res.data = JSON.stringify(address);
+        callback(null, res);
         }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+
 }
 
 function handle_request(msg, callback) {

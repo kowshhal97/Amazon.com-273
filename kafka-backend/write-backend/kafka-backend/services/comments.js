@@ -3,6 +3,7 @@ const Comments = require('../mysqlModels/Comments')
 const Product = require('../mysqlModels/Product')
 
 addCommentHandler = async (msg, callback) => {
+  var res = {}
   const { comment } = msg
     const userId = msg.userId;
     const productId = msg.productId;
@@ -13,7 +14,9 @@ addCommentHandler = async (msg, callback) => {
             }
         });
         if (user === null) {
-            return res.status(404).send("User not found!");
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else {
             const product = await Product.findOne({
@@ -22,7 +25,9 @@ addCommentHandler = async (msg, callback) => {
                 }
             });
             if (product === null) {
-                return res.status(404).send("product not found!");
+                res.status = 404
+                res.data = "Product not found!";
+                callback(null, res);
             }
             else {
                 const newComment = await Comments.create({
@@ -30,18 +35,24 @@ addCommentHandler = async (msg, callback) => {
                     customerId: userId,
                     productId: productId
                 })
-                return res.status(200).send(newComment);
+                res.status = 200
+                res.data = JSON.stringify(newComment);
+                callback(null, res);
             }
         }
 
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.status(500).send("Internal Server Error!");
+    
 }
 
 deleteCommentHandler = async (msg, callback) => {
+    var res = {}
   const id = msg.id;
   try {
       const result= Comments.destroy({
@@ -49,12 +60,16 @@ deleteCommentHandler = async (msg, callback) => {
               id:id
           }
       })
-      return res.sendStatus(200);
+      res.status = 200
+      callback(null, res);
       }
   catch (err) {
       console.log(err);
+      res.status = 500
+      res.data = "Internal Server Error!";
+      callback(null, res);
   }
-  return res.status(500).send("Internal Server Error!");
+  
 }
 
 updateCommentHandler = async (msg, callback) => {
@@ -67,20 +82,27 @@ updateCommentHandler = async (msg, callback) => {
           }
       });
       if (comments === null) {
-          return res.status(404).send("Comment not found!");
+        res.status = 404
+        res.data = "Comment not found!";
+        callback(null, res);
       }
       else {
           const updatedComment = await Comments.update({
               comment: comment,
           }, { where: { id: id } })
 
-          return res.status(200).send(updatedComment);
+          res.status = 200
+          res.data = JSON.stringify(updatedComment);
+          callback(null, res);
       }
   }
   catch (err) {
       console.log(err);
+      res.status = 500
+      res.data = "Internal Server Error!";
+      callback(null, res);
   }
-  return res.sendStatus(500);
+
 }
 
 function handle_request(msg, callback) {
@@ -95,7 +117,7 @@ function handle_request(msg, callback) {
     if (msg.path === 'updateCommentHandler') {
         delete msg.path
         updateCommentHandler(msg, callback)
-      }
+    }
   };
   
 

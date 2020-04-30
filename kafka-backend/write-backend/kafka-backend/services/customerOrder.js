@@ -3,6 +3,7 @@ const Sale = require('../mongoModels/sales');
 const Purchase = require('../mongoModels/customerPurchase');
 
 addOrderHandler = async (msg, callback) => {
+    var res = {}
     const customerId = msg.userId;
     try {
         const order = new Order({customerId, ...msg})
@@ -29,10 +30,14 @@ addOrderHandler = async (msg, callback) => {
             }
         })
         
-        res.status(201).send(order);
+        res.status = 201
+        res.data = JSON.stringify(order);
+        callback(null, res);
     } catch(err) {
         console.log(err);
-        return res.status(500).send('Internal Server Error!');
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
 }
 

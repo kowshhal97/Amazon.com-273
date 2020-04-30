@@ -3,6 +3,7 @@ const Votes = require('../mysqlModels/votes')
 const Product = require('../mysqlModels/Product')
 
 addVoteHandler = async (msg, callback) => {
+    var res = {}
     const { rating } = msg
     const userId = msg.userId;
     const productId = msg.productId;
@@ -13,7 +14,10 @@ addVoteHandler = async (msg, callback) => {
             }
         });
         if (user === null) {
-            return res.sendStatus(404);
+            //return res.sendStatus(404);
+            res.status = 404
+            res.data = "User not found!";
+            callback(null, res);
         }
         else {
             const product = await Product.findOne({
@@ -22,7 +26,10 @@ addVoteHandler = async (msg, callback) => {
                 }
             });
             if (product === null) {
-                return res.sendStatus(404);
+                //return res.sendStatus(404);
+                res.status = 404
+                res.data = "Product not found!";
+                callback(null, res);
             }
             else {
                 const newVote = await Votes.create({
@@ -30,17 +37,24 @@ addVoteHandler = async (msg, callback) => {
                     customerId: userId,
                     productId: productId
                 })
-                return res.status(200).send(newVote);
+                //return res.status(200).send(newVote);
+                res.status = 200
+                res.data = JSON.stringify(newVote);
+                callback(null, res);
             }
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
+    
 }
 
 updateVoteHandler = async (msg, callback) => {
+    var res = {}
     const { rating } = msg
     const id = msg.id;
     try {
@@ -50,22 +64,31 @@ updateVoteHandler = async (msg, callback) => {
             }
         });
         if (votes === null) {
-            return res.sendStatus(404);
+            res.status = 404
+            res.data = "Votes not found!";
+            callback(null, res);
         }
         else {
             const updatedVote = await Votes.update({
                 rating: rating,
             }, { where: { id: id } })
-            return res.status(200).send(updatedVote);
+            //return res.status(200).send(updatedVote);
+            res.status = 200
+            res.data = JSON.stringify(updatedVote);
+            callback(null, res);
         }
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
+    
 }
 
 deleteVoteHandler = async (msg, callback) => {
+    var res = {}
     const id = msg.id;
     try {
         const result = await Votes.destroy({
@@ -73,12 +96,16 @@ deleteVoteHandler = async (msg, callback) => {
                 id: id
             }
         })
-        return res.sendStatus(200);
+        res.status = 200
+        callback(null, res);
+        
     }
     catch (err) {
         console.log(err);
+        res.status = 500
+        res.data = "Internal Server Error!";
+        callback(null, res);
     }
-    return res.sendStatus(500);
 }
 
 function handle_request(msg, callback) {
