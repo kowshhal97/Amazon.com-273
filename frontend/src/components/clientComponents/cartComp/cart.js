@@ -8,7 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Save4Later from './save4Later';
 import { connect } from 'react-redux';
-import { getCartProducts } from '../../../store/actions/clientActions/cartActions';
+import { getCartProducts, updateIsGift } from '../../../store/actions/clientActions/cartActions';
+import Spinner from 'react-bootstrap/Spinner'
 //import Button from 'react-bootstrap/Button';
 //import EachProductCart from './eachProductCart';
 
@@ -20,7 +21,8 @@ class Cart extends Component {
     constructor() {
         super();
         this.state = {
-            subtotal: 0
+            subtotal: 0,
+            loading:true
         }
 
     }
@@ -28,18 +30,27 @@ class Cart extends Component {
     async componentDidMount() {
 
         await this.props.getCartProducts(user_id)
+        this.setState({
+            loading:false
 
-         for(let i =0; i < this.props.cartProducts.length;i++){
-             let cost = 0;
-             console.log(this.props.cartProducts[i].price)
-             if(this.props.cartProducts[i].price){
-                 cost = (Number(this.props.cartProducts[i].quantity) * Number( this.props.cartProducts[i].price));
+        })
 
-             }
-             this.setState({
-                 subtotal:this.state.subtotal+ cost
-             })
-         }
+        this.checkTotalCost();
+        
+    }
+
+    checkTotalCost = () =>{
+        for(let i =0; i < this.props.cartProducts.length;i++){
+            let cost = 0;
+            console.log(this.props.cartProducts[i].price)
+            if(this.props.cartProducts[i].price){
+                cost = (Number(this.props.cartProducts[i].quantity) * Number( this.props.cartProducts[i].price));
+
+            }
+            this.setState({
+                subtotal:this.state.subtotal+ cost
+            })
+        }
     }
 
     giftCheckBox = (e) => {
@@ -48,6 +59,8 @@ class Cart extends Component {
             this.setState({
                 showTextArea: true
             })
+            let values={}
+
         }
         else {
             this.setState({
@@ -101,6 +114,9 @@ class Cart extends Component {
                             <h5 style={{ float: 'right', marginRight: '3%' }}>price</h5>
                         </Col>
                     </Row>
+                    {this.state.loading &&   <Spinner animation="grow" variant="primary" style={{marginLeft:'34%'}} />
+}
+                    {!this.state.loading && <div>
                     <Row>
                         <Col md={9}>
 
@@ -146,7 +162,7 @@ class Cart extends Component {
                                                                 <Col xs={2}>
                                                                     <Form>
 
-                                                                        <Form.Control as="select" custom onChange={(e) => this.changeQuantity(product, e)}>
+                                                                        <Form.Control as="select" custom value={product.quantity} onChange={(e) => this.changeQuantity(product, e)}>
                                                                             <option>1</option>
                                                                             <option>2</option>
                                                                             <option>3</option>
@@ -201,6 +217,7 @@ class Cart extends Component {
                             </Card>
                         </Col>
                     </Row>
+                    </div>}
                     <div>
                         <br></br>
                         <Save4Later />
