@@ -11,6 +11,10 @@ const Cart = sequelize.define('cart', {
   flag:{
     type: Sequelize.INTEGER,
     allowNull: false,
+  },
+  gift:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
   }
 });
 
