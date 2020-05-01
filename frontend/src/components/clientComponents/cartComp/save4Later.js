@@ -4,22 +4,29 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-//import Form from 'react-bootstrap/Form';
-//import Button from 'react-bootstrap/Button';
-//import EachProductCart from './eachProductCart';
+import { getSave4LaterProducts } from '../../../store/actions/clientActions/cartActions';
+import Spinner from 'react-bootstrap/Spinner';
+import { connect } from 'react-redux';
 
+let user_id = 1;
 
 class Save4Later extends Component {
 
     constructor() {
         super();
         this.state = {
+            loading: true
+
         }
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.props.getSave4LaterProducts(user_id)
+        this.setState({
+            loading: false
 
+        })
     }
 
 
@@ -39,6 +46,8 @@ class Save4Later extends Component {
 
 
     render() {
+
+        console.log(this.props.saveLaterProducts)
 
         let products = [{
             cartid: 1,
@@ -77,21 +86,22 @@ class Save4Later extends Component {
         return (
             <div>
                 <div>
-                    <Row>
-                        <Col md={9}>
-                            {/* <h3>Save for Later</h3> */}
-                        </Col>
+                <Row>
+                        {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />
+                        }
+
                     </Row>
+                    {!this.state.loading && <div>
                     <Row>
                         <Col md={9}>
 
 
                             <Card >
-                                <Card.Header><strong>Save for Later ({products.length + " item)"}</strong></Card.Header>
+                                <Card.Header><strong>Save for Later ({this.props.saveLaterProducts.length + " item)"}</strong></Card.Header>
                                 <ListGroup variant="flush">
 
-                                    {products.length && <div>
-                                        {products.map((product, i) => {
+                                    {this.props.saveLaterProducts.length ? <div>
+                                        {this.props.saveLaterProducts.map((product, i) => {
                                             return (
                                                 <ListGroup.Item key={i}>
                                                     <Row>
@@ -132,7 +142,7 @@ class Save4Later extends Component {
                                                             </Row>
                                                         </Col>
                                                         <Col xs={1}>
-                                                            <strong><p style={{ color: '#B12704' }}>$11.98</p></strong>
+                                                      <strong><p style={{ color: '#B12704' }}>{"$" + product.price}</p></strong>
                                                         </Col>
                                                     </Row>
 
@@ -143,6 +153,8 @@ class Save4Later extends Component {
 
                                         })}
 
+                                    </div>:
+                                    <div>
                                     </div>}
                                 </ListGroup>
                             </Card>
@@ -152,11 +164,16 @@ class Save4Later extends Component {
                         </Col>
 
                     </Row>
-
+                    </div>
+                    }
                 </div>
             </div>
         )
     }
 }
 
-export default Save4Later;
+const mapStateToProps = (state) => {
+    return { saveLaterProducts: state.saveLaterProducts }
+}
+
+export default connect(mapStateToProps, { getSave4LaterProducts, })(Save4Later);

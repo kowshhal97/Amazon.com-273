@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Save4Later from './save4Later';
 import { connect } from 'react-redux';
-import { getCartProducts, updateIsGift } from '../../../store/actions/clientActions/cartActions';
+import { getCartProducts, updateIsGift, getSave4LaterProducts } from '../../../store/actions/clientActions/cartActions';
 import Spinner from 'react-bootstrap/Spinner'
 //import Button from 'react-bootstrap/Button';
 //import EachProductCart from './eachProductCart';
@@ -22,7 +22,7 @@ class Cart extends Component {
         super();
         this.state = {
             subtotal: 0,
-            loading:true
+            loading: true
         }
 
     }
@@ -31,24 +31,24 @@ class Cart extends Component {
 
         await this.props.getCartProducts(user_id)
         this.setState({
-            loading:false
+            loading: false
 
         })
 
         this.checkTotalCost();
-        
+
     }
 
-    checkTotalCost = () =>{
-        for(let i =0; i < this.props.cartProducts.length;i++){
+    checkTotalCost = () => {
+        for (let i = 0; i < this.props.cartProducts.length; i++) {
             let cost = 0;
             console.log(this.props.cartProducts[i].price)
-            if(this.props.cartProducts[i].price){
-                cost = (Number(this.props.cartProducts[i].quantity) * Number( this.props.cartProducts[i].price));
+            if (this.props.cartProducts[i].price) {
+                cost = (Number(this.props.cartProducts[i].quantity) * Number(this.props.cartProducts[i].price));
 
             }
             this.setState({
-                subtotal:this.state.subtotal+ cost
+                subtotal: this.state.subtotal + cost
             })
         }
     }
@@ -59,7 +59,7 @@ class Cart extends Component {
             this.setState({
                 showTextArea: true
             })
-            let values={}
+            let values = {}
 
         }
         else {
@@ -109,115 +109,141 @@ class Cart extends Component {
             <div>
                 <div>
                     <Row>
-                        <Col md={9}>
-                            <h3>Shopping Cart</h3>
-                            <h5 style={{ float: 'right', marginRight: '3%' }}>price</h5>
-                        </Col>
+                        {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />
+                        }
+
                     </Row>
-                    {this.state.loading &&   <Spinner animation="grow" variant="primary" style={{marginLeft:'34%'}} />
-}
                     {!this.state.loading && <div>
-                    <Row>
-                        <Col md={9}>
+                    { this.props.cartProducts.length ? <div>
+                        <Row>
 
+                            <Col md={9}>
+                                <h3>Shopping Cart</h3>
+                                <h5 style={{ float: 'right', marginRight: '3%' }}>price</h5>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={9}>
+                                <Card >
+                                    <ListGroup variant="flush">
+                                        <div>
+                                            {this.props.cartProducts.map((product, i) => {
+                                                return (
+                                                    <ListGroup.Item key={i}>
+                                                        <Row>
+                                                            <Col xs={2}>
+                                                                <Link to={{ pathname: '//', state: {} }}>
+                                                                    <img
+                                                                        alt=''
+                                                                        style={{ width: '100%' }}
+                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                    ></img>
+                                                                </Link>
+                                                            </Col>
+                                                            <Col xs={9}>
+                                                                <Row>
+                                                                    {product.productName}
+                                                                </Row>
+                                                                <Row>
+                                                                    <small style={{ color: 'green' }}>In stock</small>
+                                                                </Row>
+                                                                <Row>
+                                                                    <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
 
-                            <Card >
-                                <ListGroup variant="flush">
+                                                                </Row>
 
-                                    {this.props.cartProducts.length && <div>
-                                        {this.props.cartProducts.map((product, i) => {
-                                            return (
-                                                <ListGroup.Item key={i}>
-                                                    <Row>
-                                                        <Col xs={2}>
-                                                            <Link to={{ pathname: '//', state: {} }}>
-                                                                <img
-                                                                    alt=''
-                                                                    style={{ width: '100%' }}
-                                                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                ></img>
-                                                            </Link>
-                                                        </Col>
-                                                        <Col xs={9}>
-                                                            <Row>
-                                                                {product.productName}
-                                                            </Row>
-                                                            <Row>
-                                                                <small style={{ color: 'green' }}>In stock</small>
-                                                            </Row>
-                                                            <Row>
-                                                                <small><img alt="" src={require('../../icon.png')} style={{ maxWidth: '10%', minHeight: '10%', maxHeight: '0%' }} /></small>
+                                                                <Row>
+                                                                    <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
+                                                                        checked={product.gift} />
 
-                                                            </Row>
+                                                                </Row>
+                                                                <Row>
 
-                                                            <Row>
-                                                                <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
-                                                                    checked={product.gift} />
+                                                                </Row>
+                                                                <Row>
+                                                                    <Col xs={2}>
+                                                                        <Form>
 
-                                                            </Row>
-                                                            <Row>
-                                                               
-                                                            </Row>
-                                                            <Row>
-                                                                <Col xs={2}>
-                                                                    <Form>
-
-                                                                        <Form.Control as="select" custom value={product.quantity} onChange={(e) => this.changeQuantity(product, e)}>
-                                                                            <option>1</option>
-                                                                            <option>2</option>
-                                                                            <option>3</option>
-                                                                            <option>4</option>
-                                                                            <option>5</option>
-                                                                            <option>6</option>
-                                                                            <option>7</option>
-                                                                            <option>8</option>
-                                                                            <option>9</option>
-                                                                            <option>10</option>
-                                                                        </Form.Control>
-                                                                    </Form>
-                                                                </Col>
-                                                                |    <Link onClick={(value, event) => this.deleteClicked(product, event)}> <small>Delete</small></Link> |
+                                                                            <Form.Control as="select" custom value={product.quantity} onChange={(e) => this.changeQuantity(product, e)}>
+                                                                                <option>1</option>
+                                                                                <option>2</option>
+                                                                                <option>3</option>
+                                                                                <option>4</option>
+                                                                                <option>5</option>
+                                                                                <option>6</option>
+                                                                                <option>7</option>
+                                                                                <option>8</option>
+                                                                                <option>9</option>
+                                                                                <option>10</option>
+                                                                            </Form.Control>
+                                                                        </Form>
+                                                                    </Col>
+                                                                    |    <Link onClick={(value, event) => this.deleteClicked(product, event)}> <small>Delete</small></Link> |
                                                                      <Link onClick={(value, event) => this.save4laterClicked(product, event)}><small> Save for later</small></Link>
 
 
-                                                            </Row>
-                                                        </Col>
-                                                        <Col xs={1}>
-                                                            <strong><p style={{ color: '#B12704' }}>{"$" + product.price}</p></strong>
-                                                        </Col>
-                                                    </Row>
+                                                                </Row>
+                                                            </Col>
+                                                            <Col xs={1}>
+                                                                <strong><p style={{ color: '#B12704' }}>{"$" + product.price}</p></strong>
+                                                            </Col>
+                                                        </Row>
 
-                                                </ListGroup.Item>
+                                                    </ListGroup.Item>
 
-                                            )
+                                                )
 
-                                        })}
+                                            })}
 
-                                    </div>}
-                                </ListGroup>
-                            </Card>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </ListGroup>
+                                </Card>
 
-                            <p style={{ float: 'right', marginTop: '2%' }}><strong>{"Subtotal(" + this.props.cartProducts.length + " items): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></strong></p>
+                                <p style={{ float: 'right', marginTop: '2%' }}><strong>{"Subtotal(" + this.props.cartProducts.length + " items): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></strong></p>
 
 
-                        </Col>
-                        <Col md={3} >
-                            <Card style={{ background: '#f3f3f3', width: '90%' }}>
-                                <Card.Body>
-                                    <Row>
-                                        <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></h6>
+                            </Col>
+                            <Col md={3} >
+                                <Card style={{ background: '#f3f3f3', width: '90%' }}>
+                                    <Card.Body>
+                                        <Row>
+                                            <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></h6>
+                                        </Row>
+                                        <Row>
+
+                                        </Row>
+                                        <Row>
+                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div> :
+                        <div>
+                            <br></br>
+                            <Row>
+                            <Col md={1}></Col>
+                                <Col md={3}>
+                                    <img alt="" src="https://m.media-amazon.com/images/G/01/cart/empty/drip-desaturated._CB445245727_.svg" />
+                                </Col>
+                                <Col md={3} style={{marginTop:'2%'}}>
+                                    <Row >
+                                        <h4><strong>Your Amazon cart is empty</strong></h4>
+                                    </Row>
+                                    <Row >
+                                        <Link to={{ pathname: '/user/orders/', state: {} }}><small>Check your orders</small></Link>
                                     </Row>
                                     <Row>
-                                       
+                                        <Button variant="primary" style={{ float: 'right', background: '#f3cf75', border: '#f3cf75', color: 'black' }} >Rediscover your list</Button>
                                     </Row>
-                                    <Row>
-                                        <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                    </div>}
+                                </Col>
+                            </Row>
+
+                        </div>}
+                        </div>}
                     <div>
                         <br></br>
                         <Save4Later />
@@ -234,4 +260,4 @@ const mapStateToProps = (state) => {
     return { cartProducts: state.cartProducts }
 }
 
-export default connect(mapStateToProps, { getCartProducts })(Cart);
+export default connect(mapStateToProps, { getCartProducts, })(Cart);

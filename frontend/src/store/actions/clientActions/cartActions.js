@@ -2,29 +2,50 @@ import axios from 'axios';
 
 import exportData from '../../../config/config';
 
-export const getCartProducts = (user_id) => async dispatch =>{
+export const getCartProducts = (user_id) => async dispatch => {
 
-    const response = await axios.get(exportData.backenedURL+'read/customer/cart/'+ user_id);
+    const response = await axios.get(exportData.backenedURL + 'read/customer/cart/' + user_id);
     console.log(response)
-    
-    if(response.data.length){
-    dispatch({
-        type: 'CART_PRODUCTS',
-        payload: response.data
-    })
+
+    if (response.data.length) {
+        dispatch({
+            type: 'CART_PRODUCTS',
+            payload: response.data
+        })
+    }
+    else {
+        dispatch({
+            type: 'CART_PRODUCTS',
+            payload: []
+        })
+    }
+
 }
-else{
-    dispatch({
-        type: 'CART_PRODUCTS',
-        payload: []
-    })
-}
+
+
+export const getSave4LaterProducts = (user_id) => async dispatch => {
+
+    const response = await axios.get(exportData.backenedURL + 'read/customer/cart/saveToLater/' + user_id);
+    console.log(response)
+
+    if (response.data.length) {
+        dispatch({
+            type: 'SAVE_LATER_PRODUCTS',
+            payload: response.data
+        })
+    }
+    else {
+        dispatch({
+            type: 'SAVE_LATER_PRODUCTS',
+            payload: []
+        })
+    }
 
 }
 
 export const updateIsGift = (values) => async (dispatch) => {
 
-    await axios.post(exportData.backenedURL+'read/customer/cart/', JSON.stringify(values), {
+    await axios.post(exportData.backenedURL + 'read/customer/cart/', JSON.stringify(values), {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -44,8 +65,8 @@ export const updateIsGift = (values) => async (dispatch) => {
             console.log(err)
         })
 
-   
-    
+
+
 }
 
 
