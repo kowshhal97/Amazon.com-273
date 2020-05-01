@@ -46,7 +46,6 @@ router.put('/:id', uploadProfilePhoto.array('upl', 1), async (req, res) => {
         console.log(err);
         return res.status(500).send('Internal Server Error!');
     }   
-    
 })
 
 module.exports=router;

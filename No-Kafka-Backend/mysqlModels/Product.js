@@ -27,6 +27,9 @@ const Product = sequelize.define('product', {
   inventory: {
     type: Sequelize.DOUBLE,
   },
+  thumbNail: {
+    type: Sequelize.STRING,
+  },
 });
 
 Product.hasMany(Comments);
