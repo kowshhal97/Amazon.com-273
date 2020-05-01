@@ -9,10 +9,22 @@ import { Link } from 'react-router-dom';
 import exportData from '../../../config/config';
 import moment from 'moment';
 
+import { connect } from 'react-redux';
+import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
+import Spinner from 'react-bootstrap/Spinner'
+
+
+//change it to local storage
+let user_id = 1;
+
 class Orders extends Component {
 
     state = {
         loading: false,
+
+    }
+
+   async componentDidMount(){
 
     }
 
@@ -239,4 +251,9 @@ class Orders extends Component {
         )
     }
 }
-export default Orders;
+
+const mapStateToProps = (state) => {
+    return { customerOrders: state.customerOrders }
+}
+
+export default connect(mapStateToProps, { getCustOrders })(Orders);
