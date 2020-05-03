@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-import { getSave4LaterProducts } from '../../../store/actions/clientActions/cartActions';
+import { getSave4LaterProducts, moveToCart } from '../../../store/actions/clientActions/saveLaterActions';
 import Spinner from 'react-bootstrap/Spinner';
 import { connect } from 'react-redux';
 
@@ -35,15 +35,18 @@ class Save4Later extends Component {
         console.log(event)
         //delete and update store.
 
+
+
     }
     moveClicked = (product, event) => {
         console.log(product)
         console.log(event)
+        let values = {user_id:user_id, productId:product.productId};
+
+        this.props.moveToCart(values);
+
 
     }
-
-
-
 
     render() {
 
@@ -94,8 +97,6 @@ class Save4Later extends Component {
                     {!this.state.loading && <div>
                     <Row>
                         <Col md={9}>
-
-
                             <Card >
                                 <Card.Header><strong>Save for Later ({this.props.saveLaterProducts.length + " item)"}</strong></Card.Header>
                                 <ListGroup variant="flush">
@@ -176,4 +177,4 @@ const mapStateToProps = (state) => {
     return { saveLaterProducts: state.saveLaterProducts }
 }
 
-export default connect(mapStateToProps, { getSave4LaterProducts, })(Save4Later);
+export default connect(mapStateToProps, { getSave4LaterProducts, moveToCart})(Save4Later);
