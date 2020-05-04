@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Button from 'react-bootstrap/Button'
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
+import { Link } from 'react-router-dom';
 
 
 class Login extends Component {
@@ -10,118 +10,92 @@ class Login extends Component {
     super();
 
     this.state = {
-      Email: "",
-      Password: "",
-      Profile: "",
-      formValidationFailure: false,
-      isValidationFailure: true,
-      errorRedirect: false
+      email: "",
+      password: "",
+      userType: "",
     };
 
-    //Bind events
-    this.emailChangeHandler = this.emailChangeHandler.bind(this);
-    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-    this.profileChangeHandler = this.profileChangeHandler.bind(this);
-    this.submitLogin = this.submitLogin.bind(this);
   }
 
   emailChangeHandler = e => {
     this.setState({
-      Email: e.target.value
+      email: e.target.value
     });
   };
 
   passwordChangeHandler = e => {
     this.setState({
-      Password: e.target.value
+      password: e.target.value
     });
   };
 
   profileChangeHandler = e => {
     this.setState({
-      Profile: e.target.value
+      userType: e.target.value
     });
   };
 
   submitLogin = e => {
-    // e.preventDefault();
+    e.preventDefault();
+ 
+        axios.post(exportValues.url + '/student/signuplogin/login/', JSON.stringify(values), {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
 
-    // var data = {
-    //   Email: this.state.Email,
-    //   Password: this.state.Password,
-    //   Profile: this.state.Profile
-    // };
+          }
+        })
+          .then(async res => {
+            if (res.status >= 400) {
+              console.log(res)
+        
+            this.setState({
+              showError:true,
+            })
+           
+            }
+            else {
+            
+              this.props.setLogin(true)
 
-    // if (this.state.Email === "" || this.state.Password === "") {
-    //   this.setState({
-    //     formValidationFailure: true
-    //   });
+              var decoded = jwt_decode(res.data.split(' ')[1]).user;
+            
+              await  localStorage.setItem("token", res.data);
+              await localStorage.setItem("email", decoded.email);
+              await localStorage.setItem("userType", decoded.usertype);
+             
 
-    //   console.log("Form Error!");
-    // } else {
-    //   axios.defaults.withCredentials = true;
+              
+             
+              this.props.getStuProfile(decoded.id);
+              this.props.setLogin(true)
 
-    //   axios
-    //     .post("http://localhost:3001/login", data)
-    //     .then(response => {
-    //       if (response.status === 200) {
-    //         this.setState({
-    //           isValidationFailure: true,
-    //           formValidationFailure: false
-    //         });
-    //       }
-    //     })
-    //     .catch(err => {
-    //       if (err) {
-    //         if (err.status === 401) {
-    //           this.setState({
-    //             isValidationFailure: false
-    //           });
-    //           console.log("Error message", err.response.status);
-    //         } else {
-    //           this.setState({
-    //             errorRedirect: true
-    //           });
-    //         }
-    //       }
-    //     });
-    // }
+                 this.setState({
+                    redirectPage: <Redirect to={{ pathname: '/student/jobs/' }} />
+                  })
+                
+
+            }
+          })
+          .catch(err => {
+            this.setState({
+              showError:true,
+            })
+           
+            console.log(err)
+          })
+
+
+      }
+    });
   };
 
   render() {
     let redrirectVar = null;
-    if (cookie.load("cookie")) {
-      redrirectVar = <Redirect to="/userHome" />;
-    }
-
-    // if (this.state.errorRedirect) {
-    //   redrirectVar = <Redirect to="/error" />;
+    // if (cookie.load("cookie") && ) {
+    //   redrirectVar = <Redirect to="/userHome" />;
     // }
 
-    let errorPanel = null;
-    if (!this.state.isValidationFailure) {
-      errorPanel = (
-        <div>
-          <div className="alert alert-danger" role="alert">
-            <strong>Validation Error!</strong> Username and Password doesn't
-            match!
-          </div>
-        </div>
-      );
-    }
-
-    let formErrorPanel = null;
-    console.log("FormvalidationFailure", this.state.formValidationFailure);
-    if (this.state.formValidationFailure) {
-      formErrorPanel = (
-        <div>
-          <div className="alert alert-danger" role="alert">
-            <strong>Validation Error!</strong> Username and Password are
-            required!
-          </div>
-        </div>
-      );
-    }
 
     return (
       <div>
@@ -137,8 +111,8 @@ class Login extends Component {
                  <h2>Sign-In</h2>
                 </div>
                 <hr />
-                {errorPanel}
-                {formErrorPanel}
+                
+                
                 <div className="form-group login-form-control">
                 <label class="control-label col-sm-2">Email</label>
                   <input
@@ -146,7 +120,7 @@ class Login extends Component {
                     name="email"
                     id="email"
                     className="form-control form-control-lg"
-                    placeholder="Email Address"
+                    
                     onChange={this.emailChangeHandler}
                     required
                   />
@@ -158,7 +132,7 @@ class Login extends Component {
                     name="password"
                     id="password"
                     className="form-control form-control-lg"
-                    placeholder="Password"
+                   
                     onChange={this.passwordChangeHandler}
                     required
                   />
@@ -170,9 +144,10 @@ class Login extends Component {
                     onChange={this.profileChangeHandler}
                   >
                     <option value="select">Select</option>
-                    <option value="User">User</option>
-                    <option value="Seller">Seller</option>   
-                    <option value="Admin">Admin</option>
+                    <option value="customer">Customer</option>
+                    <option value="seller">Seller</option>   
+                    <option value="admin">Admin</option>
+                    required
                   </select>
                 </div>
                 
@@ -184,8 +159,8 @@ class Login extends Component {
                 <small>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
                  
                   <div>
-                  <Button variant="outline-dark" size="sm" block>
-                     Creat your Amazon account
+                  <Button variant="warning" size="sm" block><Link to={{ pathname: "/signup" }} style={{ color: 'black' }}> Creat your Amazon account</Link>
+                   
                   </Button> 
               </div>
                     

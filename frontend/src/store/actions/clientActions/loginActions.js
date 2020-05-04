@@ -39,29 +39,28 @@ export const Login = (values) => async dispatch => {
 
 
 export const SignUp = (values) => async dispatch => {
-    let data = {
-        name: values.username,
-        email:values.user_email,
-        password: values.user_password,
-        user_type: values.usertype,
-    }
-    await axios.post(exportData.backenedURL + 'write/signup' , JSON.stringify(data) , {
+    // let data = {
+    //     name: values.username,
+    //     email:values.user_email,
+    //     password: values.user_password,
+    //     user_type: values.usertype,
+    // }
+    await axios.post(exportData.backenedURL + 'write/signup' , JSON.stringify(values) , {
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
 }) 
 .then(res => {
+    
     if (res.status >= 400) {
         console.log(res)
     }
     else {
-
-        
-
+       
         dispatch({
             type: 'SIGNUP',
-            payload: []
+            payload: ["Success"]
         })
     }
 })
