@@ -10,6 +10,18 @@ export const allProductsReducer = (state = [], action)=> {
      }
  }
 
+
+ export const allCommentsForProductReducer = (state = [], action)=> {
+    // console.log(action.payload)
+     switch(action.type){
+         case 'ALL_COMMENTS_PRODUCT':
+             return action.payload
+         
+             default:
+                 return state
+ 
+     }
+ }
  export const allProductsBySellerReducer = (state = [], action)=> {
     // console.log(action.payload)
      switch(action.type){
@@ -23,10 +35,10 @@ export const allProductsReducer = (state = [], action)=> {
  }
 
 
- export const allCommentsForProductReducer = (state = [], action)=> {
-    // console.log(action.payload)
+ export const allProductDetailsReducer = (state = [], action)=> {
+   //  console.log(action.payload)
      switch(action.type){
-         case 'ALL_COMMENTS_PRODUCT':
+         case 'PRODUCT_DETAILS':
              return action.payload
          
              default:

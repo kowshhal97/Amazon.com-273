@@ -24,6 +24,27 @@ export const getALLProducts = () => async dispatch => {
 }
 
 
+export const getProductDetails = (prod_id) => async dispatch => {
+
+     const response = await axios.get(exportData.backenedURL + 'read/products/' + prod_id);
+     console.log(response)
+ 
+     if (response.data) {
+         dispatch({
+             type: 'PRODUCT_DETAILS',
+             payload: response.data
+         })
+     }
+     else {
+         dispatch({
+             type: 'PRODUCT_DETAILS',
+             payload: []
+         })
+     }
+ 
+ }
+
+
 export const getALLProductsBySeller = (s_id) => async dispatch => {
 
    let seller_id = 1 ;
@@ -48,8 +69,8 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
 
  export const getALLCommentsForProduct = (prod_id) => async dispatch => {
 
-    let p_id = 1 ;
-     const response = await axios.get(exportData.backenedURL + 'read/customer/comments/product/' + p_id);
+   
+     const response = await axios.get(exportData.backenedURL + 'read/customer/comments/product/' + prod_id);
      console.log(response)
  
      if (response.data.length) {
@@ -69,7 +90,7 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
 
 
 
- export const setCommentForProduct = (user_id,prod_id) => async dispatch => {
+ export const postCommentForProduct = (user_id,prod_id) => async dispatch => {
 
     let p_id = 1 ;
     let u_id =1;
@@ -95,3 +116,31 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
      }
  
  }
+
+
+
+ export const updateProductComment = (values) => async (dispatch) => {
+
+    let data = {
+        comment:values.comment
+    }
+
+    await axios.put(exportData.backenedURL + 'write/comments/'+values.user_id + '/' + values.productId + '/', JSON.stringify(data), {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    })
+        .then(async res => {
+            if (res.status >= 400) {
+                console.log(res)
+            }
+            else {
+                 dispatch(getALLCommentsForProduct(values.prod_id));
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}

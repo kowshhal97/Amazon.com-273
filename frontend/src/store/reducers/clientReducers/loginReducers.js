@@ -1,7 +1,7 @@
-export const customerLoginReducer = (state = [], action)=> {
+export const LoginReducer = (state = [], action)=> {
     // console.log(action.payload)
      switch(action.type){
-         case 'CUSTOMER_LOGIN':
+         case 'LOGIN':
              return action.payload
          
              default:
@@ -9,3 +9,18 @@ export const customerLoginReducer = (state = [], action)=> {
  
      }
  }
+
+
+ export const SignUpReducer = (state = [], action)=> {
+    // console.log(action.payload)
+     switch(action.type){
+         case 'SIGNUP':
+             return action.payload
+         
+             default:
+                 return state
+ 
+     }
+ }
+
+

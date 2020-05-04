@@ -2,32 +2,73 @@ import axios from 'axios';
 
 import exportData from '../../../config/config';
 
-export const getUserLogin = (user_email,user_password) => async dispatch => {
+export const Login = (values) => async dispatch => {
     let data = {
-        email:user_email,
-        password: user_password
+        email:values.email,
+        password: values.password,
     }
 
-    const response = await axios.post(exportData.backenedURL + 'write/login' , JSON.stringify(data) , {
+    //console.
+
+    await axios.post(exportData.backenedURL + 'write/login' , JSON.stringify(data) , {
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
 
     }
 }) 
-        console.log(response)
-
-    if (response.data.length) {
-        dispatch({
-            type: 'CUSTOMER_LOGIN',
-            payload: response.data
-        })
+.then(res => {
+    if (res.status >= 400) {
+        console.log(res)
     }
     else {
+        console.log(res.data)
+        localStorage.setItem('user_id', 1);
+        localStorage.setItem('token', 2);
+       
+        
+    }
+})
+.catch(err => {
+    console.log(err)
+})
+
+}
+
+
+
+
+export const SignUp = (values) => async dispatch => {
+    let data = {
+        name: values.username,
+        email:values.user_email,
+        password: values.user_password,
+        user_type: values.usertype,
+    }
+    await axios.post(exportData.backenedURL + 'write/signup' , JSON.stringify(data) , {
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+}) 
+.then(res => {
+    if (res.status >= 400) {
+        console.log(res)
+    }
+    else {
+
+        
+
         dispatch({
-            type: 'CUSTOMER_LOGIN',
+            type: 'SIGNUP',
             payload: []
         })
     }
+})
+.catch(err => {
+    console.log(err)
+})
 
 }
+
+
