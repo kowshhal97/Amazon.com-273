@@ -38,56 +38,41 @@ class Login extends Component {
   submitLogin = e => {
     e.preventDefault();
  
-        axios.post(exportValues.url + '/student/signuplogin/login/', JSON.stringify(values), {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-
-          }
-        })
-          .then(async res => {
-            if (res.status >= 400) {
-              console.log(res)
-        
-            this.setState({
-              showError:true,
-            })
-           
-            }
-            else {
+       
+    //         else {
             
-              this.props.setLogin(true)
+    //           this.props.setLogin(true)
 
-              var decoded = jwt_decode(res.data.split(' ')[1]).user;
+    //           var decoded = jwt_decode(res.data.split(' ')[1]).user;
             
-              await  localStorage.setItem("token", res.data);
-              await localStorage.setItem("email", decoded.email);
-              await localStorage.setItem("userType", decoded.usertype);
+    //           await  localStorage.setItem("token", res.data);
+    //           await localStorage.setItem("email", decoded.email);
+    //           await localStorage.setItem("userType", decoded.usertype);
              
 
               
              
-              this.props.getStuProfile(decoded.id);
-              this.props.setLogin(true)
+    //           this.props.getStuProfile(decoded.id);
+    //           this.props.setLogin(true)
 
-                 this.setState({
-                    redirectPage: <Redirect to={{ pathname: '/student/jobs/' }} />
-                  })
+    //              this.setState({
+    //                 redirectPage: <Redirect to={{ pathname: '/student/jobs/' }} />
+    //               })
                 
 
-            }
-          })
-          .catch(err => {
-            this.setState({
-              showError:true,
-            })
+    //         }
+    //       })
+    //       .catch(err => {
+    //         this.setState({
+    //           showError:true,
+    //         })
            
-            console.log(err)
-          })
+    //         console.log(err)
+    //       })
 
 
-      }
-    });
+    //   }
+    // });
   };
 
   render() {
