@@ -59,32 +59,17 @@ class Register extends Component {
         password: this.state.password,
         userType: this.state.userType
       };
-    SignUp(data)
-// console.log(data)
-           
-console.log(this.state.props)
-    //   axios.defaults.withCredentials = true;
-
-    //   axios.post("http://localhost:3001/signup", data).then(response => {
-    //     if (response.status === 200) {
-    //       this.setState({
-    //         isNewUserCreated: true
-    //       });
-    //     } else {
-    //       this.setState({
-    //         isNewUserCreated: false
-    //       });
-    //     }
-    //   });
-    // }
+    this.props.SignUp(data);
   };
 
   render() {
-   
-
+    let redrirectVar = null;
+if(this.props.SignUpTrue){
+  redrirectVar =  <Redirect to={{ pathname: '/signin' }} />
+}
     return (
       <div>
-       
+       {/* {redrirectVar} */}
         <div className="container fill-graywhite">
           <div className="container content">
             <div className="login-container">

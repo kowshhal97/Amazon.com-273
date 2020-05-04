@@ -2,15 +2,9 @@ import axios from 'axios';
 
 import exportData from '../../../config/config';
 
-export const Login = (values) => async dispatch => {
-    let data = {
-        email:values.email,
-        password: values.password,
-    }
+export const login = (values) => async dispatch => {
 
-    //console.
-
-    await axios.post(exportData.backenedURL + 'write/login' , JSON.stringify(data) , {
+    await axios.post(exportData.backenedURL + 'write/login' , JSON.stringify(values) , {
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -21,12 +15,12 @@ export const Login = (values) => async dispatch => {
     if (res.status >= 400) {
         console.log(res)
     }
-    else {
-        console.log(res.data)
-        localStorage.setItem('user_id', 1);
-        localStorage.setItem('token', 2);
+    else { 
        
-        
+        dispatch({
+            type: 'LOGIN',
+            payload: res.data
+        })
     }
 })
 .catch(err => {
@@ -39,12 +33,7 @@ export const Login = (values) => async dispatch => {
 
 
 export const SignUp = (values) => async dispatch => {
-    // let data = {
-    //     name: values.username,
-    //     email:values.user_email,
-    //     password: values.user_password,
-    //     user_type: values.usertype,
-    // }
+  // console.log(values)
     await axios.post(exportData.backenedURL + 'write/signup' , JSON.stringify(values) , {
         headers: {
         'Accept': 'application/json',
@@ -52,15 +41,13 @@ export const SignUp = (values) => async dispatch => {
     }
 }) 
 .then(res => {
-    
     if (res.status >= 400) {
         console.log(res)
     }
-    else {
-       
-        dispatch({
+    else {    
+      dispatch({
             type: 'SIGNUP',
-            payload: ["Success"]
+            payload: true
         })
     }
 })

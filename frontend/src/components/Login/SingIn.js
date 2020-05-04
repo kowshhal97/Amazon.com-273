@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button'
 import cookie from "react-cookies";
 import { Redirect } from "react-router";
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { login } from '../../store/actions/clientActions/loginActions';
 
 class Login extends Component {
   constructor() {
@@ -38,50 +39,33 @@ class Login extends Component {
   submitLogin = e => {
     e.preventDefault();
  
-       
-    //         else {
-            
-    //           this.props.setLogin(true)
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    };
 
-    //           var decoded = jwt_decode(res.data.split(' ')[1]).user;
-            
-    //           await  localStorage.setItem("token", res.data);
-    //           await localStorage.setItem("email", decoded.email);
-    //           await localStorage.setItem("userType", decoded.usertype);
-             
-
-              
-             
-    //           this.props.getStuProfile(decoded.id);
-    //           this.props.setLogin(true)
+     this.props.login(data)
 
     //              this.setState({
     //                 redirectPage: <Redirect to={{ pathname: '/student/jobs/' }} />
     //               })
                 
-
-    //         }
-    //       })
-    //       .catch(err => {
-    //         this.setState({
-    //           showError:true,
-    //         })
-           
-    //         console.log(err)
-    //       })
-
-
-    //   }
-    // });
+    
   };
 
   render() {
     let redrirectVar = null;
-    // if (cookie.load("cookie") && ) {
-    //   redrirectVar = <Redirect to="/userHome" />;
-    // }
-
-
+    
+    if(this.props.loginDetails.name!=null){
+    localStorage.setItem('id', this.props.loginDetails.userId);
+    localStorage.setItem('usertype', this.state.userType);
+    // console.log(this.props.loginDetails);
+    if(localStorage.getItem('usertype') == 'seller'){
+      redrirectVar =  <Redirect to={{ pathname: '/adminHome' }} />
+    }else{
+      redrirectVar =  <Redirect to={{ pathname: '/userHome' }} />
+       }
+    }
     return (
       <div>
         <div className="container fill-graywhite">
@@ -157,4 +141,10 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+
+//fetching from store
+const mapStateToProps = (state) => {
+  return { loginDetails: state.loginDetails }
+}
+
+export default connect(mapStateToProps, {login})(Login);

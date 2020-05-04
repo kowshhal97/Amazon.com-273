@@ -7,16 +7,25 @@ import FormControl from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import exportData from '../../config/config';
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Redirect } from "react-router";
 
 
 
 
 
 class Menu extends Component {
-  
+
+  logout = e => {
+   localStorage.removeItem('id');
+   localStorage.removeItem('usertype');
+   window.location.href='/'
+  }
     
 
 render(){
+  
   return (
     <Navbar bg="dark" variant="dark">
     <Navbar.Brand href="/">AMAZON</Navbar.Brand>
@@ -26,10 +35,14 @@ render(){
     </Form>
     <Nav className="mr-auto">
       <Nav.Link href="#home">Accounts</Nav.Link>
-      <Nav.Link href="#features">Orders</Nav.Link>
-      <Nav.Link href="#pricing">Cart</Nav.Link>
+      <Nav.Link href="/user/orders">Orders</Nav.Link>
+      <Nav.Link href="/user/cart/">Cart</Nav.Link>
     </Nav>
-    
+    <DropdownButton id="dropdown-item-button" title="Dropdown button" variant="Secondary">
+  <Dropdown.Item as="button">Profile</Dropdown.Item>
+  <Dropdown.Item as="button" onClick={this.logout}>Logout</Dropdown.Item>
+  <Dropdown.Item as="button">Something else</Dropdown.Item>
+</DropdownButton>
   </Navbar>
   );
  }
