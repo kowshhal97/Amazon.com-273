@@ -9,11 +9,13 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:"Sumeet Deshpande",
-            selectedFile: null,
+            selectedFile: '',
+            filePreviewUrl : '',
             productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
+            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}],
+            showModal: false
         }
     }
 
@@ -23,26 +25,40 @@ class Profile extends React.Component {
     }
 
     handleShow = () => {
-        this.setState({showModal: true})
+        this.setState({
+            showModal: true,
+            filePreviewUrl: ''
+        })
     }
   
     handleClose = () => {
-        this.setState({showModal: false})
+        this.setState({
+            showModal: false,
+            filePreviewUrl: ''
+        })
     }
 
     onFileSelect = (e) => {
-        this.setState({selectedFile: e.target.files[0]});
+        this.setState({
+            selectedFile: e.target.files[0],
+            filePreviewUrl : URL.createObjectURL(e.target.files[0])
+        });
+    }
+
+    onUploadClick = (e) => {
+        
     }
 
     render() {
         return (
           <div>
             <Header />
-            <div style={{float:"left", width:"25%", marginLeft:"15%"}}>
+            {/* Profile Component  */}
+            <div style={{float:"left", width:"20%", marginLeft:"15%"}}>
                 <h2>Your Profile:</h2>
                 <br/>
                 <Card>
-                    <Card.Img variant="top" src={DefaultProfilePic} width={200} height={200}/>
+                    <Card.Img variant="top" src={DefaultProfilePic} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
                         <br/>
@@ -52,6 +68,7 @@ class Profile extends React.Component {
                     </Card.Body>
                 </Card>
             </div>
+            {/* Comments And Ratings Component  */}
             <div style={{float:"left", marginLeft:"5%"}}>
                 <h2>Product Reviews and Comments:</h2>
                 <br/>
@@ -93,20 +110,22 @@ class Profile extends React.Component {
                     )
                 })}
             </div>
+
+
             <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <Form.File.Label>Profile Picture:</Form.File.Label>
+                    <br/>
                     <center>
-                        <Image src={DefaultProfilePic} width={280} height={200}>
+                        <Image src={(this.state.filePreviewUrl === '')? DefaultProfilePic : this.state.filePreviewUrl} width={280} height={200}>
                         </Image>
                     </center>
-                    <hr/>
+                    <br/>
                     <div className="mb-3">
                         <Form.File id="formcheck-api-regular">
-                            <Form.File.Label>Profile Picture:</Form.File.Label>
-                            <Button variant="primary" style={{float:"right"}}>Upload</Button>
                             <Form.File.Input onChange={this.onFileSelect}/>
                         </Form.File>
                     </div>
