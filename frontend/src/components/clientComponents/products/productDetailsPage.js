@@ -5,40 +5,61 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import StarRating from "react-bootstrap-star-rating";
 import { Link } from "react-router-dom";
-import exportData from "../../../config/config";
 import ProductImages from "../products/productImages";
 import "../../CSS/styles.css";
 import Header from "../../header/header";
 import Dropdown from "react-bootstrap/Dropdown";
 import ListGroup from "react-bootstrap/ListGroup";
+import { connect } from 'react-redux';
+import { getProductDetails, getALLCommentsForProduct } from '../../../store/actions/clientActions/productsActions';
+import Spinner from 'react-bootstrap/Spinner'
+
+let prod_id = 4;
 
 class ProductDetailsPage extends Component {
   constructor(props) {
     super(props);
     console.log(props);
     this.state = {
-      // productInfo: this.props.location.state.productInfo
+      loading: true
     };
   }
 
+
+  async componentDidMount() {
+
+    await this.props.getProductDetails(prod_id)
+    this.setState({
+        loading: false
+    })
+
+}
+
+addtoCart = () => {
+  
+}
+
   render() {
-    let product = {
-      productid: 1,
-      gift: true,
-      productDiscription:
-        "hello please buy this product this is very very cheap not only that its very common stuff",
-      price: "10",
-      flag: 0,
-      productid: 1,
-      customerid: 3,
-      productName: "Addidas mens sport shoes",
-      sellerName: "seller 1",
-      productPrice: 30,
-      rating: 2.5,
-      sellerid: 1,
-      comments: ["This is ok", "Not so Great", "Can try once"],
-      productPhoto: "",
-    };
+    console.log(this.props.ProductDetails);
+    const product = this.props.ProductDetails
+   
+    // let product = {
+    //   productid: 1,
+    //   gift: true,
+    //   productDiscription:
+    //     "hello please buy this product this is very very cheap not only that its very common stuff",
+    //   price: "10",
+    //   flag: 0,
+    //   productid: 1,
+    //   customerid: 3,
+    //   productName: "Addidas mens sport shoes",
+    //   sellerName: "seller 1",
+    //   productPrice: 30,
+    //   rating: 2.5,
+    //   sellerid: 1,
+    //   comments: ["This is ok", "Not so Great", "Can try once"],
+    //   productPhoto: "",
+    // };
 
     return (
       <div>
@@ -72,7 +93,7 @@ class ProductDetailsPage extends Component {
                   <strong>
                     <p style={{ color: "#B12704" }}>
                       {" "}
-                      price: ${product.productPrice}
+                      price: ${product.price}
                     </p>
                   </strong>
                 </Row>
@@ -96,10 +117,8 @@ class ProductDetailsPage extends Component {
                     <Button
                       variant="warning"
                       size="sm"
-                      block
-                      onClick={this.signup}
-                    >
-                      Add to Cart
+                      block 
+                    ><Link to={{ pathname: "/user/cart/" }} style={{ color: 'black' }}>  Add to Cart</Link>  
                     </Button>
                   </div>
 
@@ -145,4 +164,10 @@ class ProductDetailsPage extends Component {
   }
 }
 
-export default ProductDetailsPage;
+//fetching from store
+const mapStateToProps = (state) => {
+  return { ProductDetails: state.ProductDetails }
+}
+
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, })(ProductDetailsPage);
+

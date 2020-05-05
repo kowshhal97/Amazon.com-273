@@ -7,19 +7,50 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import exportData from "../../../config/config";
 import Form from "react-bootstrap/Form";
-import ProdctCard from "../products/productCard";
+import ProductCard from "../products/productCard";
 import "../../CSS/styles.css";
 import Header from "../../header/header";
+import { connect } from 'react-redux';
+import { getALLProducts } from '../../../store/actions/clientActions/productsActions';
+
 class UserHome extends Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
+  constructor() {
+    super();
     this.state = {
-      // productInfo: this.props.location.state.productInfo
+      loading: true
     };
   }
 
+async componentDidMount() {
+
+    await  this.props.getALLProducts()
+    this.setState({
+        loading: false
+    })
+  
+  //  console.log(this.allProducts.data)
+
+}
+
+displayProducts = () => {
+  //for loop
+  for(let i=0; i<this.props.allProducts.length; i+=3){
+    return (<div>
+      <Row>
+        <Col md={4}>
+     { this.props.allProducts[i] && <ProductCard  cproducts = {this.props.allProducts[i]} key={i}/>}
+     </Col>
+     <Col md={4}>
+    { this.props.allProducts[i+1] && <ProductCard  cproducts = {this.props.allProducts[i+1]} key={i+1}/> }
+    </Col>
+    { this.props.allProducts[i+2] && <ProductCard  cproducts = {this.props.allProducts[i+2]} key={i+2}/>}
+    </Row>
+    </div>)
+  }
+}
   render() {
+    const products = this.props.allProducts
+    console.log(products);
     return (
       <div>
         <div>
@@ -27,7 +58,7 @@ class UserHome extends Component {
         </div>
         <Container fluid>
           <Row>
-            <Col sm="3">
+            <Col md={3}>
               <h4>Product Categories</h4>
               <span className="block-example border border-dark">
                 {/* <Container className="themed-container"> </Container> */}
@@ -37,7 +68,7 @@ class UserHome extends Component {
                       <Form.Check
                         type="checkbox"
                         id={`product-${type}`}
-                        label={`category ${type}`}
+                        label={` product category ${type}`}
                       />
                     </div>
                   ))}
@@ -45,10 +76,11 @@ class UserHome extends Component {
               </span>
             </Col>
 
-            <Col sm="9">
-              <ProdctCard />
-              <ProdctCard />
-              <ProdctCard />
+            <Col md={9}>
+              {this.displayProducts()}
+              {/* {this.props.allProducts.map((product, ind)=>{    
+              return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
+            })} */}
             </Col>
           </Row>
           <Row>PageNation</Row>
@@ -57,4 +89,12 @@ class UserHome extends Component {
     );
   }
 }
-export default UserHome;
+
+
+//fetching from store
+const mapStateToProps = (state) => {
+  return { allProducts: state.allProducts }
+}
+
+export default connect(mapStateToProps, { getALLProducts })(UserHome);
+

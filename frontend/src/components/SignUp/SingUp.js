@@ -1,116 +1,76 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Redirect } from "react-router";
 import Button from 'react-bootstrap/Button'
-
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { SignUp } from '../../store/actions/clientActions/loginActions';
 
 class Register extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
-      YourName: "",
-      Email: "",
-      Profile: "",
-      Password: "",
-      isNewUserCreated: false,
-      validationError: false,
+      name: "",
+      email: "",
+      userType: "",
+      password: "",
       errorRedirect: false
     };
 
-    //bind
-    this.firstNameChangeHandler = this.firstNameChangeHandler.bind(this);
-    this.emailChangeHandler = this.emailChangeHandler.bind(this);
-    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-    this.profileChangeHandler = this.profileChangeHandler.bind(this);
-    this.signup = this.signup.bind(this);
   }
+//   async componentDidMount() {
+
+//     await this.props.SignUp(data)
+//     this.setState({
+//         loading: false
+
+//     })
+
+// }
 
   firstNameChangeHandler = e => {
     this.setState({
-      YourName: e.target.value
+      name: e.target.value
     });
   };
 
   emailChangeHandler = e => {
     this.setState({
-      Email: e.target.value
+      email: e.target.value
     });
   };
 
   passwordChangeHandler = e => {
     this.setState({
-      Password: e.target.value
+      password: e.target.value
     });
   };
 
   profileChangeHandler = e => {
     this.setState({
-      Profile: e.target.value
+      userType: e.target.value
     });
   };
 
   signup = e => {
-    // if (
-    //   this.state.FirstName === "" ||
-    //   this.state.Email === "" ||
-    //   this.state.Password === ""
-    // ) {
-    //   this.setState({
-    //     validationError: true
-    //   });
-    // } else {
-    //   var data = {
-    //     FirstName: this.state.FirstName,
-    //     Email: this.state.Email,
-    //     Password: this.state.Password,
-    //     Accounttype: 1
-    //   };
-
-    //   e.preventDefault();
-
-    //   axios.defaults.withCredentials = true;
-
-    //   axios.post("http://localhost:3001/signup", data).then(response => {
-    //     if (response.status === 200) {
-    //       this.setState({
-    //         isNewUserCreated: true
-    //       });
-    //     } else {
-    //       this.setState({
-    //         isNewUserCreated: false
-    //       });
-    //     }
-    //   });
-    // }
+     e.preventDefault();
+      const data = {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        userType: this.state.userType
+      };
+    this.props.SignUp(data);
   };
 
   render() {
-    let redirectVar = null;
-    if (this.state.isNewUserCreated === true) {
-      redirectVar = <Redirect to="/signIn" />;
-    }
-
-    // if (this.state.errorRedirect === true) {
-    //   redirectVar = <Redirect to="/error" />;
-    // }
-
-    let errorAlert = null;
-    if (this.state.validationError) {
-      errorAlert = (
-        <div>
-          <div className="alert alert-danger" role="alert">
-            <strong>Error!</strong> Fill all the fields to proceed!
-          </div>
-        </div>
-      );
-    }
-
+    let redrirectVar = null;
+if(this.props.SignUpTrue){
+  redrirectVar =  <Redirect to={{ pathname: '/signin' }} />
+}
     return (
       <div>
-       
+       {/* {redrirectVar} */}
         <div className="container fill-graywhite">
-          {redirectVar}
           <div className="container content">
             <div className="login-container">
              
@@ -124,7 +84,7 @@ class Register extends Component {
                     name="yourname"
                     id="yourname"
                     className="form-control form-control-lg"
-                    placeholder="Your Name"
+        
                     onChange={this.firstNameChangeHandler}
                     required
                   />
@@ -136,7 +96,7 @@ class Register extends Component {
                     name="email"
                     id="email"
                     className="form-control form-control-lg"
-                    placeholder="Email Address"
+                  
                     onChange={this.emailChangeHandler}
                     required
                   />
@@ -148,7 +108,7 @@ class Register extends Component {
                     name="password"
                     id="password"
                     className="form-control form-control-lg"
-                    placeholder="Password"
+                  
                     onChange={this.passwordChangeHandler}
                     required
                   />
@@ -160,8 +120,8 @@ class Register extends Component {
                     onChange={this.profileChangeHandler}
                   >
                     <option value="select">Select</option>
-                    <option value="User">User</option>
-                    <option value="Seller">Seller</option>   
+                    <option value="customer">Customer</option>
+                    <option value="seller">Seller</option>   
                   </select>
                 </div>
                 <div className="form-group login-form-control">
@@ -171,10 +131,9 @@ class Register extends Component {
                 </div>
                 <small>By creating an account, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
                <div>
-                 Already have an account?
+               <Link to={{ pathname: "/signin" }} style={{ color: 'blue' }}>Already have an account?</Link>
                  </div> 
               </div>
-              <div>{errorAlert}</div>
             </div>
           </div>
         </div>
@@ -183,4 +142,9 @@ class Register extends Component {
   }
 }
 
-export default Register
+//fetching from store
+const mapStateToProps = (state) => {
+  return { SignUpTrue: state.SignUpTrue }
+}
+
+export default connect(mapStateToProps, { SignUp})(Register);
