@@ -20,11 +20,13 @@ let user_id = 1;
 class Orders extends Component {
 
     state = {
-        loading: false,
+        loading: true,
 
     }
 
    async componentDidMount(){
+       await this.props.getCustOrders(user_id);
+
 
     }
 
@@ -34,6 +36,8 @@ class Orders extends Component {
 
     
     render() {
+
+        console.log(this.props.customerOrders)
 
         let values = [{
             _id: '1',

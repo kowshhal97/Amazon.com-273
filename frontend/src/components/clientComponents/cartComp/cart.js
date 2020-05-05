@@ -8,10 +8,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Save4Later from './save4Later';
 import { connect } from 'react-redux';
-import { getCartProducts, updateIsGift, getSave4LaterProducts } from '../../../store/actions/clientActions/cartActions';
-import Spinner from 'react-bootstrap/Spinner'
+import { getCartProducts, updateIsGift, moveToLater, changeQuantity, deleteProduct } from '../../../store/actions/clientActions/cartActions';
+import Spinner from 'react-bootstrap/Spinner';
 //import Button from 'react-bootstrap/Button';
-//import EachProductCart from './eachProductCart';
 
 
 //change it to local storage
@@ -35,75 +34,70 @@ class Cart extends Component {
 
         })
 
-        this.checkTotalCost();
+       // this.checkTotalCost();
 
     }
 
     checkTotalCost = () => {
+        let cost = 0;
         for (let i = 0; i < this.props.cartProducts.length; i++) {
-            let cost = 0;
-            console.log(this.props.cartProducts[i].price)
             if (this.props.cartProducts[i].price) {
-                cost = (Number(this.props.cartProducts[i].quantity) * Number(this.props.cartProducts[i].price));
+                cost += (Number(this.props.cartProducts[i].quantity) * Number(this.props.cartProducts[i].price));
 
             }
-            this.setState({
-                subtotal: this.state.subtotal + cost
-            })
+            // this.setState({
+            //     subtotal: this.state.subtotal + cost
+            // })
         }
+        return ("$"+cost);
+
     }
 
-    giftCheckBox = (e) => {
-        //gift checked API
+    giftCheckBox = (product, e) => {
+        let values = {user_id:user_id, productId:product.productId};
         if (e.target.checked) {
-            this.setState({
-                showTextArea: true
-            })
-            let values = {}
-
+            values.gift = 1;
+    
         }
         else {
-            this.setState({
-                showTextArea: false,
-                giftMessage: ''
-            })
+            values.gift = 0;
         }
+        this.props.updateIsGift(values);
+
     }
 
     deleteClicked = (product, event) => {
         console.log(product)
         console.log(event)
         //delete and update store.
+        let values = {user_id:user_id, productId:product.productId};
+        this.props.deleteProduct(values);
 
     }
     save4laterClicked = (product, event) => {
-        console.log(product)
-        console.log(event)
+        let values = {user_id:user_id, flag:1, productId:product.productId};
+        this.props.moveToLater(values);
 
     }
 
     changeQuantity = (product, event) => {
-        console.log(product)
-        console.log(event.target.value)
-        let oldPrice = this.state.subtotal - (product.price * product.quantity);
+       
+        /*let oldPrice = this.state.subtotal - (product.price * product.quantity);
         let newPrice = product.price * event.target.value
-        console.log(oldPrice)
-
         oldPrice += newPrice;
-        console.log(oldPrice)
         this.setState({
             subtotal: oldPrice
         })
-        //   this.subtotal+=newPrice;
-        //  console.log(this.subtotal)
-        //change subtotal
+        */
+        let values = {user_id:user_id, quantity:event.target.value, productId:product.productId};
+
+        this.props.changeQuantity(values);
+
+       
     }
 
 
     render() {
-
-        console.log(this.props.cartProducts);
-
 
         return (
             <div>
@@ -153,7 +147,7 @@ class Cart extends Component {
                                                                 </Row>
 
                                                                 <Row>
-                                                                    <Form.Check aria-label="option 1" onChange={this.giftCheckBox} label={<small>This is a gift</small>}
+                                                                    <Form.Check aria-label="option 1" onChange={(e)=>this.giftCheckBox(product, e)} label={<small>This is a gift</small>}
                                                                         checked={product.gift} />
 
                                                                 </Row>
@@ -201,7 +195,7 @@ class Cart extends Component {
                                     </ListGroup>
                                 </Card>
 
-                                <p style={{ float: 'right', marginTop: '2%' }}><strong>{"Subtotal(" + this.props.cartProducts.length + " items): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></strong></p>
+                                <p style={{ float: 'right', marginTop: '2%' }}><strong>{"Subtotal(" + this.props.cartProducts.length + " items): "}<strong style={{ color: '#B12704' }}>{this.checkTotalCost()}</strong></strong></p>
 
 
                             </Col>
@@ -209,7 +203,9 @@ class Cart extends Component {
                                 <Card style={{ background: '#f3f3f3', width: '90%' }}>
                                     <Card.Body>
                                         <Row>
-                                            <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></h6>
+                                            {/* <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{"$" + this.state.subtotal}</strong></h6> */}
+                                        <h6>{"Subtotal (" + this.props.cartProducts.length + " item): "}<strong style={{ color: '#B12704' }}>{this.checkTotalCost()}</strong></h6>
+
                                         </Row>
                                         <Row>
 
@@ -260,4 +256,4 @@ const mapStateToProps = (state) => {
     return { cartProducts: state.cartProducts }
 }
 
-export default connect(mapStateToProps, { getCartProducts, })(Cart);
+export default connect(mapStateToProps, { getCartProducts,updateIsGift, moveToLater, changeQuantity, deleteProduct })(Cart);
