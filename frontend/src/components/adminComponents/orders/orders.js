@@ -5,38 +5,48 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-import exportData from '../../../config/config';
 import moment from 'moment';
 import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
+import axios from 'axios';
+import exportData from '../../../config/config';
+import { connect } from 'react-redux';
+import { getAdminOrders, updateStatus, getSellers } from '../../../store/actions/adminActions/ordersActions';
 
+// 
 class AdminOrders extends Component {
 
     state = {
         loading: false,
+    }
+
+   async componentDidMount(){
+    await this.props.getSellers();
+
 
 
     }
 
 
-    orderStatusUpdate = (product, e) => {
-        console.log(product)
-        console.log((e.target.value))
+    orderStatusUpdate = (orderDetail, e) => {
 
-        //action call
+        let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId};
+
+        this.props.updateStatus(values);
     }
 
-    changeStatus = (product) => {
+    changeStatus = (product, orders_id) => {
         console.log(product)
         let i = 0;
+        let orderDetail = {orderId: orders_id, product:product};
         let update = product.orderUpdates
-        for (i = 0; i < update.length; i++);
-        let latestStatus = update[i - 1].deliveryStatus;
+       // for (i = 0; i < update.length; i++);
+        let latestStatus = update[0].deliveryStatus;
         let title = exportData.deliveryStatus[latestStatus]
 
         return (
 
-            <Form onChange={(e)=>this.orderStatusUpdate(product, e)}>
+            <Form onChange={(e)=>this.orderStatusUpdate(orderDetail, e)}>
                 {/* <Form.Label>Change Status</Form.Label> */}
                 <Form.Control as="select" custom>
                     <option value="1">{title}</option>
@@ -46,7 +56,7 @@ class AdminOrders extends Component {
                         <option value="4">{exportData.deliveryStatus[4]}</option>
                     }
                     {latestStatus === 2 &&
-                        <option value="3">{exportData.deliveryStatus[5]}</option>
+                        <option value="5">{exportData.deliveryStatus[5]}</option>
                     }
 
                     {/* <option value="4">{exportData.deliveryStatus[4]}</option>
@@ -71,113 +81,12 @@ class AdminOrders extends Component {
 
     render() {
 
-        let values = [{
-            _id: '1',
-            customerId: '1234',
-            customerName: "Emily",
-            orderDate: '2019-07-03',
-            billing: {
-                name: 'EMILY',
-                cardNumber: '7465647564746374',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'Emily',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'California',
-                country: 'US',
-                zipcode: '976564',
-                phoneNumber: '9874656574'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 1',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 0
-                }]
-
-            },
-            {
-                productId: 'p_1',
-                productName: 'product 2',
-                sellerName: 'seller 2',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2018-09-17',
-                    deliveryStatus: 2
-                }]
-
-            }],
-        },
-        {
-            _id: '2',
-            customerId: '12344',
-            customerName: "Sam",
-            orderDate: '2019-03-09',
-            billing: {
-                name: 'SAM',
-                cardNumber: '7465647564746986',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'SAM',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'CHICAGO',
-                country: 'US',
-                zipcode: '85647',
-                phoneNumber: '2874646464'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 3',
-                sellerName: 'seller 1',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 7,
-                orderStatus: 2,
-                gift: {
-                    gift: 0,
-                    giftMessage: ''
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 6
-                }]
-
-            },]
-
-
-        }]
-        const options = [
-            { value: 'chocolate', label: 'Chocolate' },
-            { value: 'strawberry', label: 'Strawberry' },
-            { value: 'vanilla', label: 'Vanilla' },
-        ];
+      console.log(this.props)
+      const options=[];
+      this.props.totalSellers.map((seller)=>{
+        options.push({value:seller.name, label:seller.name})
+      })
+       
 
         const orderStatus=[
             {value:0, label:exportData.deliveryStatus[0]},
@@ -187,7 +96,8 @@ class AdminOrders extends Component {
             {value:4, label:exportData.deliveryStatus[4]},
             {value:5, label:exportData.deliveryStatus[5]},
             {value:6, label:exportData.deliveryStatus[6]},
-        ]
+        ];
+
         return (
             <div>
                 <div>
@@ -224,7 +134,9 @@ class AdminOrders extends Component {
 
                             </Card>
                             <br></br>
-                            {values.length && values.map((orders, i) => {
+                            {!this.state.loading && this.props.adminOrders.length ?<div>
+
+                            { this.props.adminOrders.map((orders, i) => {
                                 return (
                                     <div key={i}>
                                         {orders.products.map((product, i) => {
@@ -294,14 +206,14 @@ class AdminOrders extends Component {
 
                                                                     <br></br>
                                                                     <br></br>
-                                                                    {product.orderStatus === 0 && <div>
+                                                                    {/* {product.orderStatus == 0 && <div>
                                                                         <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{ pathname: "/user/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
 
                                                                         <br></br>
                                                                         <br></br>
                                                                     </div>
-                                                                    }
-                                                                    {this.changeStatus(product)}
+                                                                    } */}
+                                                                    {this.changeStatus(product, orders._id)}
 
                                                                 </Col>
                                                             </Row>
@@ -316,7 +228,8 @@ class AdminOrders extends Component {
                                     </div>
                                 )
                             })}
-
+                        </div>:<div>
+                            </div>}
                         </Col>
 
 
@@ -327,4 +240,8 @@ class AdminOrders extends Component {
         )
     }
 }
-export default AdminOrders;
+const mapStateToProps = (state) => {
+    return { adminOrders: state.adminOrders, totalSellers:state.totalSellers }
+}
+
+export default connect(mapStateToProps, { getAdminOrders, updateStatus, getSellers })(AdminOrders);
