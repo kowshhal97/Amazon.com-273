@@ -19,15 +19,10 @@ class SellerOrders extends Component {
     state = {
         loading: false,
 
-
     }
 
     async componentDidMount () {
         await this.props.getSellerOrders(sellerName);
-
-    }
-
-    trackPackage = () => {
 
     }
 
@@ -39,7 +34,6 @@ class SellerOrders extends Component {
 
         this.props.updateStatus(values);
 
-        //action call
     }
 
     changeStatus = (product, orders_id) => {
@@ -60,7 +54,6 @@ class SellerOrders extends Component {
                     <option value="3">{title}</option>
                     {latestStatus === "0" && <option value="1">Packing</option>}
                     {(latestStatus === "1" || latestStatus === "0") && <option value="2">Out for Shipping</option>}
-                    <option value="2">Out for Shipping</option>
 
                 </Form.Control>
             </Form>
@@ -73,128 +66,7 @@ class SellerOrders extends Component {
 
         console.log(this.props.sellerOrders);
 
-        let values = [{
-            _id: '1',
-            customerId: '1234',
-            customerName: "Emily",
-            orderDate: '2019-07-03',
-            billing: {
-                name: 'EMILY',
-                cardNumber: '7465647564746374',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'Emily',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'California',
-                country: 'US',
-                zipcode: '976564',
-                phoneNumber: '9874656574'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 1',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 0
-                },
-            
-                {date: '2020-09-10',
-                deliveryStatus: 1
-            
-            }]
-
-            },
-            {
-                productId: 'p_2',
-                productName: 'product 2',
-                sellerName: 'seller 2',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                // orderUpdatesValue: [{
-                //     date: '2018-09-17',
-                //     deliveryStatus: 2
-                // }],
-
-
-                orderUpdates: [{
-                    date: '2018-09-17',
-                    deliveryStatus: 2
-                }]
-
-            }],
-        },
-        {
-            _id: '2',
-            customerId: '12344',
-            customerName: "Sam",
-            orderDate: '2019-03-09',
-            billing: {
-                name: 'SAM',
-                cardNumber: '7465647564746986',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'SAM',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'CHICAGO',
-                country: 'US',
-                zipcode: '85647',
-                phoneNumber: '2874646464'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 3',
-                sellerName: 'seller 1',
-                quantity: 4,
-                gift: {
-                    gift: 0,
-                    giftMessage: ''
-                },
-                perQuantityPrice: 1,
-                totalPrice: 7,
-                orderStatus: 2,
-              
-                // orderUpdatesValue: [{
-                //     date: '2020-09-10',
-                //     deliveryStatus: 6
-                // }],
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 3
-                },{
-                    date: '2020-09-10',
-                    deliveryStatus: 6
-                }]
-
-            },]
-
-
-        }]
+       
 
         return (
             <div>
@@ -243,7 +115,7 @@ class SellerOrders extends Component {
                                                                                     {orders._id}</small>
                                                                             </Row>
                                                                             <Row>
-                                                                                <Link to={{ pathname: "/user/orders/details/", state: { orderInfo: orders, productInfo: product } }} >Order details</Link>
+                                                                                <Link to={{ pathname: "/seller/orders/details/", state: { orderInfo: orders, productInfo: product } }} >Order details</Link>
                                                                             </Row>
                                                                         </Col>
                                                                     </Row>
@@ -273,11 +145,11 @@ class SellerOrders extends Component {
                                                                         </Col>
 
                                                                         <Col md={3}>
-                                                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{pathname:"/user/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
+                                                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{pathname:"/seller/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
                                                                             <br></br>
                                                                             <br></br>
-                                                                            {product.orderStatus === "0" && <div>
-                                                                                <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }} > <Link to={{ pathname: "/user/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
+                                                                            {product.orderStatus == 0 && <div>
+                                                                                <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }} > <Link to={{ pathname: "/seller/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
 
                                                                                 <br></br>
                                                                                 <br></br>

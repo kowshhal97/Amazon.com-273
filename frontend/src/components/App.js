@@ -30,6 +30,9 @@ import SellerOpenOrders from './sellerComponents/orders/open';
 import SellerProfile from './sellerComponents/profile/Profile';
 import AddProduct from './sellerComponents/product/AddProduct';
 import SellerHome from './sellerComponents/sellerHome/sellerHome';
+import CancelOrderSeller from './sellerComponents/orders/cancelOrder';
+import OrderStatusSeller from './sellerComponents/orders/orderStatus';
+
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
@@ -82,6 +85,11 @@ const App = () => {
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
         <Route path='/seller/open/' component={SellerOpenOrders} />
         <Route exact path='/seller/profile/' component={SellerProfile} />
+        <Route path='/seller/orders/cancelOrder/' component={CancelOrderSeller} />
+        <Route path='/seller/orders/orderStatus/' component={OrderStatusSeller} />
+
+
+
 
         <Route exact path='/admin/orders/' component={AdminOrders} />
         <Route  path='/adminHome' component={AdminHome} />

@@ -58,6 +58,40 @@ export const updateStatus = (values) => async dispatch => {
 
 }
 
+export const cancelOrderAPI = (values) => async dispatch => {
+    let data={
+        orderStatus:"2",
+        orderUpdateItem:{
+           deliveryStatus: String(values.orderUpdateItem)
+        }, 
+        productId:values.productId,
+    }
+
+    console.log(data)
+
+    await axios.put(exportData.backenedURL + 'write/seller/orders/'+values.orderId, JSON.stringify(data), {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    })
+        .then(res => {
+            if (res.status >= 400) {
+                console.log(res)
+            }
+            else {
+
+             console.log(res)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+   
+
+}
 
 
 
