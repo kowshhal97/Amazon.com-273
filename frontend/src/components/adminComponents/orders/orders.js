@@ -194,8 +194,6 @@ class AdminOrders extends Component {
                     <br></br>
                     <Row>
                         <Col md={2}>
-
-
                         </Col>
                         <Col md={9}>
                             <Card>
