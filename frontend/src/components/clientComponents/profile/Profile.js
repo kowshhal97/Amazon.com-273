@@ -11,6 +11,8 @@ class Profile extends React.Component {
             name:"Sumeet Deshpande",
             selectedFile: '',
             filePreviewUrl : '',
+            profilePic: DefaultProfilePic,
+            temporaryName: '',
             productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
@@ -25,16 +27,20 @@ class Profile extends React.Component {
     }
 
     handleShow = () => {
+        var filePreviewUrl = this.state.profilePic
+        var temporaryName = this.state.name
         this.setState({
             showModal: true,
-            filePreviewUrl: ''
+            filePreviewUrl: filePreviewUrl,
+            temporaryName: temporaryName
         })
     }
   
     handleClose = () => {
         this.setState({
             showModal: false,
-            filePreviewUrl: ''
+            filePreviewUrl: '',
+            temporaryName: ''
         })
     }
 
@@ -58,7 +64,7 @@ class Profile extends React.Component {
                 <h2>Your Profile:</h2>
                 <br/>
                 <Card>
-                    <Card.Img variant="top" src={DefaultProfilePic} height={200}/>
+                    <Card.Img variant="top" src={this.state.profilePic} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
                         <br/>
@@ -78,7 +84,7 @@ class Profile extends React.Component {
                     return (
                         <Media>
                             <img width={64} height={64} className="mr-3"
-                                src={DefaultProfilePic}
+                                src={this.state.profilePic}
                                 alt="Generic placeholder"/>
                             <Media.Body>
                                 <a href="#">
@@ -110,8 +116,7 @@ class Profile extends React.Component {
                     )
                 })}
             </div>
-
-
+            {/* Edit Profile Modal  */}
             <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Profile</Modal.Title>
@@ -120,7 +125,7 @@ class Profile extends React.Component {
                     <Form.File.Label>Profile Picture:</Form.File.Label>
                     <br/>
                     <center>
-                        <Image src={(this.state.filePreviewUrl === '')? DefaultProfilePic : this.state.filePreviewUrl} width={280} height={200}>
+                        <Image src={this.state.filePreviewUrl} width={280} height={200}>
                         </Image>
                     </center>
                     <br/>
@@ -132,7 +137,7 @@ class Profile extends React.Component {
                     <Form>
                         <Form.Group controlId="formGroupEmail">
                             <Form.Label>Name:</Form.Label>
-                            <Form.Control type="Name" placeholder="Name" />
+                            <Form.Control type="Name" placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>

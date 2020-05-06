@@ -33,7 +33,7 @@ import SellerProfile from './sellerComponents/profile/Profile';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
-import Analytics from './adminComponents/analytics/analytics';
+// import Analytics from './adminComponents/analytics/analytics';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -82,7 +82,7 @@ const App = () => {
         <Route exact path='/seller/profile/' component={SellerProfile} />
 
         <Route exact path='/admin/orders/' component={AdminOrders} />
-        <Route exact path='/admin/analytics/' component={Analytics} />
+        {/* <Route exact path='/admin/analytics/' component={Analytics} /> */}
 
 
 
