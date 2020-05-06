@@ -11,7 +11,8 @@ import Header from "../../header/header";
 import Dropdown from "react-bootstrap/Dropdown";
 import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
-import { getProductDetails, getALLCommentsForProduct } from '../../../store/actions/clientActions/productsActions';
+import Form from 'react-bootstrap/Form'
+import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
 import Spinner from 'react-bootstrap/Spinner'
 
 let prod_id = 4;
@@ -29,6 +30,7 @@ class ProductDetailsPage extends Component {
   async componentDidMount() {
 
     await this.props.getProductDetails(prod_id)
+    await this.props.getALLCommentsForProduct(prod_id)
     this.setState({
         loading: false
     })
@@ -39,27 +41,21 @@ addtoCart = () => {
   
 }
 
+addcomment = e => {
+  const data = {
+    comment: this.state.comment,
+    prod_id: this.props.ProductDetails.prod_id
+  }
+
+  this.props.postCommentForProduct(data)
+
+}
+
   render() {
     console.log(this.props.ProductDetails);
     const product = this.props.ProductDetails
-   
-    // let product = {
-    //   productid: 1,
-    //   gift: true,
-    //   productDiscription:
-    //     "hello please buy this product this is very very cheap not only that its very common stuff",
-    //   price: "10",
-    //   flag: 0,
-    //   productid: 1,
-    //   customerid: 3,
-    //   productName: "Addidas mens sport shoes",
-    //   sellerName: "seller 1",
-    //   productPrice: 30,
-    //   rating: 2.5,
-    //   sellerid: 1,
-    //   comments: ["This is ok", "Not so Great", "Can try once"],
-    //   productPhoto: "",
-    // };
+    // console.log(this.props.allComments);
+    // const getcomments = this.props.allComments
 
     return (
       <div>
@@ -158,6 +154,15 @@ addtoCart = () => {
             <ListGroup.Item>OK ok</ListGroup.Item>
             <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
           </ListGroup>
+          {/* <Form> */}
+  <Form.Group controlId="formBasicPassword">
+    {/* <Form.Label>Add Comment</Form.Label> */}
+    <Form.Control type="comment" placeholder="add comment" />
+  </Form.Group>
+  <Button variant="warning" type="submit" onClick ={this.addcomment}    size="sm">
+    Add Comment
+  </Button>
+{/* </Form> */}
         </div>
       </div>
     );
@@ -166,8 +171,9 @@ addtoCart = () => {
 
 //fetching from store
 const mapStateToProps = (state) => {
-  return { ProductDetails: state.ProductDetails }
+  return { ProductDetails: state.ProductDetails ,
+             allComments : state.allComments}
 }
 
-export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, })(ProductDetailsPage);
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct})(ProductDetailsPage);
 
