@@ -29,5 +29,26 @@ router.put('/:orderId', async (req, res) => {
     }
 })
 
+//Delete Order
+router.delete('/:userId/:orderId/:productId', async (req, res) => {
+    const {userId, orderId, productId} = req.params;
+    try {
+        const order = await Order.findOne({_id: orderId});
+        if(order.customerId !== userId) {
+            return res.status(400).send("No Authorization");
+        }
+        order.products.map((product) => {
+            if(product.productId !== productId) {
+                return product
+            }
+        })
+        await order.save();
+        return res.status(200).send("Order Cancelled with Success!")
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send("Internal Server Error!");
+    }
+})
+
 
 module.exports = router;

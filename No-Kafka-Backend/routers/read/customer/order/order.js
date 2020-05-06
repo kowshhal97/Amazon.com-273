@@ -17,9 +17,16 @@ const Order = require('../../../../mongoModels/orders');
 // })
 
 router.get('/:userId', async (req, res) => {
+    const sellerName = req.query.sellerName;
     try {
-        const orders = await Order.find({customerId: req.params.userId})
-        return res.status(200).send(orders);
+        if(sellerName) {
+            const orders = await Order.find().elemMatch("products", {sellerName: sellerName});
+            console.log(orders);
+            return res.status(200).send(orders);
+        } else {
+            const orders = await Order.find({customerId: req.params.userId})
+            return res.status(200).send(orders);
+        } 
     } catch(err) {
         console.log(err);
         return res.status(500).send('Internal Servr Error!')

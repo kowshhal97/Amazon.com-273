@@ -30,6 +30,7 @@ const OrderSchema = new Schema({
     products: [{
         productId: String,
         productName: String,
+        productPhotoUrl: String,
         sellerName: String,
         quantity: Number,
         perQuantityPrice: Number,
