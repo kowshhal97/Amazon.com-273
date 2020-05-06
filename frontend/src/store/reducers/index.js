@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import { cartProductsReducer,saveLaterProductsReducer } from './clientReducers/cartReducers'
 import { customerOrdersReducer } from './clientReducers/orderReducers';
 import {allProductsReducer, allProductDetailsReducer, allCommentsForProductReducer,allProductsBySellerReducer} from './clientReducers/productsReducers';
-import {LoginReducer, SignUpReducer} from './clientReducers/loginReducers'
+import {LoginReducer, SignUpReducer} from './clientReducers/loginReducers';
+import { sellerOrdersReducer } from './sellerReducers/orderReducers';
 
 export default combineReducers({
     cartProducts:cartProductsReducer,
@@ -14,5 +15,9 @@ export default combineReducers({
      allComments :allCommentsForProductReducer,
      allSellerProducts:allProductsBySellerReducer,
      loginDetails:LoginReducer,
-     SignUpTrue:SignUpReducer
+     SignUpTrue:SignUpReducer,
+
+     sellerOrders:sellerOrdersReducer,
+
+
 })

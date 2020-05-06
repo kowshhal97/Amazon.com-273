@@ -131,7 +131,7 @@ class OpenOrders extends Component {
                                             <div key={i}>
                                                 {orders.products.map((product, i) => {
 
-                                                    if (product.orderStatus === 0) {
+                                                    if (product.orderStatus === 0 || product.orderStatus === "0") {
 
                                                         return (
                                                             <div key={i}>

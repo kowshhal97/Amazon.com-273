@@ -26,9 +26,10 @@ router.get('/top/customer/', async (req, res) => {
 })
 
 router.get('/order-per-day/', async (req, res) => {
-    console.log(Date.now());
+    let day = new Date().toISOString().slice(0,10);
+    console.log(day);
     try {
-        const orders = await Order.find({orderDate: {$gte: '2020-5-5'}}).limit(10);
+        const orders = await Order.find({orderDate: {$gte: day}}).limit(10);
         return res.status(200).send(orders);
     } catch(err) {
         console.log(err);
