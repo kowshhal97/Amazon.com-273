@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button , Col, Container, Form } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
+import {Redirect} from 'react-router';
 
 class AddAddress extends React.Component {
 
@@ -13,6 +16,7 @@ class AddAddress extends React.Component {
             city: '',
             state: '',
             zipCode: '',
+            country:'',
             phoneNumber: ''
         }
     }
@@ -24,18 +28,37 @@ class AddAddress extends React.Component {
     };
     
     onSubmitHandler = e =>{
-
+        // const id = localStorage.getItem("user_id")
+        const id = 1
+        const data = {
+            name: this.state.fullName,
+            address1: this.state.streetAddressLine1,
+            address2: this.state.streetAddressLine2,
+            city: this.state.city,
+            state: this.state.zipCode,
+            country: this.state.country,
+            phoneNumber: this.state.phoneNumber            
+        }
+        console.log(data)
+        axios.post(exportData.backenedURL + 'write/customer/profile/address/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
+            } 
+        })
     }
 
     render(){
         return(
           <div>
             <Header />
+            {this.state.redirect}
             <Container>
                 <br/>
                 <h2>Add a new address:</h2>
                 <br/>
-                <Form onSubmit={this.onSubmitHandler}>                    
+                {/* <Form onSubmit={this.onSubmitHandler}>                     */}
                     <Form.Group>
                         <Form.Label>Full Name:</Form.Label>
                         <Form.Control id="fullName" 
@@ -93,6 +116,15 @@ class AddAddress extends React.Component {
                     </Form.Row>
 
                     <Form.Group>
+                        <Form.Label>Country:</Form.Label>
+                        <Form.Control id="country" 
+                                      value={this.state.country} 
+                                      onChange={this.onChangeHandler} 
+                                      placeholder="Country" 
+                                      required/>
+                    </Form.Group>
+
+                    <Form.Group>
                         <Form.Label>Phone Number:</Form.Label>
                         <Form.Control id="phoneNumber" 
                                       type="number" 
@@ -102,10 +134,10 @@ class AddAddress extends React.Component {
                                       required/>
                     </Form.Group>
                     <br/>
-                    <Button variant="warning" type="submit">
+                    <Button variant="warning" onClick={this.onSubmitHandler}>
                         Add Address
                     </Button>
-                </Form>
+                {/* </Form> */}
             </Container>                
           </div>
         );

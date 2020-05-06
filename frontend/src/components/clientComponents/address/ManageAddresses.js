@@ -73,19 +73,19 @@ class ManageAddresses extends React.Component {
                         </Card.Header>
                         <Card.Body>
                           <Card.Text>
-                            {addressCard.address1}
+                            Address Line 1: {addressCard.address1}
                             <br/>
-                            {addressCard.address2}
+                            Address Line 2: {addressCard.address2}
                             <br/>
-                            {addressCard.city}
+                            City: {addressCard.city}
                             <br/>
-                            {addressCard.state}
+                            State: {addressCard.state}
                             <br/>
-                            {addressCard.country}
+                            Country: {addressCard.country}
                             <br/>
-                            {addressCard.zipcode}
+                            Zip Code: {addressCard.zipcode}
                             <br/>
-                            {addressCard.phoneNumber}
+                            Phone Number: {addressCard.phoneNumber}
                           </Card.Text>
                         </Card.Body>
                         <Card.Footer>
