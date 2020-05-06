@@ -41,7 +41,7 @@ router.post('/:userId',async (req,res)=>{
 })
 
 router.put('/:addressId',async (req,res)=>{
-    const {name,address1,address2,city,state,country,zipCode,phoneNumber}=req.body
+    const {name,address1,address2,city,state,country,zipcode,phoneNumber}=req.body
     const id=req.params.addressId;
     try {
         const address = await Address.findOne({
@@ -60,7 +60,7 @@ router.put('/:addressId',async (req,res)=>{
                 city:city,
                 state:state,
                 country:country,
-                zipCode:zipCode,
+                zipcode:zipcode,
                 phoneNumber:phoneNumber,
             },{where:{id:id}})
 
