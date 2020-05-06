@@ -157,7 +157,8 @@ class Orders extends Component {
                         <Row>
                             <Col md={1}></Col>
                             <Col md={10}>
-                                {values.length && values.map((orders, i) => {
+                                {this.props.customerOrders.length ? <div>
+                                    {this.props.customerOrders.length && this.props.customerOrders.map((orders, i) => {
                                     return (
                                         <div key={i}>
                                             {orders.products.map((product, i) => {
@@ -171,28 +172,28 @@ class Orders extends Component {
 
                                                                     <Col md={3}>
                                                                         <Row>
-                                                                            <small class="text-muted">
+                                                                            <small className="text-muted">
                                                                                 ORDER PLACED</small>
                                                                         </Row>
                                                                         <Row>
-                                                                            <small class="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
+                                                                            <small className="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
                                                                                 moment(orders.orderDate).format('YYYY')}</small>
                                                                         </Row>
                                                                     </Col>
                                                                     <Col md={6}>
                                                                         <Row>
-                                                                            <small class="text-muted">
+                                                                            <small className="text-muted">
                                                                                 SHIP TO</small>
                                                                         </Row>
                                                                         <Row>
-                                                                            <small class="text-muted">{orders.shippingAddress.name}</small>
+                                                                            <small className="text-muted">{orders.shippingAddress.name}</small>
                                                                         </Row>
                                                                     </Col>
                                                                     <Col md={3}>
                                                                         <Row>
-                                                                            <small class="text-muted">
+                                                                            <small className="text-muted">
                                                                                 Order #</small>
-                                                                            <small class="text-muted">
+                                                                            <small className="text-muted">
                                                                                 {orders._id}</small>
                                                                         </Row>
                                                                         <Row>
@@ -242,6 +243,10 @@ class Orders extends Component {
                                         </div>
                                     )
                                 })}
+                                </div> :
+                                <div>
+                                    </div>}
+                               
                                
                             </Col>
 

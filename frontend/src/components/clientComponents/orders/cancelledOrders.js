@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
 
 
 class CancelledOrders extends Component {
@@ -124,7 +125,8 @@ class CancelledOrders extends Component {
                         <Row>
                             <Col md={1}></Col>
                             <Col md={10}>
-                                {values.length && values.map((orders, i) => {
+                            {this.props.customerOrders.length ? <div>
+                                {this.props.customerOrders.length && this.props.customerOrders.map((orders, i) => {
                                     return (
                                         <div key={i}>
                                             {orders.products.map((product, i) => {
@@ -212,6 +214,11 @@ class CancelledOrders extends Component {
                                         </div>
                                     )
                                 })}
+
+                                </div> :
+                                    <div>
+                                    </div>}
+
                                
                             </Col>
 
@@ -225,4 +232,9 @@ class CancelledOrders extends Component {
         )
     }
 }
-export default CancelledOrders;
+
+const mapStateToProps = (state) => {
+    return { customerOrders: state.customerOrders }
+}
+
+export default connect(mapStateToProps, {})(CancelledOrders);
