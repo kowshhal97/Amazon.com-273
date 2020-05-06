@@ -30,9 +30,11 @@ import SellerCancelledOrders from './sellerComponents/orders/cancelledDelivered'
 import SellerOpenOrders from './sellerComponents/orders/open';
 import SellerProfile from './sellerComponents/profile/Profile';
 import AddProduct from './sellerComponents/product/AddProduct';
+import SellerHome from './sellerComponents/sellerHome/sellerHome';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
+import AdminHome from './adminComponents/adminHome/adminHome'
 // import Analytics from './adminComponents/analytics/analytics';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -76,6 +78,7 @@ const App = () => {
         <Route path='/user/profile/' component={CustomerProfile} />
         <Route path='/test/' component={SingleImageUploadComponent} />
 
+        <Route path='/sellerHome' component={SellerHome} />
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/product/addProduct' component={AddProduct} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
@@ -83,7 +86,11 @@ const App = () => {
         <Route exact path='/seller/profile/' component={SellerProfile} />
 
         <Route exact path='/admin/orders/' component={AdminOrders} />
+        <Route  path='/adminHome' component={AdminHome} />
         {/* <Route exact path='/admin/analytics/' component={Analytics} /> */}
+        {/* <Route exact path='/admin/analytics/' component={Analytics} />
+        <Route exact path='/admin/sellers/' component={SellerList} /> */}
+
 
 
 

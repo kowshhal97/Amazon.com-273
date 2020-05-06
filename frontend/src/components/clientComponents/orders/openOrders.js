@@ -8,9 +8,10 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
 
 
-class CancelledOrders extends Component {
+class OpenOrders extends Component {
     render() {
         let values = [{
             _id: '1',
@@ -124,102 +125,108 @@ class CancelledOrders extends Component {
                         <Row>
                             <Col md={1}></Col>
                             <Col md={10}>
-                                {values.length && values.map((orders, i) => {
-                                    return (
-                                        <div key={i}>
-                                            {orders.products.map((product, i) => {
-                                                
-                                                    if(product.orderStatus === 0){
-                                                    
-                                                return (
-                                                    <div key={i}>
-                                                        <Card>
+                                {this.props.customerOrders.length ? <div>
+                                    {this.props.customerOrders.length && this.props.customerOrders.map((orders, i) => {
+                                        return (
+                                            <div key={i}>
+                                                {orders.products.map((product, i) => {
 
-                                                            <Card.Header >
+                                                    if (product.orderStatus === 0) {
 
-                                                                <Row>
+                                                        return (
+                                                            <div key={i}>
+                                                                <Card>
 
-                                                                    <Col md={3}>
-                                                                        <Row>
-                                                                            <small class="text-muted">
-                                                                                ORDER PLACED</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <small class="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
-                                                                                moment(orders.orderDate).format('YYYY')}</small>
-                                                                        </Row>
-                                                                    </Col>
-                                                                    <Col md={6}>
-                                                                        <Row>
-                                                                            <small class="text-muted">
-                                                                                SHIP TO</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <small class="text-muted">{orders.shippingAddress.name}</small>
-                                                                        </Row>
-                                                                    </Col>
-                                                                    <Col md={3}>
-                                                                        <Row>
-                                                                            <small class="text-muted">
-                                                                                Order #</small>
-                                                                            <small class="text-muted">
-                                                                                {orders._id}</small>
-                                                                        </Row>
-                                                                        <Row>
-                                                                            <Link to={{pathname:"/user/orders/details/", state:{orderInfo:orders, productInfo:product}}} >Order details</Link>
-                                                                        </Row>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Header >
+                                                                    <Card.Header >
 
-                                                            <Card.Body>
+                                                                        <Row>
 
-                                                                <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
-                                                                <Row>
-                                                                    <Col xs={2}>
-                                                                        <Link to={{ pathname: '//', state: {} }}>
-                                                                            <img
-                                                                                alt=''
-                                                                                style={{ width: '100%' }}
-                                                                                src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                            ></img>
-                                                                        </Link>
-                                                                    </Col>
-                                                                    <Col md={7}>
-                                                                        <Row>
-                                                                        {product.productName}
+                                                                            <Col md={3}>
+                                                                                <Row>
+                                                                                    <small class="text-muted">
+                                                                                        ORDER PLACED</small>
+                                                                                </Row>
+                                                                                <Row>
+                                                                                    <small class="text-muted">{moment(orders.orderDate).format('MMM') + " " + moment(orders.orderDate).format('DD') + ", " +
+                                                                                        moment(orders.orderDate).format('YYYY')}</small>
+                                                                                </Row>
+                                                                            </Col>
+                                                                            <Col md={6}>
+                                                                                <Row>
+                                                                                    <small class="text-muted">
+                                                                                        SHIP TO</small>
+                                                                                </Row>
+                                                                                <Row>
+                                                                                    <small class="text-muted">{orders.shippingAddress.name}</small>
+                                                                                </Row>
+                                                                            </Col>
+                                                                            <Col md={3}>
+                                                                                <Row>
+                                                                                    <small class="text-muted">
+                                                                                        Order #</small>
+                                                                                    <small class="text-muted">
+                                                                                        {orders._id}</small>
+                                                                                </Row>
+                                                                                <Row>
+                                                                                    <Link to={{ pathname: "/user/orders/details/", state: { orderInfo: orders, productInfo: product } }} >Order details</Link>
+                                                                                </Row>
+                                                                            </Col>
                                                                         </Row>
+                                                                    </Card.Header >
+
+                                                                    <Card.Body>
+
+                                                                        <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
                                                                         <Row>
-                                                                        
-                                                                            <Link> {product.sellerName}</Link>
+                                                                            <Col xs={2}>
+                                                                                <Link to={{ pathname: '//', state: {} }}>
+                                                                                    <img
+                                                                                        alt=''
+                                                                                        style={{ width: '100%' }}
+                                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                    ></img>
+                                                                                </Link>
+                                                                            </Col>
+                                                                            <Col md={7}>
+                                                                                <Row>
+                                                                                    {product.productName}
+                                                                                </Row>
+                                                                                <Row>
+
+                                                                                    <Link> {product.sellerName}</Link>
+                                                                                </Row>
+                                                                            </Col>
+                                                                            <Col md={3}>
+                                                                                <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/", state: { productInfo: product } }} style={{ color: 'black' }}>Track Package</Link></Button>
+                                                                                <br></br>
+                                                                                <br></br>
+                                                                                <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{ pathname: "/user/orders/cancelOrder/", state: { orderInfo: orders, productInfo: product } }} style={{ color: 'black' }}>Cancel Order</Link></Button>
+
+                                                                            </Col>
                                                                         </Row>
-                                                                    </Col>
-                                                                    <Col md={3}>
-                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{pathname:"/user/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
-                                                                        <br></br>
-                                                                        <br></br>
-                                                                        <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{pathname:"/user/orders/cancelOrder/", state:{orderInfo:orders, productInfo:product}}} style={{color:'black'}}>Cancel Order</Link></Button>
-                                                                        
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Body>
-                                                        </Card>
-                                                        <br></br>
-                                                    </div>
-                                                ) 
-                                                    }
-                                                    else{
-                                                        return(
-                                                            <div>
-                                                                </div>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                                <br></br>
+                                                            </div>
                                                         )
                                                     }
-                                               
-                                            })}
-                                        </div>
-                                    )
-                                })}
-                               
+                                                    else {
+                                                        return (
+                                                            <div>
+                                                            </div>
+                                                        )
+                                                    }
+
+                                                })}
+                                            </div>
+                                        )
+                                    })}
+
+                                </div> :
+                                    <div>
+                                    </div>}
+
+
                             </Col>
 
                             <Col md={2}></Col>
@@ -232,4 +239,9 @@ class CancelledOrders extends Component {
         )
     }
 }
-export default CancelledOrders;
+
+const mapStateToProps = (state) => {
+    return { customerOrders: state.customerOrders }
+}
+
+export default connect(mapStateToProps, {})(OpenOrders);
