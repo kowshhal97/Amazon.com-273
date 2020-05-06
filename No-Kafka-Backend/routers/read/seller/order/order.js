@@ -15,5 +15,27 @@ router.get('/:sellerName', async (req, res) => {
     }
 })
 
+router.get('/stats/products/:sellerName', async (req, res) => {
+    const sellerName = req.params.sellerName;
+    let day = new Date().toISOString().slice(0, 8) + "01";
+    var total = 0;
+    console.log(day);
+    try {
+        const orders = await Order.find({orderDate: {$gte: day}})
+        orders.map((order) => {
+            order.products.map((product) => {
+                if(product.sellerName === sellerName) {
+                    total += product.totalPrice;
+                }
+            })
+        })
+        console.log(total);
+        return res.status(200).send({total});
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send('Internal Server Error');
+    }
+})
+
 
 module.exports=router;
