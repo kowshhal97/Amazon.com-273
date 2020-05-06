@@ -72,6 +72,7 @@ class Cart extends Component {
         //delete and update store.
         let values = {user_id:user_id, productId:product.productId};
         this.props.deleteProduct(values);
+        
 
     }
     save4laterClicked = (product, event) => {
