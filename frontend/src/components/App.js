@@ -29,7 +29,7 @@ import SellerOrders from './sellerComponents/orders/orders';
 import SellerCancelledOrders from './sellerComponents/orders/cancelledDelivered';
 import SellerOpenOrders from './sellerComponents/orders/open';
 import SellerProfile from './sellerComponents/profile/Profile';
-
+import AddProduct from './sellerComponents/product/AddProduct';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
@@ -77,6 +77,7 @@ const App = () => {
         <Route path='/test/' component={SingleImageUploadComponent} />
 
         <Route exact path='/seller/orders/' component={SellerOrders} />
+        <Route path='/seller/product/addProduct' component={AddProduct} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
         <Route path='/seller/open/' component={SellerOpenOrders} />
         <Route exact path='/seller/profile/' component={SellerProfile} />

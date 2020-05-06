@@ -115,7 +115,7 @@ class Profile extends React.Component {
                     <div className="mb-3">
                         <Form.File id="formcheck-api-regular">
                             <Form.File.Label>Profile Picture:</Form.File.Label>
-                            <Button variant="primary" style={{float:"right"}}>Upload</Button>
+                            {/* <Button variant="primary" style={{float:"right"}}>Upload</Button> */}
                             <Form.File.Input onChange={this.onFileSelect}/>
                         </Form.File>
                     </div>
