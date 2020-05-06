@@ -10,12 +10,23 @@ class Profile extends React.Component {
         this.state = {
             name:"Sumeet Deshpande",
             address: "San Jose, California",
-            productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
+            profilePic: DefaultProfilePic,
+            selectedFile: '',
+            filePreviewUrl : '',
+            temporaryName: '',
+            temporaryAddress: '',
+            productsAdded: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
             {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
         }
     }
+
+    onChangeHandler = e => {
+        this.setState({
+            [e.target.id] : e.target.value
+        });
+    };
 
     onEditClick = e => {
         e.preventDefault();
@@ -23,15 +34,31 @@ class Profile extends React.Component {
     }
 
     handleShow = () => {
-        this.setState({showModal: true})
+        var filePreviewUrl = this.state.profilePic
+        var temporaryName = this.state.name
+        var temporaryAddress = this.state.address
+        this.setState({
+            showModal: true,
+            filePreviewUrl: filePreviewUrl,
+            temporaryName: temporaryName,
+            temporaryAddress: temporaryAddress
+        })
     }
   
     handleClose = () => {
-        this.setState({showModal: false})
+        this.setState({
+            showModal: false,
+            filePreviewUrl: '',
+            temporaryName: '',
+            temporaryAddress: ''
+        })
     }
 
     onFileSelect = (e) => {
-        this.setState({selectedFile: e.target.files[0]});
+        this.setState({
+            selectedFile: e.target.files[0],
+            filePreviewUrl : URL.createObjectURL(e.target.files[0])
+        });
     }
 
     render() {
@@ -42,7 +69,7 @@ class Profile extends React.Component {
                 <h2>Your Profile:</h2>
                 <br/>
                 <Card>
-                    <Card.Img variant="top" src={DefaultProfilePic} 
+                    <Card.Img variant="top" src={this.state.profilePic} 
                               width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
@@ -58,7 +85,7 @@ class Profile extends React.Component {
             <div style={{float:"left", marginLeft:"5%"}}>
                 <h2>Products Added:</h2>
                 <br/>
-                {this.state.productReviews.map((productReview)=>{
+                {this.state.productsAdded.map((product)=>{
                     return (
                         <Media>
                             <img width={64} height={64} className="mr-3"
@@ -66,9 +93,9 @@ class Profile extends React.Component {
                                 alt="Generic placeholder"/>
                             <Media.Body>
                                 <a href="#">
-                                    <h5>{productReview.productName}</h5>
+                                    <h5>{product.productName}</h5>
                                 </a>
-                                Rating: {productReview.votes}
+                                Rating: {product.votes}
                                 <hr/>
                             </Media.Body>
                         </Media>
@@ -81,7 +108,7 @@ class Profile extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <center>
-                        <Image src={DefaultProfilePic} width={280} height={200}>
+                        <Image src={this.state.filePreviewUrl} width={280} height={200}>
                         </Image>
                     </center>
                     <hr/>
@@ -95,11 +122,11 @@ class Profile extends React.Component {
                     <Form>
                         <Form.Group controlId="name">
                             <Form.Label>Name:</Form.Label>
-                            <Form.Control placeholder="Name" />
+                            <Form.Control placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
                         </Form.Group>
                         <Form.Group controlId="address">
                             <Form.Label>Located At:</Form.Label>
-                            <Form.Control placeholder="Address" />
+                            <Form.Control placeholder="Address" value={this.state.temporaryAddress} id="temporaryAddress"/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>

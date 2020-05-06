@@ -33,9 +33,7 @@ import SellerProfile from './sellerComponents/profile/Profile';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
-//import Analytics from './adminComponents/analytics/analytics';
-//import SellerList from './adminComponents/sellerTab/seller';
-
+// import Analytics from './adminComponents/analytics/analytics';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
