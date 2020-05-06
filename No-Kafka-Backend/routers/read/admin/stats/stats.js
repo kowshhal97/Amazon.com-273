@@ -25,12 +25,27 @@ router.get('/top/customer/', async (req, res) => {
     }
 })
 
-router.get('/order-per-day/', async (req, res) => {
+router.get('/orderPerDay/', async (req, res) => {
     let day = new Date().toISOString().slice(0,10);
     console.log(day);
     try {
         const orders = await Order.find({orderDate: {$gte: day}}).limit(10);
         return res.status(200).send(orders);
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send('Internal Server Error!');
+    }
+})
+
+router.get('/top/products/', async (req, res) => {
+    let topProducts = []
+    try {
+        const orders = await Order.find({})
+        orders.map((order) => {
+            order.products.map((product) => {
+
+            })
+        })
     } catch(err) {
         console.log(err);
         return res.status(500).send('Internal Server Error!');
