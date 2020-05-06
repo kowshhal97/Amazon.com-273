@@ -4,6 +4,7 @@ const Order = require('../../../../mongoModels/orders');
 
 // Update order Status by Seller
 router.put('/:orderId', async (req, res) => {
+    
     const { orderStatus, orderUpdateItem, productId } = req.body; 
     try {
         const order = await Order.findById({_id: req.params.orderId})
@@ -30,7 +31,9 @@ router.put('/:orderId', async (req, res) => {
 })
 
 //Delete Order
-router.delete('/:userId/:orderId/:productId', async (req, res) => {
+//no need
+
+/*router.delete('/:userId/:orderId/:productId', async (req, res) => {
     const {userId, orderId, productId} = req.params;
     try {
         const order = await Order.findOne({_id: orderId});
@@ -49,6 +52,6 @@ router.delete('/:userId/:orderId/:productId', async (req, res) => {
         return res.status(500).send("Internal Server Error!");
     }
 })
-
+*/
 
 module.exports = router;
