@@ -46,12 +46,15 @@ router.post('/:userId/:productId', async (req, res) => {
     return res.sendStatus(500);
 })
 
-router.delete('/:id', async (req, res) => {
-    const id = req.params.id;
+router.delete('/:userId/:productId', async (req, res) => {
+    const id = req.params.userId;
+    const productId=req.params.productId;
+
     try {
         Cart.destroy({
             where: {
-                customerId: id
+                customerId: id,
+                productId:productId
             }
         })
         return res.sendStatus(200);
