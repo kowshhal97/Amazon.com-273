@@ -19,24 +19,24 @@ class AdminOrders extends Component {
     }
 
 
-    orderStatusUpdate = (e) => {
+    orderStatusUpdate = (product, e) => {
+        console.log(product)
         console.log((e.target.value))
 
         //action call
     }
 
-    changeStatus = (update) => {
+    changeStatus = (product) => {
+        console.log(product)
         let i = 0;
+        let update = product.orderUpdates
         for (i = 0; i < update.length; i++);
         let latestStatus = update[i - 1].deliveryStatus;
         let title = exportData.deliveryStatus[latestStatus]
 
-        // let latestStatus = update.pop().deliveryStatus;
-        // let title = exportData.deliveryStatus[latestStatus]
-
         return (
 
-            <Form onChange={this.orderStatusUpdate}>
+            <Form onChange={(e)=>this.orderStatusUpdate(product, e)}>
                 {/* <Form.Label>Change Status</Form.Label> */}
                 <Form.Control as="select" custom>
                     <option value="1">{title}</option>
@@ -178,6 +178,16 @@ class AdminOrders extends Component {
             { value: 'strawberry', label: 'Strawberry' },
             { value: 'vanilla', label: 'Vanilla' },
         ];
+
+        const orderStatus=[
+            {value:0, label:exportData.deliveryStatus[0]},
+            {value:1, label:exportData.deliveryStatus[1]},
+            {value:2, label:exportData.deliveryStatus[2]},
+            {value:3, label:exportData.deliveryStatus[3]},
+            {value:4, label:exportData.deliveryStatus[4]},
+            {value:5, label:exportData.deliveryStatus[5]},
+            {value:6, label:exportData.deliveryStatus[6]},
+        ]
         return (
             <div>
                 <div>
@@ -205,7 +215,7 @@ class AdminOrders extends Component {
 
                                     <Select
                                         onChange={this.handleChangeOrder}
-                                        options={options}
+                                        options={orderStatus}
                                         isClearable={true}
                                         placeholder="Select order status"
                                     />
@@ -293,7 +303,7 @@ class AdminOrders extends Component {
                                                                         <br></br>
                                                                     </div>
                                                                     }
-                                                                    {this.changeStatus(product.orderUpdates)}
+                                                                    {this.changeStatus(product)}
 
                                                                 </Col>
                                                             </Row>
