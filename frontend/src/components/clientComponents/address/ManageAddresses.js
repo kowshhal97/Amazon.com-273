@@ -2,6 +2,8 @@ import React from 'react';
 import {Redirect} from 'react-router';
 import { Button , Container, Card, CardColumns, Modal } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class ManageAddresses extends React.Component {
 
@@ -9,23 +11,7 @@ class ManageAddresses extends React.Component {
         super();
         this.state = {
             showModal: false,
-            addressCards: [
-                {name: "Roger Federer", streetAddressLine1:"190 Ryland Street", streetAddressLine2:"Fountain Plaza", city:"San Jose",
-                 state:"CA", country: "United States", zipCode:"95110", phoneNumber:"987361924"},
-                {name: "Virat Kohli", streetAddressLine1:"140 South Avenue", streetAddressLine2:"Villa Torrino", city:"Los Angeles",
-                 state:"CA", country: "United States", zipCode:"92304", phoneNumber:"9867723924"},
-                {name: "Harvey Dent", streetAddressLine1:"5th Street", streetAddressLine2:"33rd South", city:"New York City",
-                 state:"NY", country: "United States", zipCode:"34562", phoneNumber:"9800023924"},
-                {name: "Sachin Tendulkar", streetAddressLine1:"Carter Road", streetAddressLine2:"Bandra West", city:"Mumbai",
-                 state:"Maharashtra", country: "India", zipCode:"400030", phoneNumber:"9456223924"},
-                {name: "Roger Federer", streetAddressLine1:"190 Ryland Street", streetAddressLine2:"Fountain Plaza", city:"San Jose",
-                 state:"CA", country: "United States", zipCode:"95110", phoneNumber:"987361924"},
-                {name: "Virat Kohli", streetAddressLine1:"140 South Avenue", streetAddressLine2:"Villa Torrino", city:"Los Angeles",
-                 state:"CA", country: "United States", zipCode:"92304", phoneNumber:"9867723924"},
-                {name: "Harvey Dent", streetAddressLine1:"5th Street", streetAddressLine2:"33rd South", city:"New York City",
-                 state:"NY", country: "United States", zipCode:"34562", phoneNumber:"9800023924"},
-                {name: "Sachin Tendulkar", streetAddressLine1:"Carter Road", streetAddressLine2:"Bandra West", city:"Mumbai",
-                 state:"Maharashtra", country: "India", zipCode:"400030", phoneNumber:"9456223924"}],
+            addressCards: [],
             redirect: ''
         }
     }
@@ -53,6 +39,19 @@ class ManageAddresses extends React.Component {
       this.setState({showModal: false})
     }
 
+    componentDidMount(){
+      // const id = localStorage.getItem("user_id")
+      const id = 1
+      axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
+        console.log(res)  
+        if (res.status === 200) {
+            this.setState({
+              addressCards : res.data.customerAddresses
+            })
+          }    
+      })    
+    }
+
     render(){
         return(
           <div>
@@ -74,9 +73,9 @@ class ManageAddresses extends React.Component {
                         </Card.Header>
                         <Card.Body>
                           <Card.Text>
-                            {addressCard.streetAddressLine1}
+                            {addressCard.address1}
                             <br/>
-                            {addressCard.streetAddressLine2}
+                            {addressCard.address2}
                             <br/>
                             {addressCard.city}
                             <br/>
@@ -84,7 +83,7 @@ class ManageAddresses extends React.Component {
                             <br/>
                             {addressCard.country}
                             <br/>
-                            {addressCard.zipCode}
+                            {addressCard.zipcode}
                             <br/>
                             {addressCard.phoneNumber}
                           </Card.Text>
