@@ -7,7 +7,6 @@ const SaleSchema = new Schema({
         type: Number,
         default: 0
     }
-
 })
 
 const Sale = mongoose.model('sale', SaleSchema);
