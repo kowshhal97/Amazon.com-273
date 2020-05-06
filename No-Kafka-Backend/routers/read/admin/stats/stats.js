@@ -30,7 +30,7 @@ router.get('/orderPerDay/', async (req, res) => {
     console.log(day);
     try {
         const orders = await Order.find({orderDate: {$gte: day}}).limit(10);
-        return res.status(200).send(orders);
+        return res.status(200).send(orders.length);
     } catch(err) {
         console.log(err);
         return res.status(500).send('Internal Server Error!');
