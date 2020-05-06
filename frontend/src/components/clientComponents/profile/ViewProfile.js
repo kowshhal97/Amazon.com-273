@@ -9,56 +9,12 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:"Sumeet Deshpande",
-            selectedFile: '',
-            filePreviewUrl : '',
             profilePic: DefaultProfilePic,
-            temporaryName: '',
             productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}],
-            showModal: false
+            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
         }
-    }
-
-    onChangeHandler = e => {
-        this.setState({
-            [e.target.id] : e.target.value
-        });
-    };
-
-    onEditClick = e => {
-        e.preventDefault();
-        this.handleShow()
-    }
-
-    handleShow = () => {
-        var filePreviewUrl = this.state.profilePic
-        var temporaryName = this.state.name
-        this.setState({
-            showModal: true,
-            filePreviewUrl: filePreviewUrl,
-            temporaryName: temporaryName
-        })
-    }
-  
-    handleClose = () => {
-        this.setState({
-            showModal: false,
-            filePreviewUrl: '',
-            temporaryName: ''
-        })
-    }
-
-    onFileSelect = (e) => {
-        this.setState({
-            selectedFile: e.target.files[0],
-            filePreviewUrl : URL.createObjectURL(e.target.files[0])
-        });
-    }
-
-    onUploadClick = (e) => {
-        
     }
 
     render() {
@@ -74,9 +30,6 @@ class Profile extends React.Component {
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
                         <br/>
-                        <center>
-                            <Button variant="warning" onClick={this.onEditClick}>Edit your Profile</Button>
-                        </center>
                     </Card.Body>
                 </Card>
             </div>
@@ -122,40 +75,6 @@ class Profile extends React.Component {
                     )
                 })}
             </div>
-            {/* Edit Profile Modal  */}
-            <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Profile</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form.File.Label>Profile Picture:</Form.File.Label>
-                    <br/>
-                    <center>
-                        <Image src={this.state.filePreviewUrl} width={280} height={200}>
-                        </Image>
-                    </center>
-                    <br/>
-                    <div className="mb-3">
-                        <Form.File id="formcheck-api-regular">
-                            <Form.File.Input onChange={this.onFileSelect}/>
-                        </Form.File>
-                    </div>
-                    <Form>
-                        <Form.Group controlId="formGroupEmail">
-                            <Form.Label>Name:</Form.Label>
-                            <Form.Control type="Name" placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="warning" onClick={this.handleClose}>
-                        Save Changes
-                    </Button>
-                    <Button variant="light" onClick={this.handleClose}>
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-            </Modal>
           </div>
         );
     }

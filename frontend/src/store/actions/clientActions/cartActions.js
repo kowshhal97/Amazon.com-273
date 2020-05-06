@@ -42,7 +42,7 @@ export const updateIsGift = (values) => async (dispatch) => {
                 console.log(res)
             }
             else {
-                await dispatch(getCartProducts(values.user_id));
+                 dispatch(getCartProducts(values.user_id));
 
             }
         })
@@ -73,6 +73,60 @@ export const moveToLater = (values) => async (dispatch) => {
                 await dispatch(getCartProducts(values.user_id));
                 await dispatch(getSave4LaterProducts(values.user_id));
 
+
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}
+
+export const changeQuantity = (values) => async (dispatch) => {
+
+    console.log(values)
+    let data = {
+        quantity: values.quantity
+    }
+
+    await axios.put(exportData.backenedURL + 'write/customer/cart/'+values.user_id + '/' + values.productId + '/', JSON.stringify(data), {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    })
+        .then(async res => {
+            if (res.status >= 400) {
+                console.log(res)
+            }
+            else {
+             dispatch(getCartProducts(values.user_id));
+
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}
+
+export const deleteProduct = (values) => async (dispatch) => {
+
+   
+    await axios.delete(exportData.backenedURL + 'write/customer/cart/'+values.user_id + '/' + values.productId, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    })
+        .then(async res => {
+            if (res.status >= 400) {
+                console.log(res)
+            }
+            else {
+             dispatch(getCartProducts(values.user_id));
 
             }
         })
