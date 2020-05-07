@@ -30,7 +30,7 @@ class SellerOrders extends Component {
         console.log((e.target.value))
         console.log(orderDetail);
 
-        let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId};
+        let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId,sellerName:sellerName};
 
         this.props.updateStatus(values);
 
@@ -65,9 +65,6 @@ class SellerOrders extends Component {
     render() {
 
         console.log(this.props.sellerOrders);
-
-       
-
         return (
             <div>
                 <div>
@@ -77,6 +74,7 @@ class SellerOrders extends Component {
                         <Row>
                             <Col md={1}></Col>
                             <Col md={10}>
+                            {this.props.sellerOrders.length ? <div>
                                 {this.props.sellerOrders.length && this.props.sellerOrders.map((orders, i) => {
                                     console.log(orders)
                                     return (
@@ -173,6 +171,9 @@ class SellerOrders extends Component {
                                         </div>
                                     )
                                 })}
+                                </div>:
+                                <div></div>
+                            }
 
                             </Col>
 

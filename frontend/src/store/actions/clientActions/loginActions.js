@@ -15,8 +15,7 @@ export const login = (values) => async dispatch => {
     if (res.status >= 400) {
         console.log(res)
     }
-    else { 
-       
+    else {   
         dispatch({
             type: 'LOGIN',
             payload: res.data
@@ -33,7 +32,7 @@ export const login = (values) => async dispatch => {
 
 
 export const SignUp = (values) => async dispatch => {
-  // console.log(values)
+   console.log(values)
     await axios.post(exportData.backenedURL + 'write/signup' , JSON.stringify(values) , {
         headers: {
         'Accept': 'application/json',
@@ -47,7 +46,7 @@ export const SignUp = (values) => async dispatch => {
     else {    
       dispatch({
             type: 'SIGNUP',
-            payload: true
+            payload: res.status
         })
     }
 })

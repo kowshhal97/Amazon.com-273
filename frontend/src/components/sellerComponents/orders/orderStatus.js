@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Timeline, TimelineItem } from 'vertical-timeline-component-for-react';
 import exportData from '../../../config/config';
+import moment from 'moment';
 
 class OrderStatus extends Component {
     constructor(props) {
@@ -28,7 +29,10 @@ class OrderStatus extends Component {
                                 <div key ={i}>
                                      <TimelineItem
                             key={i}
-                            dateText={update.date}
+                            // dateText={update.date}
+                            dateText={moment(update.date).format('MMM') + " " + moment(update.date).format('DD') + ", " +
+                            moment(update.date).format('YYYY')}
+
                             style={{ color: '#e86971' }}
                         >
                             <h4>{exportData.deliveryStatus[update.deliveryStatus]}</h4>

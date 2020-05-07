@@ -33,12 +33,17 @@ import AddProduct from './sellerComponents/product/AddProduct';
 import SellerHome from './sellerComponents/sellerHome/sellerHome';
 import CancelOrderSeller from './sellerComponents/orders/cancelOrder';
 import OrderStatusSeller from './sellerComponents/orders/orderStatus';
+import OrderDetailsSeller from './sellerComponents/orders/orderDetails';
+
 
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
 import AdminHome from './adminComponents/adminHome/adminHome'
-// import Analytics from './adminComponents/analytics/analytics';
+import Analytics from './adminComponents/analytics/analytics';
+import SellerList from './adminComponents/sellerTab/seller';
+import SellerInfo from './adminComponents/sellerTab/sellerInfo';
+
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -55,6 +60,7 @@ const App = () => {
   return (
     <Router>
       <div>
+      <Route exact path='/' component={Home} />
       </div>
       <div>
          <Route path='/signup' component={SignUp} />
@@ -89,22 +95,18 @@ const App = () => {
         <Route exact path='/seller/profile/' component={SellerProfile} />
         <Route path='/seller/orders/cancelOrder/' component={CancelOrderSeller} />
         <Route path='/seller/orders/orderStatus/' component={OrderStatusSeller} />
+        <Route path='/seller/orders/details/' component={OrderDetailsSeller} />
+
 
 
 
 
         <Route exact path='/admin/orders/' component={AdminOrders} />
         <Route  path='/adminHome' component={AdminHome} />
-        {/* <Route exact path='/admin/analytics/' component={Analytics} /> */}
-        {/* <Route exact path='/admin/analytics/' component={Analytics} />
-        <Route exact path='/admin/sellers/' component={SellerList} /> */}
-
-
-
-
-
-
-
+        <Route exact path='/admin/analytics/' component={Analytics} />
+        <Route exact path='/admin/sellers/' component={SellerList} /> 
+        <Route exact path='/admin/sellers/sellerInfo' component={SellerInfo} /> 
+        
 
 
 

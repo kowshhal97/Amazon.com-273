@@ -24,8 +24,7 @@ class CancelOrder extends Component {
     }
 
     orderCancelled = () => {
-        //call action and redirect
-        //   console.log(this.state)
+     
 
         let values = { orderUpdateItem: "6", productId: this.state.productInfo.productId, orderId: this.state.orderInfo._id }
         // console.log(values)

@@ -8,113 +8,18 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
 
+let sellerName = "OnePlus";
 
 class SellerOpenOrders extends Component {
+
+    async componentDidMount () {
+     //   await this.props.getSellerOrders(sellerName);
+
+    }
     render() {
-        let values = [{
-            _id: '1',
-            customerId: '1234',
-            customerName: "Emily",
-            orderDate: '2019-07-03',
-            billing: {
-                name: 'EMILY',
-                cardNumber: '7465647564746374',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'Emily',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'California',
-                country: 'US',
-                zipcode: '976564',
-                phoneNumber: '9874656574'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 1',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 0
-                }]
-
-            },
-            {
-                productId: 'p_1',
-                productName: 'product 2',
-                sellerName: 'seller 2',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2018-09-17',
-                    deliveryStatus: 2
-                }]
-
-            }],
-        },
-        {
-            _id: '2',
-            customerId: '12344',
-            customerName: "Sam",
-            orderDate: '2019-03-09',
-            billing: {
-                name: 'SAM',
-                cardNumber: '7465647564746986',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'SAM',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'CHICAGO',
-                country: 'US',
-                zipcode: '85647',
-                phoneNumber: '2874646464'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 3',
-                sellerName: 'seller 1',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 7,
-                orderStatus: 2,
-                gift: {
-                    gift: 0,
-                    giftMessage: ''
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 3
-                }]
-
-            },]
-
-
-        }]
-
+      
         return (
             <div>
                 <div>
@@ -124,14 +29,13 @@ class SellerOpenOrders extends Component {
                         <Row>
                             <Col md={1}></Col>
                             <Col md={10}>
-                                {values.length && values.map((orders, i) => {
+                                {this.props.sellerOrders.length ? <div>
+                                {this.props.sellerOrders.length && this.props.sellerOrders.map((orders, i) => {
                                     return (
                                         <div key={i}>
                                             {orders.products.map((product, i) => {
                                                 
-                                                    if(product.orderStatus === 0 && product.sellerName === 'seller 1'){
-                                                    
-
+                                                    if((product.orderStatus === 0 || product.orderStatus === "0")&& product.sellerName === sellerName){
 
                                                 return (
                                                     <div key={i}>
@@ -168,7 +72,7 @@ class SellerOpenOrders extends Component {
                                                                                 {orders._id}</small>
                                                                         </Row>
                                                                         <Row>
-                                                                            <Link to={{pathname:"/user/orders/details/", state:{orderInfo:orders, productInfo:product}}} >Order details</Link>
+                                                                            <Link to={{pathname:"/seller/orders/details/", state:{orderInfo:orders, productInfo:product}}} >Order details</Link>
                                                                         </Row>
                                                                     </Col>
                                                                 </Row>
@@ -197,9 +101,9 @@ class SellerOpenOrders extends Component {
                                                                         </Row>
                                                                     </Col>
                                                                     <Col md={3}>
-                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{pathname:"/user/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
+                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }}  ><Link to={{pathname:"/seller/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
 
-                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{pathname:"/user/orders/cancelOrder/", state:{orderInfo:orders, productInfo:product}}} style={{color:'black'}}>Cancel Order</Link></Button>
+                                                                    <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{pathname:"/seller/orders/cancelOrder/", state:{orderInfo:orders, productInfo:product}}} style={{color:'black'}}>Cancel Order</Link></Button>
 
                                                                     </Col>
                                                                 </Row>
@@ -220,7 +124,7 @@ class SellerOpenOrders extends Component {
                                         </div>
                                     )
                                 })}
-                               
+                               </div>:<div></div>}
                             </Col>
 
                             <Col md={2}></Col>
@@ -233,4 +137,9 @@ class SellerOpenOrders extends Component {
         )
     }
 }
-export default SellerOpenOrders;
+
+const mapStateToProps = (state) => {
+    return { sellerOrders: state.sellerOrders }
+}
+
+export default connect(mapStateToProps, { })(SellerOpenOrders);
