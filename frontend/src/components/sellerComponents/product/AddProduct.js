@@ -31,9 +31,12 @@ class AddProduct extends React.Component {
          console.log(res.data)  
            if (res.status === 200) {
                this.setState({
-                 categories : res.data
+                 categories : res.data,
+                 categoryId: res.data[0].id
                })
-             }    
+               
+             }
+
         })
     }
     
@@ -45,26 +48,27 @@ class AddProduct extends React.Component {
             sellerName: sellerName,
             price: this.state.price,
             rating: "",
-            inventory: 100,
+            inventory: "100",
             description: this.state.productDescription,
             sellerId: id,
             categoryId: this.state.categoryId
         }
+        
         axios.post(exportData.backenedURL + 'write/products/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
         .then(res => {
                 if (res.status === 201) {
-                    // const productId = res.data.id
-                    // var fileArray = this.state.fileArray;
-                    // const formData = new FormData();
-                    // for(var i=0; i<fileArray.length; i++){
-                    //     formData.append(i+1, fileArray[i]);
-                    // }
-                    // axios.put(exportData.backenedURL + 'write/products/' + productId + '/uploads', formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
-                    // .then(res => {
-                    //     if (res.status === 200) {
-                    //         console.log(res)
-                    //     } 
-                    // })
+                    const productId = res.data.id
+                    var fileArray = this.state.fileArray;
+                    const formData = new FormData();
+                    for(var i=0; i<fileArray.length; i++){
+                        formData.append(i+1, fileArray[i]);
+                    }
+                    axios.put(exportData.backenedURL + 'write/products/' + productId + '/uploads', formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+                    .then(res => {
+                        if (res.status === 200) {
+                            console.log(res)
+                        } 
+                    })
                 } 
         })
     }

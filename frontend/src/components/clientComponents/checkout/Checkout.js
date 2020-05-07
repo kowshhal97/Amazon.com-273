@@ -143,7 +143,7 @@ class Checkout extends React.Component {
                 })
             }    
         })   
-        this.props.getCartProducts(id);
+        await this.props.getCartProducts(id);
         console.log(this.props.cartProducts)
         // const data = {
 
@@ -152,7 +152,7 @@ class Checkout extends React.Component {
     }
 
     render(){
-
+        // console.log(this.props.cartProducts)
         return(
           <div>
             <Header />
