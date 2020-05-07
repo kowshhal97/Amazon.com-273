@@ -39,12 +39,12 @@ displayProducts = () => {
     return (<div>
       <Row>
         <Col md={4}>
-     { this.props.allProducts[i] && <ProductCard  cproducts = {this.props.allProducts[i]} key={i}/>}
+     { this.props.allSellerProducts[i] && <ProductCard  cproducts = {this.props.allSellerProducts[i]} key={i}/>}
      </Col>
      <Col md={4}>
-    { this.props.allProducts[i+1] && <ProductCard  cproducts = {this.props.allProducts[i+1]} key={i+1}/> }
+    { this.props.allSellerProducts[i+1] && <ProductCard  cproducts = {this.props.allSellerProducts[i+1]} key={i+1}/> }
     </Col>
-    { this.props.allProducts[i+2] && <ProductCard  cproducts = {this.props.allProducts[i+2]} key={i+2}/>}
+    { this.props.allSellerProducts[i+2] && <ProductCard  cproducts = {this.props.allSellerProducts[i+2]} key={i+2}/>}
     </Row>
     </div>)
   }
@@ -76,15 +76,23 @@ displayProducts = () => {
                 </Form>
               </span>
             </Col>
-
-            <Col md={9}>
+            {this.props.allSellerProducts.length===0?<h1>No Products for this Seller</h1>:<Col md={9}>
+                  {this.displayProducts()}
+              {/* {this.props.allProducts.map((product, ind)=>{    
+              return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
+            })} */}
+            </Col>}
+            
+          </Row>
+          {this.props.allSellerProducts.length===0?null:
+          <Row>PageNation</Row>}
+            {/* <Col md={9}>
               {this.displayProducts()}
               {/* {this.props.allProducts.map((product, ind)=>{    
               return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
             })} */}
-            </Col>
-          </Row>
-          <Row>PageNation</Row>
+           
+        
         </Container>
       </div>
     );
