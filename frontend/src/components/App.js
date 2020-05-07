@@ -52,7 +52,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SignUp from './SignUp/SingUp';
 import SignIn from './Login/SingIn';
 import Home from './Home';
-
+import Unauthorised from './unauthorised/unauthorised';
 
 
 
@@ -64,6 +64,8 @@ const App = () => {
       <Route exact path='/' component={Home} />
       </div>
       <div>
+      <Route path='/unauthorised' component={Unauthorised} />
+
          <Route path='/signup' component={SignUp} />
          <Route path='/signin' component={SignIn} />
          <Route path='/userHome' component={UserHome} />
