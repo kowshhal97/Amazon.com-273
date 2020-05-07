@@ -10,6 +10,7 @@ import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
+import Header from "../../header/header";
 
 let user_id = 1;
 class CancelledOrders extends Component {
@@ -23,6 +24,7 @@ class CancelledOrders extends Component {
         return (
             <div>
                 <div>
+                <Header />
                     <OrderHeader />
                     <br></br>
                     <Container>

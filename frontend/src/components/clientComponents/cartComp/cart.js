@@ -9,6 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Save4Later from './save4Later';
 import { connect } from 'react-redux';
 import { getCartProducts, updateIsGift, moveToLater, changeQuantity, deleteProduct } from '../../../store/actions/clientActions/cartActions';
+import Header from "../../header/header";
+
 import Spinner from 'react-bootstrap/Spinner';
 //import Button from 'react-bootstrap/Button';
 
@@ -103,6 +105,8 @@ class Cart extends Component {
         return (
             <div>
                 <div>
+                <Header />
+
                     <Row>
                         {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />
                         }

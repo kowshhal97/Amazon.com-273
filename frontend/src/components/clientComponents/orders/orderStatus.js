@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Timeline, TimelineItem } from 'vertical-timeline-component-for-react';
 import exportData from '../../../config/config';
 import moment from 'moment';
+import Header from "../../header/header";
 
 class OrderStatus extends Component {
     constructor(props) {
@@ -23,6 +24,8 @@ class OrderStatus extends Component {
         return (
             <div>
                 <div>
+                <Header />
+
                     <Timeline lineColor={'#ddd'}>
                         {this.state.productInfo.orderUpdates.map((update, i)=>{
                             return (

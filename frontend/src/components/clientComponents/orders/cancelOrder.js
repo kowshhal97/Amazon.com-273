@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 import { cancelOrderAPI } from '../../../store/actions/clientActions/ordersActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import Toast from 'react-bootstrap/Toast'
+import Header from "../../header/header";
+import Toast from 'react-bootstrap/Toast';
 
 class CancelOrder extends Component {
     constructor(props) {
@@ -44,6 +45,7 @@ class CancelOrder extends Component {
             <div>
                 {this.state.redirectPage}
                 <div>
+                <Header />
                     <br></br>
                     <div>
                         <Container>

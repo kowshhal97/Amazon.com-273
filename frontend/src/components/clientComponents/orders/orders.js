@@ -12,6 +12,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
 import Spinner from 'react-bootstrap/Spinner';
+import Header from "../../header/header";
 
 
 //change it to local storage
@@ -44,6 +45,7 @@ class Orders extends Component {
         return (
             <div>
                 <div>
+                    <Header />
                     <OrderHeader selected={1}/>
                     <br></br>
                     <Container>

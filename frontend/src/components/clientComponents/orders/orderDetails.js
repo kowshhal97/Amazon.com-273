@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import moment from 'moment';
+import Header from "../../header/header";
 
 class OrderDetails extends Component {
 
@@ -23,6 +24,8 @@ class OrderDetails extends Component {
         return (
             <div>
                 <div>
+                <Header />
+
                     <br></br>
                     <Container>
                         <Row>

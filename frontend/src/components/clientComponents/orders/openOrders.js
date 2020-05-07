@@ -9,6 +9,7 @@ import moment from 'moment';
 import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
+import Header from "../../header/header";
 
 
 class OpenOrders extends Component {
@@ -119,6 +120,8 @@ class OpenOrders extends Component {
         return (
             <div>
                 <div>
+                <Header />
+
                     <OrderHeader />
                     <br></br>
                     <Container>
