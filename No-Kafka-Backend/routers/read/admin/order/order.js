@@ -5,10 +5,10 @@ const Order = require('../../../../mongoModels/orders');
 // Get all orders by Admin
 router.get('/', async (req, res) => {
     const sellerName = req.query.sellerName;
-    const orderStatus = req.query.orderStatus;
+    const deliveryStatus = req.query.deliveryStatus;
     try {
-        if(sellerName && orderStatus) {
-            const orders = await Order.find().elemMatch("products", {sellerName: sellerName, orderStatus: orderStatus}).sort({orderDate: -1});
+        if(sellerName && deliveryStatus) {
+            const orders = await Order.find().elemMatch("products", {sellerName: sellerName}, "products.orderUpdate", {deliveryStatus: deliveryStatus}).sort({orderDate: -1});
             console.log(orders);
             return res.status(200).send(orders);
         }
@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
             const orders = await Order.find().elemMatch("products", {sellerName: sellerName}).sort({orderDate: -1});
             console.log(orders);
             return res.status(200).send(orders);
-        } else if(orderStatus) {
-            const orders = await Order.find().elemMatch("products", {orderStatus: orderStatus}).sort({orderDate: -1});
+        } else if(deliveryStatus) {
+            const orders = await Order.find().elemMatch("products.orderUpdates", {deliveryStatus: deliveryStatus}).sort({orderDate: -1});
             console.log(orders);
             return res.status(200).send(orders);
         } else {

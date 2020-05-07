@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button , Container, Form } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
+import {Redirect} from 'react-router';
 
 class AddCard extends React.Component {
 
@@ -21,6 +24,26 @@ class AddCard extends React.Component {
     };
     
     onSubmitHandler = e =>{
+        if(this.state.name==='' || this.state.cardNumber==='' || this.state.expirationDate==='' || this.state.CVV===''){
+            alert("Please fill all the form details before submitting")
+        } else{
+            // const id = localStorage.getItem("user_id")
+            const id = 1
+            const data = {
+                name: this.state.name,
+                cardNumber: this.state.cardNumber,
+                expirationDate: this.state.expirationDate,
+                cvv: this.state.CVV,            
+            }
+            console.log(data)
+            axios.post(exportData.backenedURL + 'write/customer/profile/cards/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res)
+                    this.setState({redirect: <Redirect to={{pathname: '/user/cards/manageCards/'}} />})
+                } 
+            })
+        }
 
     }
 
@@ -70,7 +93,7 @@ class AddCard extends React.Component {
                                       required/>
                     </Form.Group>
                     <br/>
-                    <Button variant="warning" type="submit">
+                    <Button variant="warning" onClick={this.onSubmitHandler}>
                         Add Card
                     </Button>
                 </Form>

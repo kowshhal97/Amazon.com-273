@@ -28,25 +28,32 @@ class AddAddress extends React.Component {
     };
     
     onSubmitHandler = e =>{
-        // const id = localStorage.getItem("user_id")
-        const id = 1
-        const data = {
-            name: this.state.fullName,
-            address1: this.state.streetAddressLine1,
-            address2: this.state.streetAddressLine2,
-            city: this.state.city,
-            state: this.state.zipCode,
-            country: this.state.country,
-            phoneNumber: this.state.phoneNumber            
+        if(this.state.fullName==='' || this.state.streetAddressLine1==='' || this.state.streetAddressLine2==='' || 
+        this.state.city==='' || this.state.state===''|| this.state.country==='' || this.state.phoneNumber===''){
+            alert("Please fill all the form details before submitting")
+        } else{
+            // const id = localStorage.getItem("user_id")
+            const id = 1
+            const data = {
+                name: this.state.fullName,
+                address1: this.state.streetAddressLine1,
+                address2: this.state.streetAddressLine2,
+                city: this.state.city,
+                state: this.state.zipCode,
+                country: this.state.country,
+                phoneNumber: this.state.phoneNumber            
+            }
+            console.log(data)
+            axios.post(exportData.backenedURL + 'write/customer/profile/address/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res)
+                    this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
+                } 
+            })
         }
-        console.log(data)
-        axios.post(exportData.backenedURL + 'write/customer/profile/address/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
-        .then(res => {
-            if (res.status === 200) {
-                console.log(res)
-                this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
-            } 
-        })
+        
+        
     }
 
     render(){

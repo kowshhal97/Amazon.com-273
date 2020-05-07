@@ -1,6 +1,8 @@
 const express=require('express');
 const router = express.Router();
 const Category = require('../../../../mysqlModels/Category');
+const Product=require('../../../../mysqlModels/Product');
+const Seller=require('../../../../mysqlModels/Seller')
 
 
 
@@ -20,7 +22,11 @@ router.get('/:id', async (req, res) => {
         const category = await Category.findOne({
             where: {
                 id: id
-            }
+            },include: [
+                {
+                    model: Product
+                }
+            ]
         })
         if(category === null) {
             return res.status(404).send('Category not found!');

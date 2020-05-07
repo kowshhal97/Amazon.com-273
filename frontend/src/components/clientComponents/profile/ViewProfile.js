@@ -2,19 +2,35 @@ import React from 'react';
 import { Col , Row, Container, Form, Card, Button, Media, Modal, Image } from 'react-bootstrap';
 import Header from "../../header/header";
 import DefaultProfilePic from '../../../images/default-profile.png'
+import axios from 'axios';
+import exportData from '../../../config/config';
 
-class Profile extends React.Component {
+class ViewProfile extends React.Component {
 
     constructor() {
         super();
         this.state = {
             name:"Sumeet Deshpande",
-            profilePic: DefaultProfilePic,
+            profilePic: '',
             productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
             {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
             {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
             {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
         }
+    }
+
+    componentDidMount(){
+        // const id = localStorage.getItem("user_id")
+        const id = 1
+        axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
+          console.log(res)  
+          if (res.status === 200) {
+              this.setState({
+                name : res.data.name,
+                profilePic: res.data.profilePicUrl
+              })
+            }    
+        })    
     }
 
     render() {
@@ -62,7 +78,7 @@ class Profile extends React.Component {
                     return (
                         <Media>
                             <img width={64} height={64} className="mr-3"
-                                src={DefaultProfilePic}
+                                src={this.state.profilePic}
                                 alt="Generic placeholder"/>
                             <Media.Body>
                                 <a href="#">
@@ -80,4 +96,4 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+export default ViewProfile;
