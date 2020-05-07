@@ -70,7 +70,7 @@ export const updateStatus = (values) => async dispatch => {
                 console.log(res)
             }
             else {
-
+             
              console.log(res)
             }
         })
@@ -81,3 +81,36 @@ export const updateStatus = (values) => async dispatch => {
 
 }
 
+
+export const searchAPI = (values) => async (dispatch) => {
+
+    console.log(values)
+    let data = {
+        flag: 0
+    }
+
+    await axios.put(exportData.backenedURL + 'write/customer/cart/'+values.user_id + '/' + values.productId + '/', JSON.stringify(data), {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+
+        }
+    })
+        .then(async res => {
+            if (res.status >= 400) {
+                console.log(res)
+            }
+            else {
+                dispatch({
+                    type: 'ADMIN_ORDERS',
+                    payload: res.data
+                })
+
+
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}

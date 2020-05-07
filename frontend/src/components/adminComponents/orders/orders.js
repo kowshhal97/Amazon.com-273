@@ -11,7 +11,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import exportData from '../../../config/config';
 import { connect } from 'react-redux';
-import { getAdminOrders, updateStatus, getSellers } from '../../../store/actions/adminActions/ordersActions';
+import { getAdminOrders, updateStatus, getSellers, searchAPI } from '../../../store/actions/adminActions/ordersActions';
 
 // 
 class AdminOrders extends Component {
@@ -73,6 +73,7 @@ class AdminOrders extends Component {
 
     handleChangeOrder = selectedOption => {
         console.log(`Option selected:`, selectedOption);
+
       };
       handleChangeSeller = selectedOption => {
         console.log(`Option selected:`, selectedOption);
@@ -89,13 +90,13 @@ class AdminOrders extends Component {
        
 
         const orderStatus=[
-            {value:0, label:exportData.deliveryStatus[0]},
-            {value:1, label:exportData.deliveryStatus[1]},
-            {value:2, label:exportData.deliveryStatus[2]},
-            {value:3, label:exportData.deliveryStatus[3]},
-            {value:4, label:exportData.deliveryStatus[4]},
-            {value:5, label:exportData.deliveryStatus[5]},
-            {value:6, label:exportData.deliveryStatus[6]},
+            {value:"0", label:exportData.deliveryStatus["0"]},
+            {value:"1", label:exportData.deliveryStatus["1"]},
+            {value:"2", label:exportData.deliveryStatus["2"]},
+            {value:"3", label:exportData.deliveryStatus["3"]},
+            {value:"4", label:exportData.deliveryStatus["4"]},
+            {value:"5", label:exportData.deliveryStatus["5"]},
+            {value:"6", label:exportData.deliveryStatus["6"]},
         ];
 
         return (
@@ -244,4 +245,4 @@ const mapStateToProps = (state) => {
     return { adminOrders: state.adminOrders, totalSellers:state.totalSellers }
 }
 
-export default connect(mapStateToProps, { getAdminOrders, updateStatus, getSellers })(AdminOrders);
+export default connect(mapStateToProps, { getAdminOrders, updateStatus, getSellers, searchAPI })(AdminOrders);
