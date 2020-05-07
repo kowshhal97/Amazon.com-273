@@ -42,7 +42,7 @@ import AdminHome from './adminComponents/adminHome/adminHome'
 import Analytics from './adminComponents/analytics/analytics';
 import SellerList from './adminComponents/sellerTab/seller';
 import SellerInfo from './adminComponents/sellerTab/sellerInfo';
-
+import AdminInventory from './adminComponents/inventory/adminInventory';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -104,6 +104,8 @@ const App = () => {
         <Route exact path='/admin/analytics/' component={Analytics} />
         <Route exact path='/admin/sellers/' component={SellerList} /> 
         <Route exact path='/admin/sellers/sellerInfo' component={SellerInfo} /> 
+        <Route exact path='/admin/inventory/' component={AdminInventory} /> 
+
         
 
 
