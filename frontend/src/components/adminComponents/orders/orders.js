@@ -18,10 +18,14 @@ class AdminOrders extends Component {
 
     state = {
         loading: false,
+        sellerName:'',
+        orderStatusValue:'',
+
     }
 
    async componentDidMount(){
     await this.props.getSellers();
+    await this.props.getAdminOrders();
 
 
 
@@ -36,7 +40,6 @@ class AdminOrders extends Component {
     }
 
     changeStatus = (product, orders_id) => {
-        console.log(product)
         let i = 0;
         let orderDetail = {orderId: orders_id, product:product};
         let update = product.orderUpdates
@@ -73,16 +76,48 @@ class AdminOrders extends Component {
 
     handleChangeOrder = selectedOption => {
         console.log(`Option selected:`, selectedOption);
+        if(selectedOption){
+            this.setState({
+                orderStatusValue:selectedOption.value
+            },()=>{
+                let values={orderStatusValue:this.state.orderStatusValue, sellerName:this.state.sellerName}
+                this.props.searchAPI(values)
+            })
+        }
+        else{
+            this.setState({
+                orderStatusValue:''
+            },()=>{
+                let values={orderStatusValue:this.state.orderStatusValue, sellerName:this.state.sellerName}
+                this.props.searchAPI(values)
+            })
+        }
+
 
       };
       handleChangeSeller = selectedOption => {
         console.log(`Option selected:`, selectedOption);
+        if(selectedOption){
+            this.setState({
+                sellerName:selectedOption.value
+            },()=>{
+                let values={orderStatusValue:this.state.orderStatusValue, sellerName:this.state.sellerName}
+                this.props.searchAPI(values)
+            })
+        }
+        else{
+            this.setState({
+                sellerName:''
+            },()=>{
+                let values={orderStatusValue:this.state.orderStatusValue, sellerName:this.state.sellerName}
+                this.props.searchAPI(values)
+            })
+        }
       };
 
 
     render() {
 
-      console.log(this.props)
       const options=[];
       this.props.totalSellers.map((seller)=>{
         options.push({value:seller.name, label:seller.name})
@@ -140,7 +175,7 @@ class AdminOrders extends Component {
                             { this.props.adminOrders.map((orders, i) => {
                                 return (
                                     <div key={i}>
-                                        {orders.products.map((product, i) => {
+                                        {orders.products && orders.products.map((product, i) => {
                                             return (
                                                 <div key={i}>
                                                     <Card>
