@@ -11,7 +11,7 @@ import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
-import Spinner from 'react-bootstrap/Spinner'
+import Spinner from 'react-bootstrap/Spinner';
 
 
 //change it to local storage

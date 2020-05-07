@@ -40,7 +40,6 @@ import OrderDetailsSeller from './sellerComponents/orders/orderDetails';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
-import AdminHome from './adminComponents/adminHome/adminHome'
 import Analytics from './adminComponents/analytics/analytics';
 import SellerList from './adminComponents/sellerTab/seller';
 import SellerInfo from './adminComponents/sellerTab/sellerInfo';
@@ -105,7 +104,6 @@ const App = () => {
 
         <Route path='/admin' component={AdminHeader} />
         <Route exact path='/admin/orders/' component={AdminOrders} />
-        <Route  path='/adminHome' component={AdminHome} />
         <Route exact path='/admin/analytics/' component={Analytics} />
         <Route exact path='/admin/sellers/' component={SellerList} /> 
         <Route exact path='/admin/sellers/sellerInfo' component={SellerInfo} /> 

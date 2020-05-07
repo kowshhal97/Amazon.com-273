@@ -20,23 +20,67 @@ class AdminInventory extends Component {
             remCategoryModal: false,
             products: [],
             categoryName: '',
-            remCategoryName:'',
-            categoryList:[],
-            loading:true
+            remCategoryName: '',
+            categoryList: [],
+            remCategoryList: [],
+            loading: true
         }
     }
 
-    async componentDidMount(){
-        await  axios.get(exportData.backenedURL + 'read/admin/category')
-        .then((response) => {
-           
-           console.log(response);
+    async componentDidMount() {
+        await axios.get(exportData.backenedURL + 'read/admin/category/noProductsMapped')
+            .then((response) => {
+                // categoryName: "clothing"
+                // createdAt: "2020-05-07T19:11:20.000Z"
+                // id: 2
+                console.log(response.data);
+                const options = [];
+                if (response.data && response.data.length) {
+                    response.data.map((category) => {
+                        options.push({ value: category.id, label: category.categoryName })
+                    })
+                    this.setState({
+                        remCategoryList: options
+                    })
+                }
+                else {
+                    this.setState({
+                        remCategoryList: []
+                    })
+                }
 
-        })
-        .catch((error) => {
+            })
+            .catch((error) => {
 
-            console.log(error);
-        })
+                console.log(error);
+            })
+
+        await axios.get(exportData.backenedURL + 'read/admin/category/')
+            .then((response) => {
+                // categoryName: "clothing"
+                // createdAt: "2020-05-07T19:11:20.000Z"
+                // id: 2
+                console.log(response.data);
+                const options = [];
+                if (response.data && response.data.length) {
+                    response.data.map((category) => {
+                        options.push({ value: category.id, label: category.categoryName })
+                    })
+                    this.setState({
+                        categoryList: options
+                    })
+                }
+                else {
+                    this.setState({
+                        categoryList: []
+                    })
+                }
+
+            })
+            .catch((error) => {
+
+                console.log(error);
+            })
     }
 
     showAddModal = () => {
@@ -56,31 +100,33 @@ class AdminInventory extends Component {
     handleOkAdd = () => {
 
         //axios call to add category
-        if(this.state.categoryName){
-        axios.post(exportData.backenedURL + 'write/admin/category/', JSON.stringify({
-            categoryName:this.state.categoryName
-        }), {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-  
-            }
-          })
-            .then( res => {
-              if (res.status >= 400) {
-                console.log(res)
-               
-              }
-              else{
-                  console.log(res)
-              }
+        if (this.state.categoryName) {
+            axios.post(exportData.backenedURL + 'write/admin/category/', JSON.stringify({
+                categoryName: this.state.categoryName
+            }), {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+
+                }
             })
-            .catch((e)=>{
-                console.log(e)
-            })
+                .then(res => {
+                    if (res.status >= 400) {
+                        console.log(res)
+
+                    }
+                    else {
+                        console.log(res)
+                        this.loadAllData()
+
+                    }
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
         }
         this.setState({
-            categoryName:''
+            categoryName: ''
         })
     }
 
@@ -106,20 +152,142 @@ class AdminInventory extends Component {
     }
 
     onChangeName = (e) => {
-        console.log(e.target.value)
         this.setState({
             categoryName: e.target.value
         })
     }
 
+    getProductsById = (e) => {
+        if (e.value) {
+            axios.get(exportData.backenedURL + 'read/admin/category/' + e.value)
+                .then((response) => {
+                   
+                 //   console.log(response.data[0].products);
+                    const options = [];
+                    if (response.data[0] && response.data[0].products) {
+
+                        this.setState({
+                            products: response.data[0].products
+                        })
+                    }
+                    else {
+                        this.setState({
+                            products: []
+                        })
+                    }
+
+                })
+                .catch((error) => {
+
+                    console.log(error);
+                })
+        }
+
+    }
+
+    handleChangRemCategory = (e) =>{
+        if(e){
+        this.setState({
+            remCategoryName:e.value
+        })
+    }
+    else{
+        this.setState({
+            remCategoryName:''
+        })
+    }
+    }
+
+    removeCategory = () => {
+        
+         axios.delete(exportData.backenedURL + 'write/admin/category/'+this.state.remCategoryName, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+    
+            }
+        })
+            .then(async res => {
+                if (res.status >= 400) {
+                    console.log(res)
+                }
+                else {
+                console.log(res)
+                    this.loadAllData()
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    loadAllData = async () => {
+        await axios.get(exportData.backenedURL + 'read/admin/category/noProductsMapped')
+        .then((response) => {
+            // categoryName: "clothing"
+            // createdAt: "2020-05-07T19:11:20.000Z"
+            // id: 2
+            console.log(response.data);
+            const options = [];
+            if (response.data && response.data.length) {
+                response.data.map((category) => {
+                    options.push({ value: category.id, label: category.categoryName })
+                })
+                this.setState({
+                    remCategoryList: options
+                })
+            }
+            else {
+                this.setState({
+                    remCategoryList: []
+                })
+            }
+
+        })
+        .catch((error) => {
+
+            console.log(error);
+        })
+
+    await axios.get(exportData.backenedURL + 'read/admin/category/')
+        .then((response) => {
+            // categoryName: "clothing"
+            // createdAt: "2020-05-07T19:11:20.000Z"
+            // id: 2
+            console.log(response.data);
+            const options = [];
+            if (response.data && response.data.length) {
+                response.data.map((category) => {
+                    options.push({ value: category.id, label: category.categoryName })
+                })
+                this.setState({
+                    categoryList: options
+                })
+            }
+            else {
+                this.setState({
+                    categoryList: []
+                })
+            }
+
+        })
+        .catch((error) => {
+
+            console.log(error);
+        })
+
+    }
 
     render() {
+
+
         return (
             <div>
                 <div>
                     <div>
                         <br></br>
                         <br></br>
+
                         <Row>
 
                             <Col md={1}>
@@ -135,17 +303,17 @@ class AdminInventory extends Component {
                                 >
                                     <Card.Body>
                                         <Card.Title style={{ marginLeft: '30%' }}>SEARCH BY CATEGORY ID:</Card.Title>
-                                            <Row>
-                                                <Col md={2}></Col>
-                                                <Col md={8}>
-                                                    <Select
-                                                        onChange={this.handleChangeSeller}
-                                                        ///      options={options}
-                                                        isClearable={true}
-                                                        placeholder="Select Category"
-                                                    />
-                                                </Col>
-                                            </Row>
+                                        <Row>
+                                            <Col md={2}></Col>
+                                            <Col md={8}>
+                                                <Select
+                                                    onChange={this.getProductsById}
+                                                    options={this.state.categoryList}
+                                                    isClearable={true}
+                                                    placeholder="Select Category"
+                                                />
+                                            </Col>
+                                        </Row>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -159,7 +327,7 @@ class AdminInventory extends Component {
                                     <Card.Body>
                                         <Card.Title style={{ marginLeft: '35%' }}>PERFORM OPERATIONS</Card.Title>
 
-                                            {/* <Row>
+                                        {/* <Row>
                                                 <Col md={2}></Col>
                                                 <Col md={4}>
                                                     <Button variant="success" onClick={this.showAddModal}>Add Category</Button>
@@ -170,43 +338,43 @@ class AdminInventory extends Component {
 
                                             </Row> */}
 
-                                            <Row>
-                                                <Col md={2}></Col>
-                                                <Col md={6}> 
-                                                    <InputGroup className="mb-3">
+                                        <Row>
+                                            <Col md={2}></Col>
+                                            <Col md={6}>
+                                                <InputGroup className="mb-3">
 
-                                                        <FormControl
-                                                            placeholder="Category Name"
-                                                            aria-label="Category Name"
-                                                            aria-describedby="basic-addon1"
-                                                            value={this.state.categoryName}
-                                                            onChange={this.onChangeName}
-                                                        />
-                                                    </InputGroup>
-                                                    </Col>
-                                                    <Col md={4}>
-                                                    <Button variant="success" onClick={this.handleOkAdd}>
-                                                       Add
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md={2}></Col>
-
-                                                <Col md={6}>
-                                                    <Select
-                                                        onChange={this.handleChangRemCateogy}
-                                                        ///      options={options}
-                                                        isClearable={true}
-                                                        placeholder="Remove Category"
+                                                    <FormControl
+                                                        placeholder="Category Name"
+                                                        aria-label="Category Name"
+                                                        aria-describedby="basic-addon1"
+                                                        value={this.state.categoryName}
+                                                        onChange={this.onChangeName}
                                                     />
-                                                   
-                                                </Col>
-                                                <Col md={4}>
-                                                <Button variant="danger" onClick={this.showRemModal}>Remove </Button>
-                                                </Col>
+                                                </InputGroup>
+                                            </Col>
+                                            <Col md={4}>
+                                                <Button variant="success" onClick={this.handleOkAdd}>
+                                                    Add
+                                                    </Button>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={2}></Col>
 
-                                            </Row>
+                                            <Col md={6}>
+                                                <Select
+                                                    onChange={this.handleChangRemCategory}
+                                                    options={this.state.remCategoryList}
+                                                    isClearable={true}
+                                                    placeholder="Remove Category"
+                                                />
+
+                                            </Col>
+                                            <Col md={4}>
+                                                <Button variant="danger" onClick={this.removeCategory}>Remove </Button>
+                                            </Col>
+
+                                        </Row>
 
 
                                     </Card.Body>
@@ -271,7 +439,6 @@ class AdminInventory extends Component {
                                     <br></br>
                                     <Row>
                                         {this.state.products.map((product, i) => {
-                                            console.log(product)
                                             return (<Col md={4} key={i}>
                                                 <Card style={{ width: '20rem' }}>
                                                     <Card.Img variant="top" src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'} />
@@ -285,9 +452,13 @@ class AdminInventory extends Component {
 
                                                         </Row>
                                                         <Row>
-
                                                             <Col md={12}>
-                                                                <p>Price: {product.price}</p>
+                                                                <p><strong>Price:</strong> {product.price}</p>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row>
+                                                            <Col md={12}>
+                                                                <p><strong>Seller:</strong> {product.sellerName}</p>
                                                             </Col>
 
                                                         </Row>
