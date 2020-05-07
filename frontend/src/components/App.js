@@ -35,7 +35,7 @@ import SellerHome from './sellerComponents/sellerHome/sellerHome';
 import CancelOrderSeller from './sellerComponents/orders/cancelOrder';
 import OrderStatusSeller from './sellerComponents/orders/orderStatus';
 import OrderDetailsSeller from './sellerComponents/orders/orderDetails';
-
+import SellerHeader from './sellerComponents/sellerHeader/sellerHeader';
 
 
 //Admin Components
@@ -91,7 +91,8 @@ const App = () => {
         <Route path='/user/viewProfile/' component={ViewCustomerProfile} />
         <Route path='/user/checkout/' component={Checkout} />
 
-        <Route path='/sellerHome' component={SellerHome} />
+        {/* <Route path='/sellerHome' component={SellerHome} /> */}
+        <Route path='/seller' component={SellerHeader} />
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/product/addProduct' component={AddProduct} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
