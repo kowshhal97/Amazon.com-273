@@ -13,7 +13,7 @@ import Header from "../../header/header";
 import { connect } from 'react-redux';
 import { getALLProductsBySeller } from '../../../store/actions/clientActions/productsActions';
 
-const sell_id =1;
+const sell_id = localStorage.getItem('id');
 class SellerHome extends Component {
   constructor() {
     super();

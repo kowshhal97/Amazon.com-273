@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import StarRating from "react-bootstrap-star-rating";
+// import StarRating from "react-bootstrap-star-rating";
 import { Link } from "react-router-dom";
 import ProductImages from "../products/productImages";
 import "../../CSS/styles.css";
@@ -12,25 +12,26 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
+import StarRatingComponent from 'react-star-rating-component';
 import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
-import Spinner from 'react-bootstrap/Spinner'
 
-let prod_id = 4;
+
+
 
 class ProductDetailsPage extends Component {
   constructor(props) {
     super(props);
     console.log(props);
     this.state = {
-      loading: true
+      loading: true,
     };
   }
 
 
   async componentDidMount() {
-
-    await this.props.getProductDetails(prod_id)
-    await this.props.getALLCommentsForProduct(prod_id)
+    console.log(this.props.location.state.prod_id)
+    await this.props.getProductDetails(this.props.location.state.prod_id)
+    await this.props.getALLCommentsForProduct(this.props.location.state.prod_id)
     this.setState({
         loading: false
     })
@@ -52,7 +53,7 @@ addcomment = e => {
 }
 
   render() {
-    console.log(this.props.ProductDetails);
+    // console.log(this.props.ProductDetails);
     const product = this.props.ProductDetails
     // console.log(this.props.allComments);
     // const getcomments = this.props.allComments
@@ -94,12 +95,12 @@ addcomment = e => {
                   </strong>
                 </Row>
                 <Row>
-                  <StarRating
-                    defaultValue={product.rating}
-                    min={0}
-                    max={5}
-                    step={0.5}
-                  />
+                <small style={{ color: "green" }}>Rating :</small>
+                <StarRatingComponent 
+               name="rating" 
+                starCount={5}
+                   value={product.rating}
+        />
                 </Row>
                 <Row>
                   <h2>Details</h2>
