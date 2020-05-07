@@ -102,7 +102,6 @@ const App = () => {
         <Route exact path='/admin/orders/' component={AdminOrders} />
         <Route  path='/adminHome' component={AdminHome} />
         <Route exact path='/admin/analytics/' component={Analytics} />
-       <Route exact path='/admin/analytics/' component={Analytics} />
         <Route exact path='/admin/sellers/' component={SellerList} /> 
         <Route exact path='/admin/sellers/sellerInfo' component={SellerInfo} /> 
         

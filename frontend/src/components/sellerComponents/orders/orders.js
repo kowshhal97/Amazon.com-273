@@ -30,7 +30,7 @@ class SellerOrders extends Component {
         console.log((e.target.value))
         console.log(orderDetail);
 
-        let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId};
+        let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId,sellerName:sellerName};
 
         this.props.updateStatus(values);
 
