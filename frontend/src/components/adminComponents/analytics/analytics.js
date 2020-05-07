@@ -49,7 +49,6 @@ class Analytics extends React.Component {
 
       await  axios.get(exportData.backenedURL + 'read/admin/stats/top/seller')
         .then((response) => {
-            console.log(response.data)
             response.data.map((value)=>{
                 topSellersArray.push([value.sellerName, value.sales])
             })
@@ -63,7 +62,6 @@ class Analytics extends React.Component {
        
        await axios.get(exportData.backenedURL + 'read/admin/stats/top/customer')
         .then((response) => {
-            console.log(response.data)
             response.data.map((value)=>{
                 topCustomersArray.push([value.customerName, value.purchase])
             })
@@ -75,10 +73,22 @@ class Analytics extends React.Component {
             console.log(error);
         })
 
+        await axios.get(exportData.backenedURL + 'read/admin/stats/top/products')
+        .then((response) => {
+            console.log(response.data)
+            response.data.map((value)=>{
+                mostSoldProductsArray.push(value)
+            })
+           console.log(topCustomersArray);
 
+        })
+        .catch((error) => {
 
-        mostSoldProductsArray.push(['Apple Iphone', 10],
-            ['Nike Men Shoe', 8]);
+            console.log(error);
+        })
+
+        // mostSoldProductsArray.push(['Apple Iphone', 10],
+        //     ['Nike Men Shoe', 8]);
 
         //change values
         // topSellersArray.push(['Apple', 1000],
