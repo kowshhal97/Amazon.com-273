@@ -12,12 +12,12 @@ import axios from 'axios';
 import exportData from '../../../config/config';
 import { connect } from 'react-redux';
 import { getAdminOrders, updateStatus, getSellers, searchAPI } from '../../../store/actions/adminActions/ordersActions';
-
+import Spinner from 'react-bootstrap/Spinner';
 // 
 class AdminOrders extends Component {
 
     state = {
-        loading: false,
+        loading: true,
         sellerName: '',
         orderStatusValue: '',
         ordersDisplay: [],
@@ -28,7 +28,8 @@ class AdminOrders extends Component {
         await this.props.getSellers();
         await this.props.getAdminOrders();
         this.setState({
-            ordersDisplay: this.props.adminOrders
+            ordersDisplay: this.props.adminOrders,
+            loading:false
         })
     }
 
@@ -247,6 +248,8 @@ class AdminOrders extends Component {
 
                             </Card>
                             <br></br>
+                            {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />
+                        }
                             {!this.state.loading && this.state.ordersDisplay.length ? <div>
 
                                 {this.state.ordersDisplay.map((orders, i) => {

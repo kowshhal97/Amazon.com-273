@@ -195,7 +195,7 @@ class Analytics extends React.Component {
                                 </Card>
 
                             </Col>
-                            <Col md={6}>
+                            <Col md={5}>
                                 <Card>
                                     <Card.Body>
                                         <Chart
@@ -242,7 +242,7 @@ class Analytics extends React.Component {
                                     </Card.Body>
                                 </Card>
                             </Col>
-                            <Col md={6}>
+                            <Col md={5}>
                                 <Card>
                                     <Card.Body>
                                         <Chart
