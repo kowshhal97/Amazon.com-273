@@ -64,7 +64,7 @@ router.post('/:id', async (req, res) => {
             rating: req.body.rating,
             inventory: req.body.inventory,
             description: req.body.description,
-            sellerId: req.body.sellerId,
+            sellerId: sellerId,
             categoryId: req.body.categoryId
         })
         return res.status(201).send(product);
