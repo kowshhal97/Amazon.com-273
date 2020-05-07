@@ -85,7 +85,8 @@ class SellerList extends Component {
                                             </Card.Body>
                                             hello
                                              <Card.Body> */}
-                                                        <Card.Link href="#">{seller.name}</Card.Link>
+                                              <Link to={{pathname:"/admin/sellers/sellerInfo/", state:{seller:seller}}} >{seller.name}</Link>
+
                                                     </Card.Body>
                                                 </Card>
                                             </Col>)
