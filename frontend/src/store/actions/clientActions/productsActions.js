@@ -47,8 +47,8 @@ export const getProductDetails = (prod_id) => async dispatch => {
 
 export const getALLProductsBySeller = (s_id) => async dispatch => {
 
-   let seller_id = 1 ;
-    const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + seller_id);
+   
+    const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + s_id);
     console.log(response)
 
     if (response.data.length) {
