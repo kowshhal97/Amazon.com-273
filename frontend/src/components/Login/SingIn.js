@@ -61,9 +61,11 @@ class Login extends Component {
     localStorage.setItem('usertype', this.state.userType);
     // console.log(this.props.loginDetails);
     if(localStorage.getItem('usertype') == 'seller'){
-      redrirectVar =  <Redirect to={{ pathname: '/adminHome' }} />
-    }else{
+      redrirectVar =  <Redirect to={{ pathname: '/sellerHome' }} />
+    }else if(localStorage.getItem('usertype') == 'customer'){
       redrirectVar =  <Redirect to={{ pathname: '/userHome' }} />
+       }else{
+        redrirectVar =  <Redirect to={{ pathname: '/adminHome' }} />
        }
     }
     return (
@@ -85,7 +87,7 @@ class Login extends Component {
                 <div className="form-group login-form-control">
                 <label class="control-label col-sm-2">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="email"
                     className="form-control form-control-lg"

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Header from './header/header';
+import MainHeader from './header/mainHeader';
 import First from '../images/ipad.jpeg';
 import Second from '../images/lion.jpg';
 import Third from '../images/apple.jpeg';
@@ -11,7 +11,7 @@ class Home extends Component {
     return (
     
       <div> 
-          <Header/>
+          <MainHeader/>
         <section>
             <img src={First} style={{width:'100%'}}></img> 
         </section>

@@ -59,17 +59,21 @@ class Register extends Component {
         password: this.state.password,
         userType: this.state.userType
       };
+      // console.log(data)
     this.props.SignUp(data);
   };
 
   render() {
     let redrirectVar = null;
-if(this.props.SignUpTrue){
-  redrirectVar =  <Redirect to={{ pathname: '/signin' }} />
-}
+    if(this.props.SignUpTrue === 200){
+       redrirectVar =  <Redirect to={{ pathname: '/signin' }} />
+      // alert("successfully created user")
+    }
+    console.log(this.props.SignUpTrue)
     return (
+      
       <div>
-       {/* {redrirectVar} */}
+       {redrirectVar}
         <div className="container fill-graywhite">
           <div className="container content">
             <div className="login-container">
@@ -92,7 +96,7 @@ if(this.props.SignUpTrue){
                 <div className="form-group login-form-control">
                 <label class="control-label col-sm-2">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="email"
                     className="form-control form-control-lg"
