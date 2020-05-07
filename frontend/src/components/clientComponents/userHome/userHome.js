@@ -50,7 +50,7 @@ displayProducts = () => {
 }
   render() {
     const products = this.props.allProducts
-    console.log(products);
+    // console.log(products);
     return (
       <div>
         <div>

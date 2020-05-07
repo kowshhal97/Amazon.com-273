@@ -49,6 +49,7 @@ export const updateStatus = (values) => async dispatch => {
             else {
 
              console.log(res)
+             dispatch(getSellerOrders(values.sellerName))
             }
         })
         .catch(err => {

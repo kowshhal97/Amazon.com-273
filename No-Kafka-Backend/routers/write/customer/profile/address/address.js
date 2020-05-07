@@ -79,12 +79,12 @@ router.put('/:addressId',async (req,res)=>{
 router.delete('/:addressId',async (req,res)=>{
     const id=req.params.addressId;
     try {
-        const address=await Address.destroy({
+        await Address.destroy({
             where:{
                 id:id
             }
         })
-        return res.status(200).send(address);
+        return res.sendStatus(200);
         }
     catch (err) {
         console.log(err);

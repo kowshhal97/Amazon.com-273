@@ -36,7 +36,7 @@ class Login extends Component {
     });
   };
 
-  submitLogin = e => {
+submitLogin = async e => {
     e.preventDefault();
  
     const data = {
@@ -44,32 +44,31 @@ class Login extends Component {
       password: this.state.password
     };
 
-     this.props.login(data)
-
-    //              this.setState({
-    //                 redirectPage: <Redirect to={{ pathname: '/student/jobs/' }} />
-    //               })
-                
+     await  this.props.login(data)
+     console.log(this.props.loginDetails)
+     if(this.props.loginDetails){
+    
+      localStorage.setItem('usertype', this.state.userType);
+      
+      if(localStorage.getItem('usertype') === 'seller'){
+        localStorage.setItem('id', this.props.loginDetails._id);
+        this.props.history.push('/sellerHome')
+      }else if(localStorage.getItem('usertype') === 'customer'){
+        localStorage.setItem('id', this.props.loginDetails.userId);
+        this.props.history.push('/userHome')
+         }else{
+          localStorage.setItem('id', this.props.loginDetails.adminId);
+          this.props.history.push('/adminHome')
+         }
+      }         
     
   };
 
   render() {
-    let redrirectVar = null;
-    
-    if(this.props.loginDetails.name!=null){
-    localStorage.setItem('id', this.props.loginDetails.userId);
-    localStorage.setItem('usertype', this.state.userType);
-    // console.log(this.props.loginDetails);
-    if(localStorage.getItem('usertype') == 'seller'){
-      redrirectVar =  <Redirect to={{ pathname: '/adminHome' }} />
-    }else{
-      redrirectVar =  <Redirect to={{ pathname: '/userHome' }} />
-       }
-    }
+    //  thisredrirectVar = null;
     return (
       <div>
         <div className="container fill-graywhite">
-          {redrirectVar}
           <div className="container content">
         
           <div> Amazon</div>
@@ -85,7 +84,7 @@ class Login extends Component {
                 <div className="form-group login-form-control">
                 <label class="control-label col-sm-2">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     id="email"
                     className="form-control form-control-lg"
