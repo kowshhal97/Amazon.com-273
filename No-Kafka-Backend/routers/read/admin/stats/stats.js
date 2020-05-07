@@ -97,7 +97,6 @@ router.get('/products/rating/', async (req, res) => {
             group: ['productId'],
             order: [[sequelize.fn('AVG', sequelize.col('rating')), 'DESC']], imit: 5
         });
-        console.log(rating);
 
         output=[]
         for(let i of rating){

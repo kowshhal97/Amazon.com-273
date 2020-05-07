@@ -8,8 +8,20 @@ const Seller=require('../../../../mysqlModels/Seller')
 
 router.get('/', async (req, res) => {
     try {
-        const categories = await Category.findAll();
-        return res.status(200).send(categories);
+        const categories = await Category.findAll({include: [
+            {
+                model: Product
+            }
+        ]});
+
+        output=[]
+        for(let i of categories){
+            if(i.dataValues.products.length===0){
+                output.push(i.dataValues)
+            }
+        }
+        
+        return res.status(200).send(output);
     } catch (err) {
         console.log(err);
         return res.status(500).send('Internal Servre Error!')
