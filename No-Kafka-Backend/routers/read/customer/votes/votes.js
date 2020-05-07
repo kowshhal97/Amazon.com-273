@@ -6,7 +6,7 @@ const Votes = require('./../../../../mysqlModels/votes')
 
 const Customer=require('./../../../../mysqlModels/Customer')
 
-
+const Product=require('./../../../../mysqlModels/Product')
 
 router.get('/:userId', async (req, res) => {
 
@@ -27,14 +27,13 @@ router.get('/:userId', async (req, res) => {
     return res.status(500).send("Internal Server Error!");
 })
 
-router.get('/:productId', async (req, res) => {
-    
+router.get('/product/:productId', async (req, res) => {
     try {
-        const customer = await Customer.findOne({
+        const product = await Product.findOne({
             where: {
-                id: req.params.userId
+                id: req.params.productId
             }});
-        if (customer === null) {
+        if (product === null) {
             return res.status(404).send("User not found!");
         }
         const votes = await Votes.findAll({ where: { productId: req.params.productId}});
