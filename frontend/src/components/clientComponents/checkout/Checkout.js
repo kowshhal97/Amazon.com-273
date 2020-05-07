@@ -101,18 +101,26 @@ class Checkout extends React.Component {
 
     onSaveNewCard = e => {
         e.preventDefault();
+        const id = 1
         const newCard = {
             name : this.state.name,
             cardNumber: this.state.cardNumber,
             expirationDate: this.state.expirationDate,
             cvv: this.state.CVV
         }
-        var cards = this.state.cards
-        cards.push(newCard)
-        this.setState({
-            cards: cards, 
-            showCardModal: false
+        axios.post(exportData.backenedURL + 'write/customer/profile/cards/' + id, JSON.stringify(newCard), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                var cards = this.state.cards
+                cards.push(newCard)
+                this.setState({
+                    cards: cards, 
+                    showCardModal: false
+                })
+            } 
         })
+
     }
 
 
@@ -136,7 +144,7 @@ class Checkout extends React.Component {
             }    
         })   
         this.props.getCartProducts(id);
-       console.log(this.props.cartProducts)
+        console.log(this.props.cartProducts)
         // const data = {
 
         // }
@@ -144,11 +152,7 @@ class Checkout extends React.Component {
     }
 
     render(){
-        console.log(this.props.cartProducts);
-       
-        const data = {
 
-        }
         return(
           <div>
             <Header />
