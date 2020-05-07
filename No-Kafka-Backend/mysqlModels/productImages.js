@@ -9,6 +9,4 @@ const ProductImages = sequelize.define('productImages', {
 });
 
 
-
-
 module.exports = ProductImages;
