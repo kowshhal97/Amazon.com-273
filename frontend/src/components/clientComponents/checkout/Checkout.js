@@ -4,6 +4,9 @@ import Header from "../../header/header";
 import axios from 'axios';
 import exportData from '../../../config/config';
 import {Redirect} from 'react-router';
+import { connect } from 'react-redux';
+import { getCartProducts } from '../../../store/actions/clientActions/cartActions';
+
 
 class Checkout extends React.Component {
 
@@ -113,7 +116,7 @@ class Checkout extends React.Component {
     }
 
 
-    componentDidMount(){
+    async componentDidMount(){
         // const id = localStorage.getItem("user_id")
         const id = 1
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
@@ -131,10 +134,21 @@ class Checkout extends React.Component {
                     cards : res.data.cards
                 })
             }    
-        })        
+        })   
+        this.props.getCartProducts(id);
+       console.log(this.props.cartProducts)
+        // const data = {
+
+        // }
+    
     }
 
     render(){
+        console.log(this.props.cartProducts);
+       
+        const data = {
+
+        }
         return(
           <div>
             <Header />
@@ -377,4 +391,8 @@ class Checkout extends React.Component {
     }
 }
 
-export default Checkout;
+const mapStateToProps = (state) => {
+    return { cartProducts: state.cartProducts }
+}
+
+export default connect(mapStateToProps, { getCartProducts })(Checkout);

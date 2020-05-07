@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button , Col, Container, Form } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
+
 
 class AddProduct extends React.Component {
 
@@ -9,10 +12,11 @@ class AddProduct extends React.Component {
         this.state = {
             productName: '',
             price: '',
-            category: '',
-            description: '',
+            categoryId: '',
+            productDescription: '',
             fileArray: [],
-            filePreviewUrls: []
+            filePreviewUrls: [],
+            categories: []
         }
     }
 
@@ -21,9 +25,52 @@ class AddProduct extends React.Component {
             [e.target.id] : e.target.value
         });
     };
+
+    componentDidMount(){
+        axios.get(exportData.backenedURL + 'read/admin/category/').then(res => {
+         console.log(res.data)  
+           if (res.status === 200) {
+               this.setState({
+                 categories : res.data
+               })
+             }    
+        })
+    }
     
     onSubmitHandler = e =>{
+        const id = 1
+        const sellerName = "seller"
+        const data = {
+            productName: this.state.productName,
+            sellerName: sellerName,
+            price: this.state.price,
+            rating: "",
+            inventory: 100,
+            description: this.state.productDescription,
+            sellerId: id,
+            categoryId: this.state.categoryId
+        }
+        axios.post(exportData.backenedURL + 'write/products/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+                if (res.status === 201) {
+                    // const productId = res.data.id
+                    // var fileArray = this.state.fileArray;
+                    // const formData = new FormData();
+                    // for(var i=0; i<fileArray.length; i++){
+                    //     formData.append(i+1, fileArray[i]);
+                    // }
+                    // axios.put(exportData.backenedURL + 'write/products/' + productId + '/uploads', formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+                    // .then(res => {
+                    //     if (res.status === 200) {
+                    //         console.log(res)
+                    //     } 
+                    // })
+                } 
+        })
+    }
 
+    onSelectCategory = e => {
+        this.setState({categoryId: e.target.value})
     }
 
     selectMultipleFiles = e => {
@@ -79,11 +126,13 @@ class AddProduct extends React.Component {
 
                     <Form.Group>
                         <Form.Label>Product Category:</Form.Label>
-                        <Form.Control id="productCategory" 
-                                      value={this.state.productCategory} 
-                                      onChange={this.onChangeHandler} 
-                                      placeholder="Product Category" 
-                                      required/>
+                        <Form.Control as="select" onChange={this.onSelectCategory}>
+                            {this.state.categories.map((category)=>{
+                                return(
+                                    <option value={category.id} label={category.categoryName}></option>
+                                )
+                            })}
+                        </Form.Control>
                     </Form.Group>
 
                     <Form.Group>
@@ -111,7 +160,7 @@ class AddProduct extends React.Component {
                         </Form.File>
                     </Form.Group>
                     <br/>
-                    <Button variant="warning" type="submit">
+                    <Button variant="warning" onClick={this.onSubmitHandler}>
                         Add Product
                     </Button>
                 </Form>
