@@ -8,6 +8,8 @@ import Modal from 'react-bootstrap/Modal'
 import Alert from 'react-bootstrap/Alert';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class AdminInventory extends Component {
 
@@ -19,7 +21,22 @@ class AdminInventory extends Component {
             products: [],
             categoryName: '',
             remCategoryName:'',
+            categoryList:[],
+            loading:true
         }
+    }
+
+    async componentDidMount(){
+        await  axios.get(exportData.backenedURL + 'read/admin/category')
+        .then((response) => {
+           
+           console.log(response);
+
+        })
+        .catch((error) => {
+
+            console.log(error);
+        })
     }
 
     showAddModal = () => {
@@ -39,7 +56,32 @@ class AdminInventory extends Component {
     handleOkAdd = () => {
 
         //axios call to add category
-
+        if(this.state.categoryName){
+        axios.post(exportData.backenedURL + 'write/admin/category/', JSON.stringify({
+            categoryName:this.state.categoryName
+        }), {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+  
+            }
+          })
+            .then( res => {
+              if (res.status >= 400) {
+                console.log(res)
+               
+              }
+              else{
+                  console.log(res)
+              }
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        }
+        this.setState({
+            categoryName:''
+        })
     }
 
     showRemModal = () => {
@@ -137,13 +179,14 @@ class AdminInventory extends Component {
                                                             placeholder="Category Name"
                                                             aria-label="Category Name"
                                                             aria-describedby="basic-addon1"
+                                                            value={this.state.categoryName}
                                                             onChange={this.onChangeName}
                                                         />
                                                     </InputGroup>
                                                     </Col>
                                                     <Col md={4}>
                                                     <Button variant="success" onClick={this.handleOkAdd}>
-                                                        Save Changes
+                                                       Add
                                                     </Button>
                                                 </Col>
                                             </Row>
@@ -160,7 +203,7 @@ class AdminInventory extends Component {
                                                    
                                                 </Col>
                                                 <Col md={4}>
-                                                <Button variant="danger" onClick={this.showRemModal}>Remove Category</Button>
+                                                <Button variant="danger" onClick={this.showRemModal}>Remove </Button>
                                                 </Col>
 
                                             </Row>
