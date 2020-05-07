@@ -41,6 +41,22 @@ router.put('/:id',async (req, res)=>{
     
 })
 
+router.delete('/:id', async (req, res) => {
+    const id=req.params.id;
+    try {
+        const result= Category.destroy({
+            where:{
+                id:id
+            }
+        })
+        return res.sendStatus(200);
+        }
+    catch (err) {
+        console.log(err);
+    }
+    return res.status(500).send("Internal Server Error!");
+})
+
 
 
 
