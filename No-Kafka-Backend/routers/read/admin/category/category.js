@@ -8,6 +8,17 @@ const Seller=require('../../../../mysqlModels/Seller')
 
 router.get('/', async (req, res) => {
     try {
+        const categories = await Category.findAll();
+        return res.status(200).send(categories);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send('Internal Servre Error!')
+    }
+})
+
+
+router.get('/noProductsMapped', async (req, res) => {
+    try {
         const categories = await Category.findAll({include: [
             {
                 model: Product
@@ -25,8 +36,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.status(500).send('Internal Servre Error!')
-    }
-})
+    }});
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
