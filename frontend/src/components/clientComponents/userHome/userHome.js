@@ -52,7 +52,9 @@ displayProducts = () => {
     const products = this.props.allProducts
     // console.log(products);
     return (
+
       <div>
+        
         <div>
           <Header />
         </div>
@@ -75,15 +77,16 @@ displayProducts = () => {
                 </Form>
               </span>
             </Col>
-
-            <Col md={9}>
+            {this.props.allProducts.length===0?null:<Col md={9}>
               {this.displayProducts()}
               {/* {this.props.allProducts.map((product, ind)=>{    
               return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
             })} */}
-            </Col>
+            </Col>}
+            
           </Row>
-          <Row>PageNation</Row>
+          {this.props.allProducts.length===0?null:
+          <Row>PageNation</Row>}
         </Container>
       </div>
     );
