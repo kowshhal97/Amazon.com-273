@@ -4,6 +4,9 @@ import Header from "../../header/header";
 import axios from 'axios';
 import exportData from '../../../config/config';
 import {Redirect} from 'react-router';
+import { connect } from 'react-redux';
+import { getCartProducts } from '../../../store/actions/clientActions/cartActions';
+
 
 class Checkout extends React.Component {
 
@@ -98,22 +101,30 @@ class Checkout extends React.Component {
 
     onSaveNewCard = e => {
         e.preventDefault();
+        const id = 1
         const newCard = {
             name : this.state.name,
             cardNumber: this.state.cardNumber,
             expirationDate: this.state.expirationDate,
             cvv: this.state.CVV
         }
-        var cards = this.state.cards
-        cards.push(newCard)
-        this.setState({
-            cards: cards, 
-            showCardModal: false
+        axios.post(exportData.backenedURL + 'write/customer/profile/cards/' + id, JSON.stringify(newCard), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                var cards = this.state.cards
+                cards.push(newCard)
+                this.setState({
+                    cards: cards, 
+                    showCardModal: false
+                })
+            } 
         })
+
     }
 
 
-    componentDidMount(){
+    async componentDidMount(){
         // const id = localStorage.getItem("user_id")
         const id = 1
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
@@ -131,10 +142,17 @@ class Checkout extends React.Component {
                     cards : res.data.cards
                 })
             }    
-        })        
+        })   
+        this.props.getCartProducts(id);
+        console.log(this.props.cartProducts)
+        // const data = {
+
+        // }
+    
     }
 
     render(){
+
         return(
           <div>
             <Header />
@@ -377,4 +395,8 @@ class Checkout extends React.Component {
     }
 }
 
-export default Checkout;
+const mapStateToProps = (state) => {
+    return { cartProducts: state.cartProducts }
+}
+
+export default connect(mapStateToProps, { getCartProducts })(Checkout);
