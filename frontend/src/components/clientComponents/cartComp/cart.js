@@ -114,6 +114,7 @@ class Cart extends Component {
                     </Row>
                     {!this.state.loading && <div>
                     { this.props.cartProducts.length ? <div>
+                        <br></br>
                         <Row>
 
                             <Col md={9}>
