@@ -87,6 +87,20 @@ class Analytics extends React.Component {
             console.log(error);
         })
 
+        await axios.get(exportData.backenedURL + 'read/admin/stats/products/rating')
+        .then((response) => {
+            console.log(response.data)
+            response.data.map((value)=>{
+                topProdRatingArray.push([value.productName, value.rating])
+            })
+           console.log(topProdRatingArray);
+          
+        })
+        .catch((error) => {
+
+            console.log(error);
+        })
+
         // mostSoldProductsArray.push(['Apple Iphone', 10],
         //     ['Nike Men Shoe', 8]);
 
@@ -97,8 +111,8 @@ class Analytics extends React.Component {
         // topCustomersArray.push(['USER1', 1000],
         //     ['USER2', 1170]);
 
-        topProdRatingArray.push(['Apple', 4.8],
-            ['Nike', 4.6]);
+        // topProdRatingArray.push(['Apple', 4.8],
+        //     ['Nike', 4.6]);
 
         topProdViewedArray.push(['Apple', 2000],
             ['Nike', 2170]);
