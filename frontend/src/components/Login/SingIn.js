@@ -46,27 +46,47 @@ submitLogin = async e => {
     };
 
      await  this.props.login(data)
-     console.log(this.props.loginDetails)
-     if(this.props.loginDetails){
-      localStorage.setItem('usertype', this.state.userType);
-      localStorage.setItem('id', this.props.loginDetails.id);
-      if(localStorage.getItem('usertype') === 'seller'){
-        localStorage.setItem('sellerName', this.props.loginDetails.name);
-        this.props.history.push('/seller/inventory')
-      }else if(localStorage.getItem('usertype') === 'customer'){
-        localStorage.setItem('customerName', this.props.loginDetails.name);
-        this.props.history.push('/userHome')
-         }else if(localStorage.getItem('usertype') === 'admin'){
-          this.props.history.push('/admin/inventory/');
-         }
-      }         
+
+
     
+     if(this.props.loginDetails.status ===200){
+      
+      localStorage.setItem('usertype', this.state.userType);
+      localStorage.setItem('id', this.props.loginDetails.data.id);
+
+
+      if(localStorage.getItem('usertype') === 'seller') {
+        localStorage.setItem('sellerName', this.props.loginDetails.data.name);
+        this.setState({redirect: <Redirect to="/seller/inventory" />})
+       // this.props.history.push('/seller/inventory')
+      }
+
+      else if(localStorage.getItem('usertype') === 'customer'){
+        localStorage.setItem('customerName', this.props.loginDetails.data.name);
+        this.setState({redirect: <Redirect to="/userHome" />})
+        // this.props.history.push('/userHome')
+         }
+         
+         else if(localStorage.getItem('usertype') === 'admin'){
+          this.setState({redirect: <Redirect to="/admin" />})
+         // this.props.history.push('/admin/inventory/');
+         }
+
+      } else{
+        this.setState({redirect: <Redirect to="/signup" />})
+
+      }
+      
+      
   };
 
   render() {
-    //  thisredrirectVar = null;
+    console.log(this.props.loginDetails)
     return (
+      
       <div>
+        {this.state.redirect}
+       
         <div className="container fill-graywhite">
           <div className="container content">
         
