@@ -2,6 +2,8 @@ import React from 'react';
 import {Redirect} from 'react-router';
 import { Button , Container, Card, CardColumns, Modal } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class ManageCards extends React.Component {
 
@@ -9,13 +11,7 @@ class ManageCards extends React.Component {
         super();
         this.state = {
             showModal: false,
-            paymentCards: [
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"},
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"},
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"},
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"},
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"},
-                {name: "Roger Federer", cardNumber:"1234567890", expirationDate:"01/01/2025", CVV:"***"}],
+            paymentCards: [],
             redirect: ''
         }
     }
@@ -43,6 +39,19 @@ class ManageCards extends React.Component {
       this.setState({showModal: false})
     }
 
+    componentDidMount(){
+      const id = localStorage.getItem("id")
+      axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
+        console.log(res)  
+        if (res.status === 200) {
+            this.setState({
+              paymentCards : res.data.cards
+            })
+          }    
+      })    
+    }
+
+
     render(){
         return(
           <div>
@@ -68,7 +77,7 @@ class ManageCards extends React.Component {
                             <br/>
                             Expiration Date: {paymentCard.expirationDate}
                             <br/>
-                            Security Code or CVV: {paymentCard.CVV}
+                            Security Code or CVV: {paymentCard.cvv}
                           </Card.Text>
                         </Card.Body>
                         <Card.Footer>

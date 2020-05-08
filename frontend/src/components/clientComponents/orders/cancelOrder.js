@@ -11,6 +11,8 @@ import { Redirect } from 'react-router';
 import Header from "../../header/header";
 import Toast from 'react-bootstrap/Toast';
 
+let user_id = localStorage.getItem("id") ;
+
 class CancelOrder extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +30,7 @@ class CancelOrder extends Component {
         //call action and redirect
      //   console.log(this.state)
 
-        let values = { orderUpdateItem: "6", productId: this.state.productInfo.productId, orderId: this.state.orderInfo._id }
+        let values = { orderUpdateItem: "6", productId: this.state.productInfo.productId, orderId: this.state.orderInfo._id, user_id:localStorage.getItem("id") }
        // console.log(values)
         this.props.cancelOrderAPI(values)
 

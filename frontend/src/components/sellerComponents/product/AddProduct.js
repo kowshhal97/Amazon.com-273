@@ -41,8 +41,8 @@ class AddProduct extends React.Component {
     }
     
     onSubmitHandler = e =>{
-        const id = localStorage.getItem('id')
-        const sellerName = "seller"
+        const id = localStorage.getItem("id")
+        const sellerName = localStorage.getItem("sellerName")
         const data = {
             productName: this.state.productName,
             sellerName: sellerName,
@@ -69,6 +69,7 @@ class AddProduct extends React.Component {
                             console.log(res)
                         } 
                     })
+                    alert("Product added successfully")
                 } 
         })
     }
