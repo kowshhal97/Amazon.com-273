@@ -53,7 +53,7 @@ router.put('/upload/:id', uploadProfilePhoto.array('upl', 1), async (req, res) =
     try {
         const customer = await Customer.update({profilePicUrl: `https://amazon-273.s3.amazonaws.com/customer/profile_${customerId}`}, {where: {id: customerId}});
         console.log(customer);
-        return res.status(200).send('uploaded');
+        return res.status(200).send(customer);
     } catch(err) {
         console.log(err);
         return res.status(500).send('Internal Server Error!');
