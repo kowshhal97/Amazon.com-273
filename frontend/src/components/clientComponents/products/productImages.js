@@ -9,39 +9,27 @@ import Carousel from 'react-bootstrap/Carousel'
 class ProductImages extends Component{
 
 render(){
-    return(
-<Carousel >
-  <Carousel.Item>
+  if(this.props.images===undefined){
+    return null;
+  }
+
+  let output=[]
+  for(let i of this.props.images)
+  {
+    output.push(<Carousel.Item>
     <img
       className="d-block w-100"
-      src={logo}
+      src={i.imageUrl}
       alt="First slide"
     />
     <Carousel.Caption>
     </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={logo}
-      alt="Third slide"
-    />
+  </Carousel.Item>)
+  }
 
-    <Carousel.Caption>
-      {/* <h3>Second slide label</h3> */}
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={logo}
-      alt="Third slide"
-    />
-
-    <Carousel.Caption>
-      {/* <h3>Third slide label</h3> */}
-    </Carousel.Caption>
-  </Carousel.Item>
+    return(
+<Carousel >
+{output}
  
 </Carousel>
 );

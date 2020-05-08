@@ -16,10 +16,12 @@ class CategoryList extends Component {
 render(){
   return (
     <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="#home">Delivery To</Navbar.Brand>
+    <Navbar.Brand href="/user/address/manageAddresses/">Delivery To</Navbar.Brand>
+   
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
+         <Nav.Link href="/user/cards/manageCards/">Manage Cards</Nav.Link>
         <Nav.Link href="#home">Whole Foods</Nav.Link>
         <Nav.Link href="#link">Prime video</Nav.Link>
         <Nav.Link href="#home">Help</Nav.Link>

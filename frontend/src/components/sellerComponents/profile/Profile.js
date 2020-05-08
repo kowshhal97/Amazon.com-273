@@ -108,8 +108,9 @@ class Profile extends React.Component {
                 formData.append('upl', this.state.selectedFile)
                 axios.put(exportData.backenedURL + 'write/seller/profile/upload/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(res => {
+                    console.log(res.config.url)
                     if (res.status === 200) {
-                        console.log(res)
+                        this.setState({profilePic: res.config.url})
                     } 
                 })
                 this.setState({showModal: false})
@@ -131,7 +132,10 @@ class Profile extends React.Component {
             console.log(res)  
             if (res.status === 200) {
                 this.setState({
-                    name : res.data.name
+                    name : res.data.name,
+                    city: res.data.city,
+                    state: res.data.state,
+                    country: res.data.country
                 })
                 if(res.data.profilePicUrl==null){
                     this.setState({profilePic : DefaultProfilePic})

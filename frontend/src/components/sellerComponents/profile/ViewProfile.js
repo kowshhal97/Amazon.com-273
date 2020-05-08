@@ -11,7 +11,10 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:'',
-            profilePic: DefaultProfilePic,
+            profilePic: '',
+            city: '',
+            state: '',
+            country: '',
             productsAdded: []
         }
     }
@@ -23,8 +26,16 @@ class Profile extends React.Component {
             console.log(res)  
             if (res.status === 200) {
                 this.setState({
-                    name : res.data.name
+                    name : res.data.name,
+                    city: res.data.city,
+                    state: res.data.state,
+                    country: res.data.country
                 })
+                if(res.data.profilePicUrl==null){
+                    this.setState({profilePic : DefaultProfilePic})
+                } else {
+                  this.setState({profilePic : res.data.profilePicUrl})
+                }
             }    
         })
         axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
@@ -50,7 +61,7 @@ class Profile extends React.Component {
                               width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
-                        {/* Located At: {this.state.address} */}
+                        Located At: {this.state.city + ", " + this.state.state + ", " + this.state.country}
                     </Card.Body>
                 </Card>
             </div>
