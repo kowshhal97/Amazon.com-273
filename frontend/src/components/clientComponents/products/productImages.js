@@ -13,51 +13,23 @@ render(){
     return null;
   }
 
-    return(
-<Carousel >
-  <Carousel.Item>
+  let output=[]
+  for(let i of this.props.images)
+  {
+    output.push(<Carousel.Item>
     <img
       className="d-block w-100"
-      src={this.props.images[0].imageUrl}
+      src={i.imageUrl}
       alt="First slide"
     />
     <Carousel.Caption>
     </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={this.props.images[1].imageUrl}
-      alt="Third slide"
-    />
+  </Carousel.Item>)
+  }
 
-    <Carousel.Caption>
-      {/* <h3>Second slide label</h3> */}
-    </Carousel.Caption>
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={this.props.images[2].imageUrl}
-      alt="Third slide"
-    />
-
-    <Carousel.Caption>
-      {/* <h3>Third slide label</h3> */}
-    </Carousel.Caption>
-  </Carousel.Item>
-
-  <Carousel.Item>
-    <img
-      className="d-block w-100"
-      src={this.props.images[3].imageUrl}
-      alt="Third slide"
-    />
-
-    <Carousel.Caption>
-      {/* <h3>Third slide label</h3> */}
-    </Carousel.Caption>
-  </Carousel.Item>
+    return(
+<Carousel >
+{output}
  
 </Carousel>
 );
