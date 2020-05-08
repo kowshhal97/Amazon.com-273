@@ -57,11 +57,11 @@ router.put('/:orderId', async (req, res) => {
                     product.orderUpdates = list
                 }
                 if(totalPrice){
-                    product.totalPrice = 0;
                     const sale = new Sale({sellerName: product.sellerName, sales: -1*product.totalPrice})
                     await sale.save();
                     const purchase = new Purchase({customerId: customerId, customerName: customerName, purchase: -1*product.totalPrice});
                     await purchase.save();
+                    product.totalPrice = 0;
 
                 }
             }

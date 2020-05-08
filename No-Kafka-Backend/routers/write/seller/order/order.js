@@ -8,12 +8,15 @@ const Purchase = require('../../../../mongoModels/customerPurchase');
 router.put('/:orderId', async (req, res) => {
     
     const { totalPrice, orderStatus, orderUpdateItem, productId } = req.body; 
+    let sale;
+    let purchase;
     try {
         const order = await Order.findById({_id: req.params.orderId})
         if(!order) {
             return res.status(404).send('Order not found!');
         }
         const {customerName, customerId} = order;
+        console.log(order);
         order.products.map(async (product) => {
             if(product.productId === productId) {
                 if(orderStatus) {
@@ -24,14 +27,17 @@ router.put('/:orderId', async (req, res) => {
                     product.orderUpdates = list
                 }
                 if(totalPrice) {
+                    let sale = new Sale({sellerName: product.sellerName, sales: -1*product.totalPrice})
+                    //sale = await sale.save();
+                    let purchase = new Purchase({customerId: customerId, customerName: customerName, purchase: -1*product.totalPrice});
+                    purchase = await purchase.save();
                     product.totalPrice = 0;
-                    const sale = new Sale({sellerName: product.sellerName, sales: -1*product.totalPrice})
-                    await sale.save();
-                    const purchase = new Purchase({customerId: customerId, customerName: customerName, purchase: -1*product.totalPrice});
-                    await purchase.save();
+                    
                 }
             }
         })
+        console.log(sale)
+        console.log(purchase);
         await order.save();
         return res.status(200).send(order);
     } catch(err) {
