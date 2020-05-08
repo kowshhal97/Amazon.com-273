@@ -31,7 +31,10 @@ class Checkout extends React.Component {
             name: '',
             cardNumber: '',
             expirationDate: '',
-            CVV: ''
+            CVV: '',
+            cartProducts:[],
+            showGiftTextBox: false,
+            giftMessage: ''
         }
     }
 
@@ -51,6 +54,7 @@ class Checkout extends React.Component {
 
     onCardChangeListener = e => {
         this.setState({selectedCard: e.target.id})
+        console.log(e.target.id)
     }
 
     addNewAddress = e => {
@@ -99,6 +103,85 @@ class Checkout extends React.Component {
         })
     }
 
+    onPlaceOrder = e => {
+        var cartProducts = this.state.cartProducts
+        console.log(cartProducts)
+        var customerId
+        var productArray = []
+        for(var i=0; i< cartProducts.length; i++){
+            let product = {
+                productId: '',
+                productName: '',
+                sellerName: '',
+                quantity: '',
+                perQuantityPrice: '',
+                totalPrice: '',
+                orderStatus: '0',
+                orderUpdates: [],
+                gift: {
+                    gift: false,
+                    giftMessage: ''
+                }
+            }
+            customerId = cartProducts[i].customerId
+            product.productId = cartProducts[i].productId
+            product.productName = cartProducts[i].productName
+            product.sellerName = cartProducts[i].sellerName
+            product.quantity = cartProducts[i].quantity
+            product.perQuantityPrice = cartProducts[i].price
+            product.totalPrice = product.quantity * product.perQuantityPrice
+            if(cartProducts[i].gift===1){
+                product.gift.gift = true 
+                product.gift.giftMessage = this.state.giftMessage
+            }
+            var orderUpdates = [{
+                date: '',
+                deliveryStatus : '0'
+            }]
+            product.orderUpdates = orderUpdates
+            productArray.push(product) 
+        }
+        var netPrice = 0;
+        for(var j=0 ; j<productArray.length; j++){
+            netPrice += productArray[j].totalPrice
+        }
+        var addressDetails = this.state.selectedAddress.split(",")
+        var shippingAddress = {
+            name: addressDetails[0],
+            address1 : addressDetails[1],
+            adress2 :addressDetails[2],
+            city: addressDetails[3],
+            state: addressDetails[4],
+            country: addressDetails[5],
+            zipcode: addressDetails[6],
+            phoneNumber: addressDetails[7]
+        }
+        // var customerName = "user"
+        var cardDetails = this.state.selectedCard.split(",")
+        var billing = {
+            name : cardDetails[0],
+            cardNumber: cardDetails[1],
+            totalPrice: netPrice
+        }
+        const data = {
+            customerId : customerId,
+            // customerName : customerName,
+            billing: billing,
+            shippingAddress : shippingAddress,
+            products : productArray
+        }
+
+        axios.post(exportData.backenedURL + 'write/customer/orders/' + customerId, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+            .then(res => {
+                console.log(res)
+                if (res.status === 201) {
+                    console.log(res)
+                    alert("order placed successfully")
+                } 
+        })
+
+    }
+
     onSaveNewCard = e => {
         e.preventDefault();
         const id = 1
@@ -123,6 +206,12 @@ class Checkout extends React.Component {
 
     }
 
+    onChangeHandler = e => {
+        this.setState({
+            [e.target.id] : e.target.value
+        });
+    };
+    
 
     async componentDidMount(){
         // const id = localStorage.getItem("user_id")
@@ -145,6 +234,13 @@ class Checkout extends React.Component {
         })   
         await this.props.getCartProducts(id);
         console.log(this.props.cartProducts)
+        var cartProducts = this.props.cartProducts
+        this.setState({cartProducts: cartProducts})
+        for(var i=0; i<cartProducts.length; i++){
+            if(cartProducts[i].gift===1){
+                this.setState({showGiftTextBox: true})
+            }
+        }
         // const data = {
 
         // }
@@ -152,13 +248,14 @@ class Checkout extends React.Component {
     }
 
     render(){
-        // console.log(this.props.cartProducts)
-        let redirectVar = null;
-        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
-            redirectVar = <Redirect to="/unauthorised" />
-        }
+         console.log(this.props.cartProducts)
+        // let redirectVar = null;
+        // if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+        //     redirectVar = <Redirect to="/unauthorised" />
+        // }
         return(
           <div>
+               {/* {redirectVar} */}
             <Header />
             {this.state.redirect}
             <Container>
@@ -182,7 +279,14 @@ class Checkout extends React.Component {
                                                addressCard.state + ", " +
                                                addressCard.country}
                                         name="addressRadioButton"
-                                        id={addressCard}
+                                        id={addressCard.name + "," +
+                                            addressCard.address1 + "," + 
+                                            addressCard.address2 + "," + 
+                                            addressCard.city + "," + 
+                                            addressCard.state + "," +
+                                            addressCard.country + "," +
+                                            addressCard.zipcode + "," +
+                                            addressCard.phoneNumber}
                                         onChange={this.onAddressChangeListener}
                                     />
                                 )
@@ -215,8 +319,10 @@ class Checkout extends React.Component {
                                                card.cardNumber + ", Expiration Date:" + 
                                                card.expirationDate}
                                         name="cardRadioButton"
-                                        id={card}
-                                        onChange={this.onChangeListener}
+                                        id={card.name + "," +
+                                            card.cardNumber + "," +
+                                            card.expirationDate}
+                                        onChange={this.onCardChangeListener}
                                     />
                                 )
                             })}
@@ -233,19 +339,26 @@ class Checkout extends React.Component {
                     </Col>
                 </Form.Group>
                 <br/>
-
-                <Form.Group as={Row} controlId="formHorizontalEmail">
-                    <Form.Label column sm={10}>
-                        <h5>Gift Messages(If any):</h5>
-                    </Form.Label>
-                </Form.Group>
+                
+                {this.state.showGiftTextBox && 
+                    <Form.Group as={Row}>
+                        <Form.Label column>
+                            <h5>Gift Messages(If any):</h5>
+                            <Form.Control placeholder="Gift Message" 
+                            column id="giftMessage" 
+                            value={this.state.giftMessage} 
+                            onChange={this.onChangeHandler}/>
+                        </Form.Label>                        
+                    </Form.Group>
+                }
+                
                 <br/>
 
                 <Form.Group as={Row} controlId="formHorizontalEmail">
                     <Form.Label column sm={2}>
                     </Form.Label>
                     <Col sm={10}>
-                        <Button variant="warning">Place Order</Button>
+                        <Button variant="warning" onClick={this.onPlaceOrder}>Place Order</Button>
                     </Col>
                 </Form.Group>
 

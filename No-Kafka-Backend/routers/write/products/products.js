@@ -11,6 +11,7 @@ const multiparty = require('multiparty');
 const config = require('config');
 const Seller = require('../../../mysqlModels/Seller');
 const Product = require('../../../mysqlModels/Product');
+const ProductImages = require('../../../mysqlModels/productImages');
 
 
 AWS.config.update({
@@ -108,12 +109,12 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', (req, res) => {
     const id=req.params.id;
     try {
-        const result=product.destroy({
+        const result=Product.destroy({
             where:{
                 id:id
             }
         })
-        return res.sendStatus(200);
+        return res.status(200).send("deleted");
         }
     catch (err) {
         console.log(err);
@@ -139,7 +140,7 @@ router.put('/:id/uploads', async (req, res) => {
             if(key === 1) {
                 const product = await Product.update({thumbNail: `https://amazon-273.s3.amazonaws.com/products/${id}/1.jpg`})
             }
-            
+            const productImage = await ProductImages.create({imageurl: `https://amazon-273.s3.amazonaws.com/products/${id}/${key}.jpg`})
             console.log(data);
           }
           

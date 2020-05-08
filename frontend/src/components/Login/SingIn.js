@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../store/actions/clientActions/loginActions';
-
+import Logo from '../../images/Amazon.svg'
 class Login extends Component {
   constructor() {
     super();
@@ -47,11 +47,10 @@ submitLogin = async e => {
      await  this.props.login(data)
      console.log(this.props.loginDetails)
      if(this.props.loginDetails){
-    
       localStorage.setItem('usertype', this.state.userType);
       localStorage.setItem('id', this.props.loginDetails.id);
       if(localStorage.getItem('usertype') === 'seller'){
-        // localStorage.setItem('sellername', this.props.loginDetails.sellerName);
+        localStorage.setItem('sellerName', this.props.loginDetails.name);
         this.props.history.push('/seller')
       }else if(localStorage.getItem('usertype') === 'customer'){
        
@@ -70,10 +69,14 @@ submitLogin = async e => {
         <div className="container fill-graywhite">
           <div className="container content">
         
-          <div> Amazon</div>
+          {/* <div>       */}
+            
+{/* </div> */}
             <div className="login-container">
-           
+            <img src = {Logo} height='100px' width='100px' style={{marginLeft:'480px'}}/>
+
               <div className="login-form-container col-lg-4 col-md-4 col-sm-12 offset-lg-4 offset-md-4 border">
+
                 <div className="login-form-heading input-group pad-top-10 input-group-lg">
                  <h2>Sign-In</h2>
                 </div>
