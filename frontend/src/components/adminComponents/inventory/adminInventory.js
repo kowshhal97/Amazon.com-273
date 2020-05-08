@@ -159,7 +159,7 @@ class AdminInventory extends Component {
     }
 
     getProductsById = (e) => {
-        if (e.value) {
+        if (e) {
             axios.get(exportData.backenedURL + 'read/admin/category/' + e.value)
                 .then((response) => {
                    
