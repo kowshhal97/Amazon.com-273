@@ -140,7 +140,7 @@ router.put('/:id/uploads', async (req, res) => {
             if(key === 1) {
                 const product = await Product.update({thumbNail: `https://amazon-273.s3.amazonaws.com/products/${id}/1.jpg`})
             }
-            const productImage = await ProductImages.create({imageurl: `https://amazon-273.s3.amazonaws.com/products/${id}/${key}.jpg`})
+            const productImage = await ProductImages.create({imageUrl: `https://amazon-273.s3.amazonaws.com/products/${id}/${key}.jpg`})
             console.log(data);
           }
           
