@@ -36,7 +36,19 @@ const uploadProfilePhoto = multer({
     })
   });
 
-router.put('/:id', uploadProfilePhoto.array('upl', 1), async (req, res) => {
+
+router.put('/:customerId', async (req, res) => {
+  const customerId = req.params.customerId;
+  try {
+    const updateCustomer = await Customer.update({name: req.body.name}, {where: {id: customerId}});
+    return res.status(200).send(updateCustomer);
+  } catch(err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error!');
+  }
+})
+
+router.put('/upload/:id', uploadProfilePhoto.array('upl', 1), async (req, res) => {
     const customerId = req.params.id;
     try {
         const customer = await Customer.update({profilePicUrl: `https://amazon-273.s3.amazonaws.com/customer/profile_${customerId}`}, {where: {id: customerId}});

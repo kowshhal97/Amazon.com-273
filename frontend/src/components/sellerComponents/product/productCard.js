@@ -4,7 +4,9 @@ import CardDeck from 'react-bootstrap/CardDeck';
 import Button from 'react-bootstrap/Button'
 import Lion from '../../../images/lion.jpg';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import ProductDetailsPage from '../products/productDetailsPage'
+import exportData from "../../../config/config";
+import Axios from "axios";
+
 class ProductCard extends Component{
   
   constructor(props){
@@ -18,10 +20,28 @@ class ProductCard extends Component{
   getDetails = () => {
     console.log(this.props.cproducts.id)
     // localStorage.setItem('prod_id',this.props.cproducts.id);
-    window.location.href= '/user/Productdetails'
   }
 
+ deleteProduct = async () => {
+ console.log(this.props.cproducts.id)
+    await Axios.get(exportData.backenedURL + 'write/products/'+ this.props.cproducts.id)
+    .then((response) => {
+      let cat = []
+      for (let i of response.data) {
+  
+        cat.push({ value: i.id, label: i.categoryName })
+      }
+      this.setState({ allCatgories: cat })
+   
+  
+    })
+    .catch((error) => {
+  
+      console.log(error);
+    })
 
+
+}
 
 render(){
     return(
@@ -34,8 +54,9 @@ render(){
         Price :{this.props.cproducts.price}
         </Card.Text>
         {/* <Card.Link href="/user/Productdetails">View Product</Card.Link> */}
-    {/* <Button  variant="warning" type="button" onClick={this.getDetails}>View Product</Button>  */}
-    <Link to={{ pathname: "/user/Productdetails", state: { productID: this.props.cproducts.id } }} style={{ color: 'black' }}>View Product</Link>
+     <Button  variant="warning" type="button" onClick={this.getDetails} >View Product</Button>  
+     <Button  variant="warning" type="button" onClick={this.deleteProduct} style={{marginLeft:'10px'}}>Delete Product</Button> 
+    {/* <Link to={{ pathname: "/user/Productdetails", state: { productID: this.props.cproducts.id } }} style={{ color: 'black' }}>View Product</Link> */}
     </Card.Body>
   </Card>
   </div>

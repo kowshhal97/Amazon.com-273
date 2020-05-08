@@ -19,7 +19,26 @@ const uploadProfilePhoto = multer({
     })
   });
 
-  router.put('/:id', uploadProfilePhoto.array('upl', 1), async (req, res) => {
+  router.put('/:sellerId', async (req, res) => {
+      const {name, address1, address2, city, state, country, zipcode} = req.body;
+      try { 
+        const updateSeller = await Seller.update({
+            name: name,
+            address1: address1,
+            address2: address2,
+            city: city,
+            state: state,
+            country: country,
+            zipcode: zipcode
+        }, {where: {id: sellerId}});
+        return res.status(200).send(updateSeller);
+
+      } catch(err) {
+          console.log(err);
+          return res.status(500).send('Internal Server Error!');
+      }
+  })
+  router.put('/upload/:id', uploadProfilePhoto.array('upl', 1), async (req, res) => {
     const sellerId = req.params.id;
     try {
         const seller = await Seller.update({profilePicUrl: `https://amazon-273.s3.amazonaws.com/seller/profile_${sellerId}`}, {where: {id: sellerId}});

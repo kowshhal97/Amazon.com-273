@@ -9,6 +9,7 @@ import exportData from '../../../config/config';
 import axios from 'axios';
 import Select from 'react-select';
 import { Redirect } from 'react-router';
+import Header from '../sellerHeader/sellerHeader';
 
 //localStorage.getItem('id');
 //let sellerID = localStorage.getItem('id');
@@ -118,7 +119,9 @@ class SellerInventory extends Component {
         return (
             <div>
                 {this.state.redirect}
-
+                <div>
+              <Header />
+              </div>
                 <div>
                     <div>
                         <Row>

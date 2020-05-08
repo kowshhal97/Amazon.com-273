@@ -2,20 +2,40 @@ import React from 'react';
 import { Col , Row, Container, Form, Card, Button, Media, Modal, Image } from 'react-bootstrap';
 import Header from "../../header/header";
 import DefaultProfilePic from '../../../images/default-profile.png'
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class Profile extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            name:"Sumeet Deshpande",
-            address: "San Jose, California",
+            name:'',
             profilePic: DefaultProfilePic,
-            productsAdded: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
-            {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
-            {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
+            productsAdded: []
         }
+    }
+
+    async componentDidMount(){
+        // const id = localStorage.getItem("user_id")
+        const id = localStorage.getItem("id")
+        axios.get(exportData.backenedURL + 'read/seller/profile/' + id).then(res => {
+            console.log(res)  
+            if (res.status === 200) {
+                this.setState({
+                    name : res.data.name
+                })
+            }    
+        })
+        axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
+            console.log(res)  
+            if (res.status === 200) {
+                this.setState({
+                    productsAdded : res.data
+                })
+            }    
+        })   
+    
     }
 
     render() {
@@ -30,7 +50,7 @@ class Profile extends React.Component {
                               width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
-                        Located At: {this.state.address}
+                        {/* Located At: {this.state.address} */}
                     </Card.Body>
                 </Card>
             </div>
@@ -47,7 +67,7 @@ class Profile extends React.Component {
                                 <a href="#">
                                     <h5>{product.productName}</h5>
                                 </a>
-                                Rating: {product.votes}
+                                <br/>
                                 <hr/>
                             </Media.Body>
                         </Media>
