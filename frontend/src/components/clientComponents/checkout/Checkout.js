@@ -136,7 +136,7 @@ class Checkout extends React.Component {
                 product.gift.giftMessage = this.state.giftMessage
             }
             var orderUpdates = [{
-                date: '',
+                
                 deliveryStatus : '0'
             }]
             product.orderUpdates = orderUpdates
@@ -157,7 +157,7 @@ class Checkout extends React.Component {
             zipcode: addressDetails[6],
             phoneNumber: addressDetails[7]
         }
-        // var customerName = "user"
+        var customerName = localStorage.getItem("customerName")
         var cardDetails = this.state.selectedCard.split(",")
         var billing = {
             name : cardDetails[0],

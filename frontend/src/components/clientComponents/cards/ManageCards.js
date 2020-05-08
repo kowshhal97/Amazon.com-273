@@ -4,6 +4,7 @@ import { Button , Container, Card, CardColumns, Modal } from 'react-bootstrap';
 import Header from "../../header/header";
 import axios from 'axios';
 import exportData from '../../../config/config';
+import PaymentCard from './PaymentCard';
 
 class ManageCards extends React.Component {
 
@@ -66,42 +67,10 @@ class ManageCards extends React.Component {
                 <br/>
                 <CardColumns>
                   {this.state.paymentCards.map((paymentCard)=>{
-                    return (
-                      <Card>
-                        <Card.Header>
-                          {paymentCard.name}
-                        </Card.Header>
-                        <Card.Body>
-                          <Card.Text>
-                            Card Number: {paymentCard.cardNumber}
-                            <br/>
-                            Expiration Date: {paymentCard.expirationDate}
-                            <br/>
-                            Security Code or CVV: {paymentCard.cvv}
-                          </Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                          <Button variant="outline-success" onClick={this.onEditClick}>Edit</Button>
-                          &nbsp; &nbsp;
-                          <Button variant="outline-danger" onClick={this.onDeleteClick}>Delete</Button>
-                        </Card.Footer>
-                      </Card>)
+                    return <PaymentCard key={paymentCard.id} paymentCard={paymentCard}/>
                   })}
                 </CardColumns>
-                <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Delete Card</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>Are you sure you want to delete this card?</Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
-                      No
-                    </Button>
-                    <Button variant="primary" onClick={this.handleClose}>
-                      Yes
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                
             </Container>                
           </div>
         );

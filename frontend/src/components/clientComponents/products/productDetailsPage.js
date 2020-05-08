@@ -13,9 +13,10 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
 import StarRatingComponent from 'react-star-rating-component';
-import { getProductDetails, getALLCommentsForProduct , postCommentForProduct,addProductToCart} from '../../../store/actions/clientActions/productsActions';
+import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
 import { Redirect } from 'react-router';
-
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 
 class ProductDetailsPage extends Component {
@@ -24,7 +25,8 @@ class ProductDetailsPage extends Component {
     console.log(props);
     this.state = {
       loading: true,
-      commentt:''
+      commentt:'',
+      redirect: '',
       
     };
   
@@ -56,36 +58,56 @@ onChangeHandler = e => {
    const data = {
     comment: this.state.commentt,  
   }
-  console.log(data)
+
   // this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
-   this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
-
-
+    this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
+   
 }
 
-addtoCart = e =>{
+ addtoCart =  async e =>  {
   const data = {
     quantity: 1,
     flag: 0,
     gift: 0  
   }
-  console.log(data)
-// this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
-this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state.productID,data)
+  
+// // this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
+//  var res = await this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state.productID,data)
+//  console.log(res)
+//  if(res === 200){
+//   this.setState({redirect: <Redirect to="/user/cart" />})
+//  }
+ 
+
+
+ const response = await axios.post(exportData.backenedURL + 'write/customer/cart/' + localStorage.getItem('id') + '/'+ this.props.location.state.productID, data, {
+  headers: {
+     'Accept': 'application/json',
+     'Content-Type': 'application/json',
+  }
+});
+console.log(response)
+ if(response.status === 200){
+  this.setState({redirect: <Redirect to="/user/cart" />})
+ }
+
+
 }
 
 
   render() {
     const product = this.props.ProductDetails
-    console.log(product)
+     let res = null;
+   // console.log(product)
+  //  console.log(added)
    const comments = this.props.allComments
-   let redirectVar = null;
    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
-       redirectVar = <Redirect to="/unauthorised" />
+      //  redirectVar = <Redirect to="/unauthorised" />
    }
     return (
       <div>
-         {redirectVar}
+         {this.state.redirect}
+       
         <Header />
         <h3> {product.productName} </h3>
         <div>
@@ -142,7 +164,7 @@ this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state
                       size="sm"
                       block 
                       onClick ={this.addtoCart}
-                    ><Link to={{ pathname: "/user/cart/" }} style={{ color: 'black' }}>  Add to Cart</Link>  
+                    >  Add to Cart
                     </Button>
                   </div>
 
@@ -208,8 +230,10 @@ this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state
 //fetching from store
 const mapStateToProps = (state) => {
   return { ProductDetails: state.ProductDetails ,
-             allComments : state.allComments}
+             allComments : state.allComments,
+             addToCart: state.addToCart
+            }
 }
 
-export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct,addProductToCart})(ProductDetailsPage);
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct})(ProductDetailsPage);
 

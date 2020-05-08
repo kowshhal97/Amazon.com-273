@@ -32,8 +32,8 @@ class AddAddress extends React.Component {
         this.state.city==='' || this.state.state===''|| this.state.country==='' || this.state.phoneNumber===''){
             alert("Please fill all the form details before submitting")
         } else{
-            // const id = localStorage.getItem("user_id")
-            const id = 1
+            const id = localStorage.getItem("id")
+            
             const data = {
                 name: this.state.fullName,
                 address1: this.state.streetAddressLine1,
