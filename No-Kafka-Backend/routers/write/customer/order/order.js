@@ -40,7 +40,7 @@ router.post('/:userId',async (req, res) => {
 })
 
 router.put('/:orderId', async (req, res) => {
-    const { orderStatus, orderUpdateItem, productId } = req.body; 
+    const {  totalPrice, orderStatus, orderUpdateItem, productId } = req.body; 
     try {
         const order = await Order.findById({_id: req.params.orderId})
         if(!order) {
@@ -54,6 +54,10 @@ router.put('/:orderId', async (req, res) => {
                 if(orderUpdateItem) {
                     const list = [orderUpdateItem, ...product.orderUpdates];
                     product.orderUpdates = list
+                }
+                if(totalPrice){
+                    product.totalPrice = 0;
+
                 }
             }
         })
