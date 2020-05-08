@@ -130,6 +130,7 @@ class Checkout extends React.Component {
             product.sellerName = cartProducts[i].sellerName
             product.quantity = cartProducts[i].quantity
             product.perQuantityPrice = cartProducts[i].price
+            product.thumbnail = cartProducts[i].thumbnail
             product.totalPrice = product.quantity * product.perQuantityPrice
             if(cartProducts[i].gift===1){
                 product.gift.gift = true 
