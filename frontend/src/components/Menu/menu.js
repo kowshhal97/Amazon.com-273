@@ -48,7 +48,7 @@ render(){
     <DropdownButton id="dropdown-item-button" title="user"  bg="light" variant="dark">
   <Dropdown.Item  href="/user/profile/"> Profile </Dropdown.Item>
   <Dropdown.Item as="button" onClick={this.logout}>Logout</Dropdown.Item>
-  <Dropdown.Item as="button">Something else</Dropdown.Item>
+ 
 </DropdownButton>
   </Navbar>
   );
