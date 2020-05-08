@@ -108,6 +108,7 @@ class Checkout extends React.Component {
         console.log(cartProducts)
         var customerId
         var productArray = []
+        customerId = localStorage.getItem("id")
         for(var i=0; i< cartProducts.length; i++){
             let product = {
                 productId: '',
@@ -123,7 +124,7 @@ class Checkout extends React.Component {
                     giftMessage: ''
                 }
             }
-            customerId = localStorage.getItem('id')
+            
             product.productId = cartProducts[i].productId
             product.productName = cartProducts[i].productName
             product.sellerName = cartProducts[i].sellerName
@@ -479,7 +480,7 @@ class Checkout extends React.Component {
 
                         <Form.Group>
                             <Form.Label>Expiration Date:</Form.Label>
-                            <Form.Control id="expirationDate" type="date"
+                            <Form.Control id="expirationDate" 
                                         value={this.state.expirationDate} 
                                         onChange={this.onChangeHandler} 
                                         placeholder="Expiration Date" 
