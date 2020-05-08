@@ -57,7 +57,7 @@ submitLogin = async e => {
        
         this.props.history.push('/userHome')
          }else if(localStorage.getItem('usertype') === 'admin'){
-          this.props.history.push('/admin')
+          this.props.history.push('/admin/inventory/');
          }
       }         
     

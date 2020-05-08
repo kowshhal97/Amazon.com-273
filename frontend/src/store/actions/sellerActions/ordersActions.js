@@ -83,7 +83,7 @@ export const cancelOrderAPI = (values) => async dispatch => {
                 console.log(res)
             }
             else {
-
+                dispatch(getSellerOrders(values.sellerName))
              console.log(res)
             }
         })

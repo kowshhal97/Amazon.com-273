@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const User = require('./../../../mysqlModels/User')
 const Customer = require('./../../../mysqlModels/Customer');
 const Seller = require('./../../../mysqlModels/Seller');
@@ -22,13 +23,15 @@ router.post('/', async (req, res) => {
         if (user === null) {
             return res.status(404).send("User not found!");
         }
-        else if (user.password === req.body.password) {
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (isMatch) {
             if (user.userType === 'customer') {
                 const customer = await Customer.findOne({
                     where: {
                         userId: user.id
                     }, include: [{ model: Address, as: 'customerAddresses' }, { model: Cards, as: 'cards' }]
                 })
+
                 res.status(200).send(customer);
             }
             else if (user.userType === 'seller') {

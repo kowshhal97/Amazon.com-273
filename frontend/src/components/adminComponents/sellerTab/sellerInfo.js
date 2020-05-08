@@ -8,6 +8,7 @@ import { getSellers } from '../../../store/actions/adminActions/ordersActions';
 import axios from 'axios';
 import exportData from '../../../config/config';
 import moment from 'moment';
+import { Redirect } from 'react-router';
 
 class SellerInfo extends Component {
 
@@ -70,8 +71,14 @@ class SellerInfo extends Component {
 
 
     render() {
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
+
         return (
             <div>
+                {redirectVar}
                 <div>
                     {!this.state.loading && <div>
                         <Row>

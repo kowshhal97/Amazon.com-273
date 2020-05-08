@@ -10,6 +10,7 @@ import Select from 'react-select';
 import { connect } from 'react-redux';
 import { getSellers } from '../../../store/actions/adminActions/ordersActions';
 import { filteredSellers } from '../../../store/actions/adminActions/sellerActions';
+import { Redirect } from 'react-router';
 
 
 class SellerList extends Component {
@@ -54,8 +55,15 @@ class SellerList extends Component {
             options.push({ value: seller.name, label: seller.name })
         })
 
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
+
+
         return (
             <div>
+            {redirectVar}
                 <div>
                     <div>
                         <br></br>
