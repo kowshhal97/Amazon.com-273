@@ -13,7 +13,8 @@ import Header from '../sellerHeader/sellerHeader';
 
 //localStorage.getItem('id');
 //let sellerID = localStorage.getItem('id');
-let sellerID = 2;
+let sellerID = localStorage.getItem('id');
+let sellerName = localStorage.getItem('sellerName');
 
 class SellerInventory extends Component {
 
@@ -29,19 +30,24 @@ class SellerInventory extends Component {
     async componentDidMount() {
         try {
 
-
             const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + sellerID);
             console.log(response)
+            let productsDropDownArray = [];
 
             if (response.data.length) {
+                response.data.map((product) => {
+                    productsDropDownArray.push({ value: product.id, label: product.productName })
+                })
                 this.setState({
-                    products: response.data
+                    products: response.data,
+                    productsBkUp: response.data,
+
+                    productsDropDown: productsDropDownArray
                 })
             }
             else {
 
             }
-
 
             this.setState({
                 loading: false
@@ -55,7 +61,20 @@ class SellerInventory extends Component {
 
     handleChangeProduct = (e) => {
         if (e) {
-
+            let filteredData = [];
+            for(let i = 0; i <this.state.productsBkUp.length; i++){
+                if(e.value === this.state.productsBkUp[i].id){
+                    filteredData.push(this.state.productsBkUp[i]);
+                }
+                this.setState({
+                    products:filteredData
+                })
+            }
+        }
+        else {
+            this.setState({
+                products: this.state.productsBkUp
+            })
         }
     }
 
@@ -120,8 +139,8 @@ class SellerInventory extends Component {
             <div>
                 {this.state.redirect}
                 <div>
-              <Header />
-              </div>
+                    <Header />
+                </div>
                 <div>
                     <div>
                         <Row>
