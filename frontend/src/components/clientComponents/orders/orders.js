@@ -112,11 +112,11 @@ class Orders extends Component {
                                                                 <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
                                                                 <Row>
                                                                     <Col xs={2}>
-                                                                        <Link to={{ pathname: '//', state: {} }}>
+                                                                        <Link to={{  pathname: "/user/Productdetails", state: { productID: product.productId } }}>
                                                                             <img
                                                                                 alt=''
                                                                                 style={{ width: '100%' }}
-                                                                                src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                src={product.thumbNail}
                                                                             ></img>
                                                                         </Link>
                                                                     </Col>

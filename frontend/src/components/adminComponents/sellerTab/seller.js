@@ -113,7 +113,7 @@ class SellerList extends Component {
 
                                             return (<Col md={4} key={i}>
                                                 <Card style={{ width: '20rem' }}>
-                                                    <Card.Img variant="top" src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'} />
+                                                    <Card.Img variant="top" src={seller.profilePicUrl} />
                                                     <Card.Body>
                                                         {/* <Card.Title>Card Title</Card.Title>
                                                

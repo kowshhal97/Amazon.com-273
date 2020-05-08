@@ -101,6 +101,25 @@ class Analytics extends React.Component {
 
             console.log(error);
         })
+       
+        await axios.get(exportData.backenedURL + 'read/admin/stats/viewcount')
+        .then((response) => {
+            console.log(response.data)
+          
+            response.data.map((value)=>{
+                topProdViewedArray.push(value)
+            })
+           console.log(topProdViewedArray);
+
+            // response.data.map((value)=>{
+            //     topProdRatingArray.push([value.productName, value.rating])
+            // })
+          
+        })
+        .catch((error) => {
+
+            console.log(error);
+        })
 
         // mostSoldProductsArray.push(['Apple Iphone', 10],
         //     ['Nike Men Shoe', 8]);
@@ -115,8 +134,8 @@ class Analytics extends React.Component {
         // topProdRatingArray.push(['Apple', 4.8],
         //     ['Nike', 4.6]);
 
-        topProdViewedArray.push(['Apple', 2000],
-            ['Nike', 2170]);
+        // topProdViewedArray.push(['Apple', 2000],
+        //     ['Nike', 2170]);
 
 
 
@@ -139,7 +158,7 @@ class Analytics extends React.Component {
         }
         return (
             <div>
-                {redirectVar}
+                {/* {redirectVar} */}
                 <div>
                     {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />}
                     {!this.state.loading && <div>
@@ -162,6 +181,8 @@ class Analytics extends React.Component {
                                                     title: 'Number of orders per day',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#15a2b9"]
+
                                             }}
 
                                         />
@@ -182,6 +203,8 @@ class Analytics extends React.Component {
                                                     title: 'Top 5 most sold products',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#18108c"]
+
                                             }}
 
                                         />
@@ -256,7 +279,10 @@ class Analytics extends React.Component {
                                                     title: 'Top 10 products based on rating',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#1e7e34"]
+
                                             }}
+                                            
 
                                         />
                                     </Card.Body>
@@ -276,6 +302,8 @@ class Analytics extends React.Component {
                                                     title: 'Top 10 products viewed per day',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#dc3545"]
+
                                             }}
 
                                         />

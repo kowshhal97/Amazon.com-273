@@ -13,7 +13,9 @@ import { connect } from 'react-redux';
 import { getSellerOrders, updateStatus } from '../../../store/actions/sellerActions/ordersActions';
 
 
-let sellerName = "Apple";
+//let sellerName = "Apple";
+let sellerName = localStorage.getItem('sellerName');
+
 class SellerOrders extends Component {
 
     state = {
@@ -124,13 +126,14 @@ class SellerOrders extends Component {
                                                                     <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
                                                                     <Row>
                                                                         <Col xs={2}>
-                                                                            <Link to={{ pathname: '//', state: {} }}>
+                                                                            {/* <Link to={{ pathname: '//', state: {} }}> */}
                                                                                 <img
                                                                                     alt=''
                                                                                     style={{ width: '100%' }}
-                                                                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                   // src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                   src={product.thumbNail}
                                                                                 ></img>
-                                                                            </Link>
+                                                                            {/* </Link> */}
                                                                         </Col>
                                                                         <Col md={7}>
                                                                             <Row>

@@ -10,7 +10,7 @@ import exportData from '../../config/config';
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Redirect } from "react-router";
-
+import Logo from '../../images/Amazon.svg'
 
 
 
@@ -28,7 +28,7 @@ render(){
   
   return (
     <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="/">AMAZON</Navbar.Brand>
+    <Navbar.Brand href="/"> <img src = {Logo} height='30px' width='120px'/></Navbar.Brand>
     <Form inline>
       <FormControl type="text" placeholder="Search" bg="light" className="mr-sm-2" />
       <Button variant="outline-info">Search</Button>

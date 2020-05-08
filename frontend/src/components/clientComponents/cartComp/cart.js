@@ -116,7 +116,7 @@ class Cart extends Component {
         }
         return (
             <div>
-                {redirectVar}
+                {/* {redirectVar} */}
                 <div>
                 <Header />
 
@@ -149,7 +149,8 @@ class Cart extends Component {
                                                                     <img
                                                                         alt=''
                                                                         style={{ width: '100%' }}
-                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                        // src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                        src={product.thumbNail}
                                                                     ></img>
                                                                 </Link>
                                                             </Col>
