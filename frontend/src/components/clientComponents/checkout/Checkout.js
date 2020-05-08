@@ -108,7 +108,8 @@ class Checkout extends React.Component {
         console.log(cartProducts)
         var customerId
         var productArray = []
-        customerId = localStorage.getItem("id")
+        customerId = localStorage.getItem("id");
+        
         for(var i=0; i< cartProducts.length; i++){
             let product = {
                 productId: '',
@@ -168,7 +169,7 @@ class Checkout extends React.Component {
         }
         const data = {
             customerId : customerId,
-            // customerName : customerName,
+             customerName : customerName,
             billing: billing,
             shippingAddress : shippingAddress,
             products : productArray
