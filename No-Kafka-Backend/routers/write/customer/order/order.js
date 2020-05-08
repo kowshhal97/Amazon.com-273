@@ -46,6 +46,7 @@ router.put('/:orderId', async (req, res) => {
         if(!order) {
             return res.status(404).send('Order not found!');
         }
+        const {customerName, customerId} = order;
         order.products.map((product) => {
             if(product.productId === productId) {
                 if(orderStatus) {
@@ -57,6 +58,10 @@ router.put('/:orderId', async (req, res) => {
                 }
                 if(totalPrice){
                     product.totalPrice = 0;
+                    const sale = new Sale({sellerName: product.sellerName, sales: -1*product.totalPrice})
+                    await sale.save();
+                    const purchase = new Purchase({customerId: customerId, customerName: customerName, purchase: -1*product.totalPrice});
+                    await purchase.save();
 
                 }
             }

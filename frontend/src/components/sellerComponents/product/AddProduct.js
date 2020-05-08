@@ -3,7 +3,7 @@ import { Button , Col, Container, Form } from 'react-bootstrap';
 import Header from "../../sellerComponents/sellerHeader/sellerHeader";
 import axios from 'axios';
 import exportData from '../../../config/config';
-
+import {Redirect} from 'react-router';
 
 class AddProduct extends React.Component {
 
@@ -16,7 +16,8 @@ class AddProduct extends React.Component {
             productDescription: '',
             fileArray: [],
             filePreviewUrls: [],
-            categories: []
+            categories: [],
+            redirect: ''
         }
     }
 
@@ -70,6 +71,7 @@ class AddProduct extends React.Component {
                         } 
                     })
                     alert("Product added successfully")
+                    this.setState({ redirect: <Redirect to='/sellerHome' /> });
                 } 
         })
     }
@@ -107,6 +109,7 @@ class AddProduct extends React.Component {
           <div>
             <Header />
             <Container>
+                {this.state.redirect}
                 <br/>
                 <h2>Add a New Product:</h2>
                 <br/>
