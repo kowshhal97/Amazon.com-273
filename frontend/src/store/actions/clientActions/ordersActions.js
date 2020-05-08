@@ -25,6 +25,7 @@ export const getCustOrders = (user_id) => async dispatch => {
 export const cancelOrderAPI = (values) => async dispatch => {
     let data={
         orderStatus:"2",
+        totalPrice:0,
         orderUpdateItem:{
            deliveryStatus: String(values.orderUpdateItem)
         }, 

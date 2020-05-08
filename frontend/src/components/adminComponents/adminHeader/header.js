@@ -10,6 +10,10 @@ class Header extends Component {
         super(props)
     }
 
+    logout = () => {
+        localStorage.clear();
+    }
+
     render(){
         return(
             <div>
@@ -21,7 +25,7 @@ class Header extends Component {
               <Nav.Link href="/admin/orders/">Orders</Nav.Link>
               <Nav.Link href="/admin/sellers/">Seller</Nav.Link>
               <Nav.Link href="/admin/analytics/">Dashboard</Nav.Link>
-              <Nav.Link href="/">Logout</Nav.Link>
+              <Nav.Link href="/" onClick={this.logout}>Logout</Nav.Link>
 
             </Nav>
     

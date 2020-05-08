@@ -1,5 +1,5 @@
 export const LoginReducer = (state = [], action)=> {
-  //  console.log(action.payload)
+   console.log(action.payload)
      switch(action.type){
          case 'LOGIN':
              return action.payload
@@ -12,7 +12,7 @@ export const LoginReducer = (state = [], action)=> {
 
 
  export const SignUpReducer = (state = [], action)=> {
-    console.log(action.payload)
+   // console.log(action.payload)
      switch(action.type){
          case 'SIGNUP':
              return action.payload

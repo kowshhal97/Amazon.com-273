@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { getSellerOrders, updateStatus } from '../../../store/actions/sellerActions/ordersActions';
 
 
-let sellerName = "OnePlus";
+let sellerName = "Apple";
 class SellerOrders extends Component {
 
     state = {
@@ -27,8 +27,8 @@ class SellerOrders extends Component {
     }
 
     orderStatusUpdate = (orderDetail, e) => {
-        console.log((e.target.value))
-        console.log(orderDetail);
+      //  console.log((e.target.value))
+       // console.log(orderDetail);
 
         let values={orderUpdateItem:e.target.value, productId:orderDetail.product.productId, orderId:orderDetail.orderId,sellerName:sellerName};
 
@@ -37,7 +37,7 @@ class SellerOrders extends Component {
     }
 
     changeStatus = (product, orders_id) => {
-        console.log(product)
+    //    console.log(product)
         let i =0;
         let orderDetail = {orderId: orders_id, product:product};
         let update = product.orderUpdates;
@@ -45,7 +45,7 @@ class SellerOrders extends Component {
         let latestStatus = update[0].deliveryStatus;
         let title = exportData.deliveryStatus[latestStatus];
 
-        console.log(title)
+     //   console.log(title)
         return (
 
             <Form onChange={(e)=>this.orderStatusUpdate(orderDetail, e)}>
@@ -64,7 +64,7 @@ class SellerOrders extends Component {
 
     render() {
 
-        console.log(this.props.sellerOrders);
+     //   console.log(this.props.sellerOrders);
         return (
             <div>
                 <div>
@@ -76,7 +76,7 @@ class SellerOrders extends Component {
                             <Col md={10}>
                             {this.props.sellerOrders.length ? <div>
                                 {this.props.sellerOrders.length && this.props.sellerOrders.map((orders, i) => {
-                                    console.log(orders)
+                            //        console.log(orders)
                                     return (
                                         <div key={i}>
                                             {orders.products.map((product, i) => {

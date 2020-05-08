@@ -12,7 +12,7 @@ export const allProductsReducer = (state = [], action)=> {
 
 
  export const allCommentsForProductReducer = (state = [], action)=> {
-    // console.log(action.payload)
+   //  console.log(action.payload)
      switch(action.type){
          case 'ALL_COMMENTS_PRODUCT':
              return action.payload
@@ -45,4 +45,19 @@ export const allProductsReducer = (state = [], action)=> {
                  return state
  
      }
- }
+
+    }
+
+ export const  allimageDetailsReducer= (state = [], action)=> {
+        //  console.log(action.payload)
+          switch(action.type){
+              case 'ALL_IMAGES_PRODUCT':
+                  return action.payload
+              
+                  default:
+                      return state    
+          }
+      }
+
+
+     

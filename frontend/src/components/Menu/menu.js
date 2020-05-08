@@ -17,9 +17,16 @@ import { Redirect } from "react-router";
 
 class Menu extends Component {
 
+  searchItem = e =>{
+
+
+
+  }
+
+ 
+ 
   logout = e => {
-   localStorage.removeItem('id');
-   localStorage.removeItem('usertype');
+    localStorage.clear();
    window.location.href='/'
   }
     
@@ -31,14 +38,14 @@ render(){
     <Navbar.Brand href="/">AMAZON</Navbar.Brand>
     <Form inline>
       <FormControl type="text" placeholder="Search" bg="light" className="mr-sm-2" />
-      <Button variant="outline-info">Search</Button>
+      <Button variant="outline-info" >Search</Button>
     </Form>
     <Nav className="mr-auto">
       <Nav.Link href="/userHome">Accounts</Nav.Link>
       <Nav.Link href="/user/orders">Orders</Nav.Link>
       <Nav.Link href="/user/cart/">Cart</Nav.Link>
     </Nav>
-    <DropdownButton id="dropdown-item-button" title="Dropdown button" variant="Secondary">
+    <DropdownButton id="dropdown-item-button" title="user"  bg="light" variant="dark">
   <Dropdown.Item as="button">Profile</Dropdown.Item>
   <Dropdown.Item as="button" onClick={this.logout}>Logout</Dropdown.Item>
   <Dropdown.Item as="button">Something else</Dropdown.Item>

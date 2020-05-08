@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import moment from 'moment';
 import axios from 'axios';
 import exportData from '../../../config/config';
+import { Redirect } from 'react-router';
 
 
 class Analytics extends React.Component {
@@ -132,8 +133,13 @@ class Analytics extends React.Component {
 
 
     render() {
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                     {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />}
                     {!this.state.loading && <div>
@@ -156,6 +162,8 @@ class Analytics extends React.Component {
                                                     title: 'Number of orders per day',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#15a2b9"]
+
                                             }}
 
                                         />
@@ -176,6 +184,8 @@ class Analytics extends React.Component {
                                                     title: 'Top 5 most sold products',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["violet"]
+
                                             }}
 
                                         />
@@ -250,7 +260,10 @@ class Analytics extends React.Component {
                                                     title: 'Top 10 products based on rating',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#1e7e34"]
+
                                             }}
+                                            
 
                                         />
                                     </Card.Body>
@@ -270,6 +283,8 @@ class Analytics extends React.Component {
                                                     title: 'Top 10 products viewed per day',
                                                     subtitle: moment().format('DD') + " " + moment().format('MMM') + ", " + moment().format("YYYY"),
                                                 },
+                                                colors: ["#dc3545"]
+
                                             }}
 
                                         />

@@ -62,6 +62,7 @@ export const updateStatus = (values) => async dispatch => {
 export const cancelOrderAPI = (values) => async dispatch => {
     let data={
         orderStatus:"2",
+        totalPrice:0,
         orderUpdateItem:{
            deliveryStatus: String(values.orderUpdateItem)
         }, 
@@ -82,7 +83,7 @@ export const cancelOrderAPI = (values) => async dispatch => {
                 console.log(res)
             }
             else {
-
+                dispatch(getSellerOrders(values.sellerName))
              console.log(res)
             }
         })

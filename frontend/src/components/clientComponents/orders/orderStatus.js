@@ -3,6 +3,7 @@ import { Timeline, TimelineItem } from 'vertical-timeline-component-for-react';
 import exportData from '../../../config/config';
 import moment from 'moment';
 import Header from "../../header/header";
+import { Redirect } from 'react-router';
 
 class OrderStatus extends Component {
     constructor(props) {
@@ -21,8 +22,13 @@ class OrderStatus extends Component {
 
             </div>)
         }
+        let redirectVar = null;
+        if (!localStorage.getItem("id")) {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                 <Header />
 

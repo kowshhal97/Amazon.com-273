@@ -4,10 +4,8 @@ import exportData from '../../../config/config';
 
 
 export const getALLProducts = () => async dispatch => {
-
     const response = await axios.get(exportData.backenedURL + 'read/products' );
-    console.log(response)
-
+  //  console.log(response)
     if (response.data.length) {
         dispatch({
             type: 'ALL_PRODUCTS',
@@ -27,7 +25,7 @@ export const getALLProducts = () => async dispatch => {
 export const getProductDetails = (prod_id) => async dispatch => {
 
      const response = await axios.get(exportData.backenedURL + 'read/products/' + prod_id);
-     console.log(response)
+  //   console.log(response)
  
      if (response.data) {
          dispatch({
@@ -46,11 +44,8 @@ export const getProductDetails = (prod_id) => async dispatch => {
 
 
 export const getALLProductsBySeller = (s_id) => async dispatch => {
-
-   
     const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + s_id);
-    console.log(response)
-
+  //  console.log(response)
     if (response.data.length) {
         dispatch({
             type: 'ALL_SELLER_PRODUCTS',
@@ -63,16 +58,12 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
             payload: []
         })
     }
-
 }
 
 
  export const getALLCommentsForProduct = (prod_id) => async dispatch => {
-
-   
      const response = await axios.get(exportData.backenedURL + 'read/customer/comments/product/' + prod_id);
-     console.log(response)
- 
+   // console.log(response)
      if (response.data.length) {
          dispatch({
              type: 'ALL_COMMENTS_PRODUCT',
@@ -90,19 +81,16 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
 
 
 
- export const postCommentForProduct = (user_id,prod_id) => async dispatch => {
+ export const postCommentForProduct = (prod_id,user_id, data) => async dispatch => {
 
-    let p_id = 1 ;
-    let u_id =1;
-     const response = await axios.post(exportData.backenedURL + 'write/comments/' + p_id + '/'+ u_id, {
+     const response = await axios.post(exportData.backenedURL + 'write/comments/' + user_id + '/'+ prod_id, data, {
          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
          }
      });
-     console.log(response)
- 
-     if (response.data.length) {
+    //  console.log(response)
+     if (response.data.status === 200) {
          dispatch({
              type: 'ADD_PRODUCT_COMMENT',
              payload: response.data
@@ -144,3 +132,54 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
             console.log(err)
         })
 }
+
+export const getALLimagesForProduct = (prod_id) => async dispatch => {
+    const response = await axios.get(exportData.backenedURL + 'read/customer/comments/product/' + prod_id);
+  // console.log(response)
+    if (response.data.length) {
+        dispatch({
+            type: 'ALL_IMAGES_PRODUCT',
+            payload: response.data
+        })
+    }
+    else {
+        dispatch({
+            type: 'ALL_IMAGES_PRODUCT',
+            payload: []
+        })
+    }
+
+}
+
+
+
+export const addProductToCart= (user_id,prod_id,data) => async dispatch => {
+   
+    // const data = {
+    //     "quantity":1,
+    //       "flag":0,
+    //        "gift":0
+    // }
+    const response = await axios.post(exportData.backenedURL + 'write/customer/cart/' + user_id + '/'+ prod_id, data, {
+        headers: {
+           'Accept': 'application/json',
+           'Content-Type': 'application/json',
+        }
+    });
+   //  console.log(response)
+    if (response.data.status === 200) {
+        dispatch({
+            type: 'ADD_PRODUCT_CART',
+            payload: response.data
+        })
+    }
+    else {
+        dispatch({
+            type: 'ADD_PRODUCT_CART',
+            payload: []
+        })
+    }
+
+}
+
+

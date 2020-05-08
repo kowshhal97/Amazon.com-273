@@ -13,8 +13,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
 import StarRatingComponent from 'react-star-rating-component';
-import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
-
+import { getProductDetails, getALLCommentsForProduct , postCommentForProduct,addProductToCart} from '../../../store/actions/clientActions/productsActions';
+import { Redirect } from 'react-router';
 
 
 
@@ -24,42 +24,61 @@ class ProductDetailsPage extends Component {
     console.log(props);
     this.state = {
       loading: true,
+      commentt:''
     };
+  
   }
 
 
   async componentDidMount() {
-    console.log(this.props.location.state.prod_id)
-    await this.props.getProductDetails(this.props.location.state.prod_id)
-    await this.props.getALLCommentsForProduct(this.props.location.state.prod_id)
+    console.log(localStorage.getItem('prod_id'))
+    await this.props.getProductDetails(localStorage.getItem('prod_id'))
+    await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
     this.setState({
         loading: false
     })
 
 }
 
-addtoCart = () => {
-  
-}
+onChangeHandler = e => {
+  this.setState({
+    commentt: e.target.value
+  });
+};
 
-addcomment = e => {
-  const data = {
-    comment: this.state.comment,
-    prod_id: this.props.ProductDetails.prod_id
+
+ addcomment =  e =>  {
+ 
+   const data = {
+    comment: this.state.commentt,  
   }
-
-  this.props.postCommentForProduct(data)
+  console.log(data)
+   this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
 
 }
+
+addtoCart = e =>{
+  const data = {
+    quantity: 1,
+    flag: 0,
+    gift: 0  
+  }
+  console.log(data)
+this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
+
+}
+
 
   render() {
-    // console.log(this.props.ProductDetails);
     const product = this.props.ProductDetails
-    // console.log(this.props.allComments);
-    // const getcomments = this.props.allComments
-
+   const comments = this.props.allComments
+   let redirectVar = null;
+   if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+       redirectVar = <Redirect to="/unauthorised" />
+   }
     return (
       <div>
+         {redirectVar}
         <Header />
         <h3> {product.productName} </h3>
         <div>
@@ -115,6 +134,7 @@ addcomment = e => {
                       variant="warning"
                       size="sm"
                       block 
+                      onClick ={this.addtoCart}
                     ><Link to={{ pathname: "/user/cart/" }} style={{ color: 'black' }}>  Add to Cart</Link>  
                     </Button>
                   </div>
@@ -145,25 +165,33 @@ addcomment = e => {
               </Col>
             </Row>
           </Container>
-
+   
           <strong>
             <p style={{ color: "#B12704" }}>Reviews</p>
           </strong>
+
           <ListGroup variant="flush">
-            <ListGroup.Item>not good</ListGroup.Item>
-            <ListGroup.Item>Great in use</ListGroup.Item>
-            <ListGroup.Item>OK ok</ListGroup.Item>
-            <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+          {comments.map((type) => (
+                    <div>
+                       <ListGroup.Item>{type.comment}</ListGroup.Item>
+                    </div>
+                  ))}   
           </ListGroup>
-          {/* <Form> */}
-  <Form.Group controlId="formBasicPassword">
+    <div>     
     {/* <Form.Label>Add Comment</Form.Label> */}
-    <Form.Control type="comment" placeholder="add comment" />
-  </Form.Group>
-  <Button variant="warning" type="submit" onClick ={this.addcomment}    size="sm">
+    <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    className="form-control form-control-lg"
+                    onChange={this.onChangeHandler}
+                    required
+                  />
+</div>
+  <Button variant="warning" type="submit" onClick={this.addcomment} size="sm">
     Add Comment
   </Button>
-{/* </Form> */}
+
         </div>
       </div>
     );
@@ -176,5 +204,5 @@ const mapStateToProps = (state) => {
              allComments : state.allComments}
 }
 
-export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct})(ProductDetailsPage);
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct,addProductToCart})(ProductDetailsPage);
 

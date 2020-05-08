@@ -36,7 +36,7 @@ import CancelOrderSeller from './sellerComponents/orders/cancelOrder';
 import OrderStatusSeller from './sellerComponents/orders/orderStatus';
 import OrderDetailsSeller from './sellerComponents/orders/orderDetails';
 import SellerHeader from './sellerComponents/sellerHeader/sellerHeader';
-
+import Reports from './sellerComponents/reports/reports';
 
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
@@ -101,6 +101,8 @@ const App = () => {
         <Route path='/seller/orders/cancelOrder/' component={CancelOrderSeller} />
         <Route path='/seller/orders/orderStatus/' component={OrderStatusSeller} />
         <Route path='/seller/orders/details/' component={OrderDetailsSeller} />
+        <Route path='/seller/reports/' component={Reports} />
+
 
 
 

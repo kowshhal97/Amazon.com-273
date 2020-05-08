@@ -10,22 +10,27 @@ import Save4Later from './save4Later';
 import { connect } from 'react-redux';
 import { getCartProducts, updateIsGift, moveToLater, changeQuantity, deleteProduct } from '../../../store/actions/clientActions/cartActions';
 import Header from "../../header/header";
-
+import { Redirect } from 'react-router';
 import Spinner from 'react-bootstrap/Spinner';
 //import Button from 'react-bootstrap/Button';
 
 
 //change it to local storage
-let user_id = 1;
+//let user_id = 1;
+let user_id = localStorage.getItem('id');
+let userType=localStorage.getItem('usertype');
+
 class Cart extends Component {
 
     constructor() {
         super();
         this.state = {
             subtotal: 0,
-            loading: true
+            loading: true,
+            redirect:'',
+            //totalCost:0
         }
-
+        
     }
 
     async componentDidMount() {
@@ -35,6 +40,7 @@ class Cart extends Component {
             loading: false
 
         })
+        console.log(localStorage.getItem('id'), localStorage.getItem('usertype'))
 
        // this.checkTotalCost();
 
@@ -51,9 +57,12 @@ class Cart extends Component {
             //     subtotal: this.state.subtotal + cost
             // })
         }
+      
         return ("$"+cost);
 
     }
+
+    
 
     giftCheckBox = (product, e) => {
         let values = {user_id:user_id, productId:product.productId};
@@ -101,9 +110,13 @@ class Cart extends Component {
 
 
     render() {
-
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                 <Header />
 
@@ -217,7 +230,7 @@ class Cart extends Component {
 
                                         </Row>
                                         <Row>
-                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
+                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/checkout/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
                                         </Row>
                                     </Card.Body>
                                 </Card>
