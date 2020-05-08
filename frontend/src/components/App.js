@@ -37,7 +37,8 @@ import OrderStatusSeller from './sellerComponents/orders/orderStatus';
 import OrderDetailsSeller from './sellerComponents/orders/orderDetails';
 import SellerHeader from './sellerComponents/sellerHeader/sellerHeader';
 import Reports from './sellerComponents/reports/reports';
-
+import Inventory from './sellerComponents/inventory/inventory';
+import UpdateProduct from './sellerComponents/inventory/updateProduct';
 //Admin Components
 import AdminOrders from './adminComponents/orders/orders';
 import Analytics from './adminComponents/analytics/analytics';
@@ -102,8 +103,8 @@ const App = () => {
         <Route path='/seller/orders/orderStatus/' component={OrderStatusSeller} />
         <Route path='/seller/orders/details/' component={OrderDetailsSeller} />
         <Route path='/seller/reports/' component={Reports} />
-
-
+        <Route exact path='/seller/inventory/' component={Inventory} />
+        <Route path='/seller/inventory/update/' component={UpdateProduct} />
 
 
 

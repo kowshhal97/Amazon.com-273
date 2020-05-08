@@ -183,6 +183,11 @@ class AdminInventory extends Component {
                     console.log(error);
                 })
         }
+        else{
+            this.setState({
+                products: []
+            })
+        }
 
     }
 
@@ -447,7 +452,7 @@ class AdminInventory extends Component {
                                         {this.state.products.map((product, i) => {
                                             return (<Col md={4} key={i}>
                                                 <Card style={{ width: '20rem' }}>
-                                                    <Card.Img variant="top" src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'} />
+                                                    <Card.Img variant="top" src={product.thumbNail} />
 
                                                     <Card.Body>
                                                         <Row>

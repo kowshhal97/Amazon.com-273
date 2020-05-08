@@ -54,6 +54,7 @@ class Checkout extends React.Component {
 
     onCardChangeListener = e => {
         this.setState({selectedCard: e.target.id})
+        console.log(e.target.id)
     }
 
     addNewAddress = e => {
@@ -105,6 +106,7 @@ class Checkout extends React.Component {
     onPlaceOrder = e => {
         var cartProducts = this.state.cartProducts
         console.log(cartProducts)
+        var customerId
         var productArray = []
         for(var i=0; i< cartProducts.length; i++){
             let product = {
@@ -121,6 +123,7 @@ class Checkout extends React.Component {
                     giftMessage: ''
                 }
             }
+            customerId = cartProducts[i].customerId
             product.productId = cartProducts[i].productId
             product.productName = cartProducts[i].productName
             product.sellerName = cartProducts[i].sellerName
@@ -142,26 +145,27 @@ class Checkout extends React.Component {
         for(var j=0 ; j<productArray.length; j++){
             netPrice += productArray[j].totalPrice
         }
+        var addressDetails = this.state.selectedAddress.split(",")
         var shippingAddress = {
-            name: this.state.selectedAddress.name,
-            address1 : this.state.selectedAddress.address1,
-            adress2 :this.state.selectedAddress.address2,
-            city: this.state.selectedAddress.city,
-            state: this.state.selectedAddress.state,
-            country: this.state.selectedAddress.country,
-            zipcode: this.state.selectedAddress.zipcode,
-            phoneNumber: this.state.selectedAddress.phoneNumber
+            name: addressDetails[0],
+            address1 : addressDetails[1],
+            adress2 :addressDetails[2],
+            city: addressDetails[3],
+            state: addressDetails[4],
+            country: addressDetails[5],
+            zipcode: addressDetails[6],
+            phoneNumber: addressDetails[7]
         }
-        var customerId = 1
-        var customerName = "user"
+        // var customerName = "user"
+        var cardDetails = this.state.selectedCard.split(",")
         var billing = {
-            name : this.state.selectedCard.name,
-            cardNumber: this.state.selectedCard.cardNumber,
+            name : cardDetails[0],
+            cardNumber: cardDetails[1],
             totalPrice: netPrice
         }
         const data = {
             customerId : customerId,
-            customerName : customerName,
+            // customerName : customerName,
             billing: billing,
             shippingAddress : shippingAddress,
             products : productArray
@@ -169,11 +173,12 @@ class Checkout extends React.Component {
 
         axios.post(exportData.backenedURL + 'write/customer/orders/' + customerId, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
             .then(res => {
-                if (res.status === 200) {
+                console.log(res)
+                if (res.status === 201) {
                     console.log(res)
                     alert("order placed successfully")
                 } 
-            })
+        })
 
     }
 
@@ -274,7 +279,14 @@ class Checkout extends React.Component {
                                                addressCard.state + ", " +
                                                addressCard.country}
                                         name="addressRadioButton"
-                                        id={addressCard}
+                                        id={addressCard.name + "," +
+                                            addressCard.address1 + "," + 
+                                            addressCard.address2 + "," + 
+                                            addressCard.city + "," + 
+                                            addressCard.state + "," +
+                                            addressCard.country + "," +
+                                            addressCard.zipcode + "," +
+                                            addressCard.phoneNumber}
                                         onChange={this.onAddressChangeListener}
                                     />
                                 )
@@ -307,8 +319,10 @@ class Checkout extends React.Component {
                                                card.cardNumber + ", Expiration Date:" + 
                                                card.expirationDate}
                                         name="cardRadioButton"
-                                        id={card}
-                                        onChange={this.onChangeListener}
+                                        id={card.name + "," +
+                                            card.cardNumber + "," +
+                                            card.expirationDate}
+                                        onChange={this.onCardChangeListener}
                                     />
                                 )
                             })}

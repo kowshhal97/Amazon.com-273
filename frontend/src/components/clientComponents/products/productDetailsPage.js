@@ -25,6 +25,7 @@ class ProductDetailsPage extends Component {
     this.state = {
       loading: true,
       commentt:''
+      
     };
   
   }
@@ -32,8 +33,10 @@ class ProductDetailsPage extends Component {
 
   async componentDidMount() {
     console.log(localStorage.getItem('prod_id'))
-    await this.props.getProductDetails(localStorage.getItem('used_id'),localStorage.getItem('prod_id'))
-    await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
+    // await this.props.getProductDetails(localStorage.getItem('prod_id'))
+    // await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
+    await this.props.getProductDetails(this.props.location.state.productID)
+    await this.props.getALLCommentsForProduct(this.props.location.state.productID);
     this.setState({
         loading: false
     })
@@ -53,7 +56,9 @@ onChangeHandler = e => {
     comment: this.state.commentt,  
   }
   console.log(data)
-   this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
+  // this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
+   this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
+
 
 }
 

@@ -13,6 +13,9 @@ import Header from "../../header/header";
 import { connect } from 'react-redux';
 import { getALLProducts } from '../../../store/actions/clientActions/productsActions';
 import PageNation from '../../pagenation/pagenation'
+import Axios from "axios";
+import Select from 'react-select';
+import { stat } from "fs";
 import { Redirect } from 'react-router';
 
 const _ = require('lodash');
@@ -23,49 +26,152 @@ class UserHome extends Component {
     this.state = {
       loading: true,
       productList: [],
-      filterProducts: []
+      filterProducts: [],
+      allCatgories: [],
+      selectedFilter: null,
+      paginationStart: 0,
+      paginationEnd:9,
+      search:""
     };
   }
 
-async componentDidMount() {
+  async componentDidMount() {
 
-    await  this.props.getALLProducts()
-      this.setState({
-        productList: this.props.allProducts,
-        filterProducts : this.props.allProducts,
-        loading: false
+    await Axios.get(exportData.backenedURL + 'read/admin/category/noProductsMapped')
+      .then((response) => {
+        let cat = []
+        for (let i of response.data) {
+
+          cat.push({ value: i.id, label: i.categoryName })
+        }
+        this.setState({ allCatgories: cat })
+     
+
+      })
+      .catch((error) => {
+
+        console.log(error);
+      })
+
+      
+    await this.props.getALLProducts()
+    console.log(this.state.paginationStart+"____"+this.state.paginationEnd)
+    let paginatedList=this.props.allProducts.slice(this.state.paginationStart,this.state.paginationEnd);
+    this.setState({
+      allProduct:this.props.allProducts,
+      productList: paginatedList,
+      filterProducts: paginatedList,
+      loading: false
     })
-}
-
-
-productSearchHandler = (e) => {
-  let searchProductTxt = e.target.value;
-  let list = this.state.productList;
-  let fList = _.filter(list, function (o) { return o.productName.toLowerCase().includes(searchProductTxt.toLowerCase()); });
-  this.setState({
-      filterProducts: fList,
-      searchProductName: searchProductTxt
-  })
-}
-
-
-displayProducts = () => {
-  //for loop
-  for(let i=0; i<this.state.filterProducts.length; i+=3){
-    return (<div>
-      <Row>
-        <Col md={4}>
-     { this.state.filterProducts[i] && <ProductCard  cproducts = {this.state.filterProducts[i]} key={i}/>}
-     </Col>
-     <Col md={4}>
-    { this.state.filterProducts[i+1] && <ProductCard  cproducts = {this.state.filterProducts[i+1]} key={i+1}/> }
-    </Col>
-    { this.state.filterProducts[i+2] && <ProductCard  cproducts = {this.state.filterProducts[i+2]} key={i+2}/>}
-    </Row>
-    </div>)
   }
+
+  paginate=(start,end)=>{
+    if(start<0||(end>(this.state.allProduct.length)+9))
+    return;
+    var clonedArray = JSON.parse(JSON.stringify(this.state.allProduct));
+    this.setState({
+      productList:clonedArray.slice(start,end),
+      filterProducts:clonedArray.slice(start,end),
+      paginationStart:start,
+      paginationEnd:end
+    })
+  }
+
+  productSearchHandler = (e) => {
+    if(e.target.value===null||e.target.value===""){
+      this.setState({
+        search:e.target.value
+      })
+    }
+    let searchProductTxt = e.target.value;
+    var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
+    let filteredArray=[]
+    if(this.state.selectedFilter!=null){
+    for(let i of clonedArray){
+      console.log(i.categoryId)
+      console.log(this.state.selectedFilter)
+      if(i.categoryId===this.state.selectedFilter){
+        filteredArray.push(i)
+      }
+    }
+  }else{
+    filteredArray=clonedArray;
+  }
+    let fList = _.filter(filteredArray, function (o) { return o.productName.toLowerCase().includes(searchProductTxt.toLowerCase()); });
+    this.setState({
+      filterProducts: fList,
+      searchProductName: searchProductTxt,
+      search:e.target.value
+    })
+  }
+
+search=()=>{
+
+  var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
+    
+    let filteredArray=[]
+  if(this.state.search!=null){
+    filteredArray = _.filter(clonedArray, (o)=> { return o.productName.toLowerCase().includes(this.state.search); });
+ }
+ this.setState({filterProducts:filteredArray})
 }
+
+
+  filterProducts = (e) => {
+    if(e===null){
+    this.setState({selectedFilter:null,filterProducts:this.state.productList})
+    this.search()
+    return;
+    }
+
+    let filterValue = e.value;
+    var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
+   
+    let filteredArray=[]
+    if(this.state.search!=""){
+     filteredArray = _.filter(clonedArray, (o)=> { return o.productName.toLowerCase().includes(this.state.search); });
+  }else{
+    filteredArray=clonedArray;
+  }
+  let fList=[]
+  for(let i of filteredArray){
+    if(i.categoryId===filterValue){
+      fList.push(i)
+    }
+  }
+    this.setState({
+      filterProducts: fList,
+      selectedFilter: filterValue,
+      search:e.value
+    })
+
+
+    this.setState({selectedFilter:e.value})
+  }
+
+  displayProducts = () => {
+    //for loop
+    let output = []
+    for (let i = 0; i < this.state.filterProducts.length; i += 3) {
+      output.push(<div>
+        <Row>
+          <Col md={4}>
+            {this.state.filterProducts[i] && <ProductCard cproducts={this.state.filterProducts[i]} key={i} />}
+          </Col>
+          <Col md={4}>
+            {this.state.filterProducts[i + 1] && <ProductCard cproducts={this.state.filterProducts[i + 1]} key={i + 1} />}
+          </Col >
+          <Col md={4}>
+            {this.state.filterProducts[i + 2] && <ProductCard cproducts={this.state.filterProducts[i + 2]} key={i + 2} />}
+
+          </Col>
+        </Row>
+      </div>)
+    }
+    return output;
+  }
   render() {
+    
     // console.log(this.state.filterProducts);
     let redirectVar = null;
     if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
@@ -74,52 +180,55 @@ displayProducts = () => {
     return (
 
       <div>
+
           {redirectVar}
         <div>
           <Header />
         </div>
         <Container fluid>
-        <Row>
-          <input
-                    type="text"
-                    name="comment"
-                    id="comment"
-                    className="form-control form-control-lg"
-                    onChange={this.productSearchHandler}
-                    required
-                  />
-    </Row>
+
           <Row>
             <Col md={3}>
-              <h4>Product Categories</h4>
-              <span className="block-example border border-dark">
-                {/* <Container className="themed-container"> </Container> */}
-                <Form>
-                  {["1", "2", "3", "4", "5"].map((type) => (
-                    <div key={`default-${type}`} className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        id={`product-${type}`}
-                        label={` product category ${type}`}
-                      />
-                    </div>
-                  ))}
-                </Form>
-              </span>
+
+              <Row>
+                <input
+                  style={{ width: "90%", margin: "auto", marginTop: 30, marginBottom: 10 }}
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  className="form-control form-control-lg"
+                  placeholder="Search here"
+                  onChange={this.productSearchHandler}
+                  required
+                />
+              </Row>
+              <div style={{ marginTop: 50 }}>
+                <h4>Filters</h4>
+
+                <Select
+                  onChange={this.filterProducts}
+                  options={this.state.allCatgories}
+                  isClearable={true}
+                  placeholder="Select Category"
+                />
+              </div>
+              {/* </span> */}
             </Col>
-            {this.state.filterProducts.length===0?null:<Col md={9}>
-              {this.displayProducts()}
+            {this.state.filterProducts.length === 0 ? null : <Col md={9}>
+              <div>
+                {this.displayProducts()}
+              </div>
               {/* {this.state.filterProducts.map((product, ind)=>{    
               return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
             })} */}
             </Col>}
-            
+
           </Row>
-          {this.state.filterProducts.length===0?null:
-          <Row>
-            <PageNation/>
+          {this.state.filterProducts.length === 0 ? null :
+            <Row style={{ width: "50%", margin: "auto", marginTop: "5%" }}>
+              <PageNation paginate={this.paginate} currentStart={this.state.paginationStart} currentEnd={this.state.paginationEnd} />
             </Row>}
-          
+
         </Container>
       </div>
     );

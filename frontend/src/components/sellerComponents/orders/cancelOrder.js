@@ -9,7 +9,8 @@ import { cancelOrderAPI } from '../../../store/actions/sellerActions/ordersActio
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Toast from 'react-bootstrap/Toast'
-let sellerName = "Apple";
+let sellerName = localStorage.getItem('sellerName');
+
 
 class CancelOrder extends Component {
     constructor(props) {
