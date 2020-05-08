@@ -24,39 +24,42 @@ class ProductDetailsPage extends Component {
     console.log(props);
     this.state = {
       loading: true,
+      commentt:''
     };
+  
   }
 
 
   async componentDidMount() {
-    console.log(this.props.location.state.prod_id)
-    await this.props.getProductDetails(this.props.location.state.prod_id)
-    await this.props.getALLCommentsForProduct(this.props.location.state.prod_id)
+    console.log(localStorage.getItem('prod_id'))
+    await this.props.getProductDetails(localStorage.getItem('prod_id'))
+    await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
     this.setState({
         loading: false
     })
 
 }
 
-addtoCart = () => {
-  
-}
+onChangeHandler = e => {
+  this.setState({
+    commentt: e.target.value
+  });
+};
 
-addcomment = e => {
-  const data = {
-    comment: this.state.comment,
-    prod_id: this.props.ProductDetails.prod_id
+
+ addcomment =  e =>  {
+ 
+   const data = {
+    comment: this.state.commentt,  
   }
-
-  this.props.postCommentForProduct(data)
+  console.log(data)
+   this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
 
 }
 
   render() {
-    // console.log(this.props.ProductDetails);
     const product = this.props.ProductDetails
-    // console.log(this.props.allComments);
-    // const getcomments = this.props.allComments
+   const comments = this.props.allComments
 
     return (
       <div>
@@ -115,6 +118,7 @@ addcomment = e => {
                       variant="warning"
                       size="sm"
                       block 
+                      onClick ={this.addtoCart}
                     ><Link to={{ pathname: "/user/cart/" }} style={{ color: 'black' }}>  Add to Cart</Link>  
                     </Button>
                   </div>
@@ -145,25 +149,33 @@ addcomment = e => {
               </Col>
             </Row>
           </Container>
-
+   
           <strong>
             <p style={{ color: "#B12704" }}>Reviews</p>
           </strong>
+
           <ListGroup variant="flush">
-            <ListGroup.Item>not good</ListGroup.Item>
-            <ListGroup.Item>Great in use</ListGroup.Item>
-            <ListGroup.Item>OK ok</ListGroup.Item>
-            <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+          {comments.map((type) => (
+                    <div>
+                       <ListGroup.Item>{type.comment}</ListGroup.Item>
+                    </div>
+                  ))}   
           </ListGroup>
-          {/* <Form> */}
-  <Form.Group controlId="formBasicPassword">
+    <div>     
     {/* <Form.Label>Add Comment</Form.Label> */}
-    <Form.Control type="comment" placeholder="add comment" />
-  </Form.Group>
-  <Button variant="warning" type="submit" onClick ={this.addcomment}    size="sm">
+    <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    className="form-control form-control-lg"
+                    onChange={this.onChangeHandler}
+                    required
+                  />
+</div>
+  <Button variant="warning" type="submit" onClick={this.addcomment} size="sm">
     Add Comment
   </Button>
-{/* </Form> */}
+
         </div>
       </div>
     );

@@ -20,6 +20,7 @@ class Menu extends Component {
   logout = e => {
    localStorage.removeItem('id');
    localStorage.removeItem('usertype');
+   localStorage.removeItem('prod_id');
    window.location.href='/'
   }
     

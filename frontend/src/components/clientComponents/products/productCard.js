@@ -17,22 +17,15 @@ class ProductCard extends Component{
 
   getDetails = () => {
     console.log(this.props.cproducts.id)
-    this.setState({
-      redirect: true
-    })
-    
+    localStorage.setItem('prod_id',this.props.cproducts.id);
+    window.location.href= '/user/Productdetails'
   }
 
 
 
 render(){
-  if (this.state.redirect) {
-    return <Redirect to={{
-      pathname: '/user/Productdetails',
-      state: { prod_id: this.props.cproducts.id }
-    }} />
-  } else{
     return(
+      <div>    
   <Card> 
     <Card.Img variant="top" src={Lion} />
     <Card.Body>
@@ -44,8 +37,9 @@ render(){
     <Button  variant="warning" type="button" onClick={this.getDetails}>View Product</Button> 
     </Card.Body>
   </Card>
+  </div>
     );
- }
+ 
 }
 }
 
