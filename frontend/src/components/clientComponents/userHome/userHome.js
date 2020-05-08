@@ -13,6 +13,8 @@ import Header from "../../header/header";
 import { connect } from 'react-redux';
 import { getALLProducts } from '../../../store/actions/clientActions/productsActions';
 import PageNation from '../../pagenation/pagenation'
+import { Redirect } from 'react-router';
+
 const _ = require('lodash');
 
 class UserHome extends Component {
@@ -65,6 +67,10 @@ displayProducts = () => {
 }
   render() {
     // console.log(this.state.filterProducts);
+    let redirectVar = null;
+    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+        redirectVar = <Redirect to="/unauthorised" />
+    }
     return (
 
       <div>

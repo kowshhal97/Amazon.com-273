@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
 import StarRatingComponent from 'react-star-rating-component';
 import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
-
+import { Redirect } from 'react-router';
 
 
 
@@ -60,7 +60,10 @@ onChangeHandler = e => {
   render() {
     const product = this.props.ProductDetails
    const comments = this.props.allComments
-
+   let redirectVar = null;
+   if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+       redirectVar = <Redirect to="/unauthorised" />
+   }
     return (
       <div>
         <Header />
