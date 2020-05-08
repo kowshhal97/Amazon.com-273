@@ -138,9 +138,12 @@ router.put('/:id/uploads', async (req, res) => {
             const fileName = `products/${id}/${fieldName}`;
             const data = await uploadFile(buffer, fileName, type);
             if(key === 1) {
-                const product = await Product.update({thumbNail: `https://amazon-273.s3.amazonaws.com/products/${id}/1.jpg`})
+                const product = await Product.update({thumbNail: `https://amazon-273.s3.amazonaws.com/products/${id}/1.jpg`},{where:{
+                    id:id
+                }})
             }
-            const productImage = await ProductImages.create({imageUrl: `https://amazon-273.s3.amazonaws.com/products/${id}/${key}.jpg`})
+            const productImage = await ProductImages.create({imageUrl: `https://amazon-273.s3.amazonaws.com/products/${id}/${key}.jpg`,
+        productId:id})
             console.log(data);
           }
           
