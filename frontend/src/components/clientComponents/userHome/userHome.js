@@ -74,7 +74,7 @@ displayProducts = () => {
     return (
 
       <div>
-        
+          {redirectVar}
         <div>
           <Header />
         </div>

@@ -13,7 +13,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
 import StarRatingComponent from 'react-star-rating-component';
-import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
+import { getProductDetails, getALLCommentsForProduct , postCommentForProduct,addProductToCart} from '../../../store/actions/clientActions/productsActions';
 import { Redirect } from 'react-router';
 
 
@@ -57,6 +57,18 @@ onChangeHandler = e => {
 
 }
 
+addtoCart = e =>{
+  const data = {
+    quantity: 1,
+    flag: 0,
+    gift: 0  
+  }
+  console.log(data)
+this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
+
+}
+
+
   render() {
     const product = this.props.ProductDetails
    const comments = this.props.allComments
@@ -66,6 +78,7 @@ onChangeHandler = e => {
    }
     return (
       <div>
+         {redirectVar}
         <Header />
         <h3> {product.productName} </h3>
         <div>
@@ -191,5 +204,5 @@ const mapStateToProps = (state) => {
              allComments : state.allComments}
 }
 
-export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct})(ProductDetailsPage);
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct,addProductToCart})(ProductDetailsPage);
 

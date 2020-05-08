@@ -159,6 +159,7 @@ class Checkout extends React.Component {
         }
         return(
           <div>
+               {redirectVar}
             <Header />
             {this.state.redirect}
             <Container>
