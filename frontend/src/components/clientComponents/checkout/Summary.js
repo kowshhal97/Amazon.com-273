@@ -17,7 +17,7 @@ class SummaryPage extends React.Component {
 
     componentDidMount(){
         // const id = localStorage.getItem("user_id")
-        const id = 1
+        // const id = 1
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
           console.log(res)  
           if (res.status === 200) {
