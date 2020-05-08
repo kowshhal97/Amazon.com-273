@@ -15,8 +15,13 @@ class Header extends Component {
     }
 
     render(){
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return(
             <div>
+                {redirectVar}
             <div>
             <Navbar bg="dark" variant="dark">
                 

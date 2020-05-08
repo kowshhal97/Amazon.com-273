@@ -10,7 +10,7 @@ import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 
-let sellerName = "OnePlus";
+let sellerName = localStorage.getItem('sellerName');
 
 class SellerCancelledOrders extends Component {
     async componentDidMount () {
@@ -85,13 +85,14 @@ class SellerCancelledOrders extends Component {
                                                                 <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
                                                                 <Row>
                                                                     <Col xs={2}>
-                                                                        <Link to={{ pathname: '//', state: {} }}>
+                                                                        {/* <Link to={{ pathname: '//', state: {} }}> */}
                                                                             <img
                                                                                 alt=''
                                                                                 style={{ width: '100%' }}
-                                                                                src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                // src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                src={product.thumbNail}
                                                                             ></img>
-                                                                        </Link>
+                                                                        {/* </Link> */}
                                                                     </Col>
                                                                     <Col md={7}>
                                                                         <Row>

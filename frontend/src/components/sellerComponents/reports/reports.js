@@ -8,8 +8,9 @@ import exportData from '../../../config/config';
 import moment from 'moment';
 import { Redirect } from 'react-router';
 
-let seller_id = 1;
-let sellerName = 'Apple'
+let seller_id = localStorage.getItem('id');
+
+let sellerName = localStorage.getItem('sellerName');
 class Reports extends Component {
 
     constructor(props) {
@@ -32,9 +33,9 @@ class Reports extends Component {
 
             let sellerDataProductArray = [];
             let sellerDataAmountArray = []
-            sellerDataAmountArray.push(['Seller Data', 'Amount', 'Date'])
+            sellerDataAmountArray.push(['Seller Data', 'Amount'])
             sellerDataProductArray.push(
-                ['Seller Data', 'Quantity', 'Date'],
+                ['Seller Data', 'Quantity'],
                 //  ['2014', 1000, 400],
                 //  ['2015', 1170, 460],
                 //  ['2016', 660, 1120],
@@ -43,24 +44,46 @@ class Reports extends Component {
 
             const response = await axios.get(exportData.backenedURL + 'read/seller/orders/' + sellerName);
 
-            console.log(response.data)
-
+  //          console.log(response.data)
+            let tempProducts = [];
+            let tempAmount =[];
+            let m = 0;
+            let tempQuantity = [];
             if (response.data.length) {
-
                 response.data.map((order)=>{
                     if(order.products && order.products.length){
                         order.products.map((product)=>{
                             if(product.sellerName === sellerName){
+                           //     console.log(product)
+                                let index = tempProducts.indexOf(product.productName)
+                                if( index > -1){
+                                    tempAmount[index] =  tempAmount[index] + product.totalPrice;
+                                    tempQuantity[index] = tempQuantity[index] + product.quantity;
+                                }
+                                else{
+                                    tempProducts[m] = product.productName;
+                                    tempQuantity[m] = product.quantity;
+                                    tempAmount[m] =  product.totalPrice;
+                                    m++;
+                                 }
                               //  if(product.orderStatus === 1 || product.orderStatus === "1"){
                                //   console.log(product.productName, product.quantity, product.totalPrice)
-                                  sellerDataAmountArray.push([product.productName, product.totalPrice, moment(order.orderDate).format('DD/MM/YYYY')])
-                                  sellerDataProductArray.push([product.productName, product.quantity, moment(order.orderDate).format('DD/MM/YYYY')])
+
+
+                               //   sellerDataAmountArray.push([product.productName, product.totalPrice, moment(order.orderDate).format('DD/MM/YYYY')])
+                                 // sellerDataProductArray.push([product.productName, product.quantity, moment(order.orderDate).format('DD/MM/YYYY')])
 
                                 //}
                             }
                         })
                     }
                 })
+
+                for(let i =0; i<tempProducts.length;i++){
+                    sellerDataAmountArray.push([tempProducts[i], tempAmount[i]])
+                    sellerDataProductArray.push([tempProducts[i], tempQuantity[i]])
+
+                }
                 this.setState({
                     products: response.data
                 })
@@ -101,10 +124,10 @@ class Reports extends Component {
 
 
     render() {
-        // let redirectVar = null;
-        // if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'seller') {
-        //     redirectVar = <Redirect to="/unauthorised" />
-        // }
+         let redirectVar = null;
+         if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'seller') {
+             redirectVar = <Redirect to="/unauthorised" />
+        }
 
         return (
             <div>
@@ -191,6 +214,7 @@ class Reports extends Component {
                                 </Card>
                             </Col>
                             </Row>
+                            
 
                         
                            

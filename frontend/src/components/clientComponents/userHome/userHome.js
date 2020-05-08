@@ -13,9 +13,14 @@ import Header from "../../header/header";
 import { connect } from 'react-redux';
 import { getALLProducts } from '../../../store/actions/clientActions/productsActions';
 import PageNation from '../../pagenation/pagenation'
+
 import Axios from "axios";
 import Select from 'react-select';
 import { stat } from "fs";
+
+import { Redirect } from 'react-router';
+
+
 const _ = require('lodash');
 
 class UserHome extends Component {
@@ -171,9 +176,15 @@ search=()=>{
   render() {
     
     // console.log(this.state.filterProducts);
+    let redirectVar = null;
+    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+        redirectVar = <Redirect to="/unauthorised" />
+    }
     return (
 
       <div>
+
+          {redirectVar}
 
         <div>
           <Header />

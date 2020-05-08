@@ -13,8 +13,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'
 import StarRatingComponent from 'react-star-rating-component';
-import { getProductDetails, getALLCommentsForProduct , postCommentForProduct} from '../../../store/actions/clientActions/productsActions';
-
+import { getProductDetails, getALLCommentsForProduct , postCommentForProduct,addProductToCart} from '../../../store/actions/clientActions/productsActions';
+import { Redirect } from 'react-router';
 
 
 
@@ -25,6 +25,7 @@ class ProductDetailsPage extends Component {
     this.state = {
       loading: true,
       commentt:''
+      
     };
   
   }
@@ -32,8 +33,10 @@ class ProductDetailsPage extends Component {
 
   async componentDidMount() {
     console.log(localStorage.getItem('prod_id'))
-    await this.props.getProductDetails(localStorage.getItem('prod_id'))
-    await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
+    // await this.props.getProductDetails(localStorage.getItem('prod_id'))
+    // await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
+    await this.props.getProductDetails(this.props.location.state.productID)
+    await this.props.getALLCommentsForProduct(this.props.location.state.productID);
     this.setState({
         loading: false
     })
@@ -53,16 +56,34 @@ onChangeHandler = e => {
     comment: this.state.commentt,  
   }
   console.log(data)
-   this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
+  // this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
+   this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
+
 
 }
+
+addtoCart = e =>{
+  const data = {
+    quantity: 1,
+    flag: 0,
+    gift: 0  
+  }
+  console.log(data)
+this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
+
+}
+
 
   render() {
     const product = this.props.ProductDetails
    const comments = this.props.allComments
-
+   let redirectVar = null;
+   if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+       redirectVar = <Redirect to="/unauthorised" />
+   }
     return (
       <div>
+         {redirectVar}
         <Header />
         <h3> {product.productName} </h3>
         <div>
@@ -188,5 +209,5 @@ const mapStateToProps = (state) => {
              allComments : state.allComments}
 }
 
-export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct})(ProductDetailsPage);
+export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct,addProductToCart})(ProductDetailsPage);
 
