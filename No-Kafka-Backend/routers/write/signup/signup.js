@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
         const encryptpassword = await bcrypt.hash(req.body.password, salt);
         const user = await User.create({
             email: req.body.email,
-            password: encryptpassword,
+            password: req.body.password,
             userType: req.body.userType
         }, { transaction: transaction })
         if (user.userType === "customer") {

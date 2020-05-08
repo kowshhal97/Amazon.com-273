@@ -10,9 +10,18 @@ class Header extends Component {
         super(props)
     }
 
+    logout = () => {
+        localStorage.clear();
+    }
+
     render(){
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return(
             <div>
+                {redirectVar}
             <div>
             <Navbar bg="dark" variant="dark">
                 
@@ -21,7 +30,7 @@ class Header extends Component {
               <Nav.Link href="/admin/orders/">Orders</Nav.Link>
               <Nav.Link href="/admin/sellers/">Seller</Nav.Link>
               <Nav.Link href="/admin/analytics/">Dashboard</Nav.Link>
-              <Nav.Link href="/">Logout</Nav.Link>
+              <Nav.Link href="/" onClick={this.logout}>Logout</Nav.Link>
 
             </Nav>
     

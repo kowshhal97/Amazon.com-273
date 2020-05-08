@@ -1,5 +1,5 @@
 export const LoginReducer = (state = [], action)=> {
-  //  console.log(action.payload)
+   console.log(action.payload)
      switch(action.type){
          case 'LOGIN':
              return action.payload

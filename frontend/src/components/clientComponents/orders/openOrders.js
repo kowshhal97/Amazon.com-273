@@ -10,115 +10,19 @@ import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 import Header from "../../header/header";
+import { Redirect } from 'react-router';
 
 
 class OpenOrders extends Component {
     render() {
-        let values = [{
-            _id: '1',
-            customerId: '1234',
-            customerName: "Emily",
-            orderDate: '2019-07-03',
-            billing: {
-                name: 'EMILY',
-                cardNumber: '7465647564746374',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'Emily',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'California',
-                country: 'US',
-                zipcode: '976564',
-                phoneNumber: '9874656574'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 1',
-                sellerName: 'seller 1',
-                quantity: 2,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 0
-                }]
-
-            },
-            {
-                productId: 'p_1',
-                productName: 'product 2',
-                sellerName: 'seller 2',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 2,
-                orderStatus: 0,
-                gift: {
-                    gift: 1,
-                    giftMessage: 'Gift message'
-                },
-                orderUpdates: [{
-                    date: '2018-09-17',
-                    deliveryStatus: 2
-                }]
-
-            }],
-        },
-        {
-            _id: '2',
-            customerId: '12344',
-            customerName: "Sam",
-            orderDate: '2019-03-09',
-            billing: {
-                name: 'SAM',
-                cardNumber: '7465647564746986',
-                totalPrice: '1.09',
-
-            },
-            shippingAddress: {
-                AddressId: 'ADD1',
-                name: 'SAM',
-                address1: '430, north1st street',
-                adress2: 'street',
-                city: 'San Jose',
-                state: 'CHICAGO',
-                country: 'US',
-                zipcode: '85647',
-                phoneNumber: '2874646464'
-            },
-            products: [{
-                productId: 'p_1',
-                productName: 'product 3',
-                sellerName: 'seller 1',
-                quantity: 4,
-                perQuantityPrice: 1,
-                totalPrice: 7,
-                orderStatus: 2,
-                gift: {
-                    gift: 0,
-                    giftMessage: ''
-                },
-                orderUpdates: [{
-                    date: '2020-09-10',
-                    deliveryStatus: 3
-                }]
-
-            },]
-
-
-        }]
-
+       
+        let redirectVar = null;
+        if (!localStorage.getItem("id")|| localStorage.getItem("usertype") !== 'customer') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                 <Header />
 

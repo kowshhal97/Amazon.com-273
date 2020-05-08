@@ -10,6 +10,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
 import exportData from '../../../config/config';
+import { Redirect } from 'react-router';
 
 class AdminInventory extends Component {
 
@@ -158,7 +159,7 @@ class AdminInventory extends Component {
     }
 
     getProductsById = (e) => {
-        if (e.value) {
+        if (e) {
             axios.get(exportData.backenedURL + 'read/admin/category/' + e.value)
                 .then((response) => {
                    
@@ -279,10 +280,15 @@ class AdminInventory extends Component {
     }
 
     render() {
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
 
 
         return (
             <div>
+                {redirectVar}
                 <div>
                     <div>
                         <br></br>

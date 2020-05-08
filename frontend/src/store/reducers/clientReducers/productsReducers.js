@@ -55,8 +55,7 @@ export const allProductsReducer = (state = [], action)=> {
                   return action.payload
               
                   default:
-                      return state
-      
+                      return state    
           }
       }
 

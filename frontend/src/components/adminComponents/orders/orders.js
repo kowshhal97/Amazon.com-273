@@ -13,6 +13,8 @@ import exportData from '../../../config/config';
 import { connect } from 'react-redux';
 import { getAdminOrders, updateStatus, getSellers, searchAPI } from '../../../store/actions/adminActions/ordersActions';
 import Spinner from 'react-bootstrap/Spinner';
+import { Redirect } from 'react-router';
+
 // 
 class AdminOrders extends Component {
 
@@ -211,9 +213,14 @@ class AdminOrders extends Component {
             { value: "5", label: exportData.deliveryStatus["5"] },
             { value: "6", label: exportData.deliveryStatus["6"] },
         ];
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
 
         return (
             <div>
+                {redirectVar}
                 <div>
                     <br></br>
                     <Row>
