@@ -153,33 +153,33 @@ export const getALLimagesForProduct = (prod_id) => async dispatch => {
 
 
 
-export const addProductToCart= (user_id,prod_id,data) => async dispatch => {
+// export const addProductToCart= (user_id,prod_id,data) => async dispatch => {
    
-    // const data = {
-    //     "quantity":1,
-    //       "flag":0,
-    //        "gift":0
-    // }
-    const response = await axios.post(exportData.backenedURL + 'write/customer/cart/' + user_id + '/'+ prod_id, data, {
-        headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-        }
-    });
-   //  console.log(response)
-    if (response.data.status === 200) {
-        dispatch({
-            type: 'ADD_PRODUCT_CART',
-            payload: response.data
-        })
-    }
-    else {
-        dispatch({
-            type: 'ADD_PRODUCT_CART',
-            payload: []
-        })
-    }
+//     // const data = {
+//     //     "quantity":1,
+//     //       "flag":0,
+//     //        "gift":0
+//     // }
+//     const response = await axios.post(exportData.backenedURL + 'write/customer/cart/' + user_id + '/'+ prod_id, data, {
+//         headers: {
+//            'Accept': 'application/json',
+//            'Content-Type': 'application/json',
+//         }
+//     });
+//     console.log(response)
+//     if (response.status === 200) {
+//         dispatch({
+//             type: 'ADD_PRODUCT_CART',
+//             payload: response.data
+//         })
+//     }
+//     else {
+//         dispatch({
+//             type: 'ADD_PRODUCT_CART',
+//             payload: []
+//         })
+//     }
 
-}
+// }
 
 
