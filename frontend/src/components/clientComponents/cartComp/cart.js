@@ -18,6 +18,7 @@ import Spinner from 'react-bootstrap/Spinner';
 //change it to local storage
 //let user_id = 1;
 let user_id = localStorage.getItem('id');
+
 let userType=localStorage.getItem('usertype');
 
 class Cart extends Component {
@@ -36,6 +37,7 @@ class Cart extends Component {
     async componentDidMount() {
 
         await this.props.getCartProducts(user_id)
+        console.log(this.props.cartProducts)
         this.setState({
             loading: false
 

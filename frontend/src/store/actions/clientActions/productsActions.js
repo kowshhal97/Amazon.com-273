@@ -89,7 +89,7 @@ export const getALLProductsBySeller = (s_id) => async dispatch => {
             'Content-Type': 'application/json',
          }
      });
-    //  console.log(response)
+      console.log(response)
      if (response.data.status === 200) {
          dispatch({
              type: 'ADD_PRODUCT_COMMENT',
@@ -166,7 +166,7 @@ export const addProductToCart= (user_id,prod_id,data) => async dispatch => {
            'Content-Type': 'application/json',
         }
     });
-   //  console.log(response)
+     console.log(response)
     if (response.data.status === 200) {
         dispatch({
             type: 'ADD_PRODUCT_CART',
