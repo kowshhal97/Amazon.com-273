@@ -78,7 +78,6 @@ class UserHome extends Component {
   productSearchHandler = (e) => {
     let searchProductTxt = e.target.value;
     var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
-    clonedArray=clonedArray.slice(this.state.paginationStart,this.state.paginationEnd);
     let filteredArray=[]
     if(this.state.selectedFilter!=null){
     for(let i of clonedArray){
@@ -100,8 +99,10 @@ class UserHome extends Component {
   }
 
 search=()=>{
+  console.log(this.state.productList)
+
   var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
-    clonedArray=clonedArray.slice(this.state.paginationStart,this.state.paginationEnd);
+    
     let filteredArray=[]
   if(this.state.search!=""){
     filteredArray = _.filter(clonedArray, (o)=> { return o.productName.toLowerCase().includes(this.state.search); });
@@ -119,7 +120,7 @@ search=()=>{
 
     let filterValue = e.value;
     var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
-    clonedArray=clonedArray.slice(this.state.paginationStart,this.state.paginationEnd);
+   
     let filteredArray=[]
     if(this.state.search!=""){
      filteredArray = _.filter(clonedArray, (o)=> { return o.productName.toLowerCase().includes(this.state.search); });
