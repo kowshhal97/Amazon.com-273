@@ -76,6 +76,11 @@ class UserHome extends Component {
   }
 
   productSearchHandler = (e) => {
+    if(e.target.value===null||e.target.value===""){
+      this.setState({
+        search:e.target.value
+      })
+    }
     let searchProductTxt = e.target.value;
     var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
     let filteredArray=[]
@@ -99,12 +104,11 @@ class UserHome extends Component {
   }
 
 search=()=>{
-  console.log(this.state.productList)
 
   var clonedArray = JSON.parse(JSON.stringify(this.state.productList));
     
     let filteredArray=[]
-  if(this.state.search!=""){
+  if(this.state.search!=null){
     filteredArray = _.filter(clonedArray, (o)=> { return o.productName.toLowerCase().includes(this.state.search); });
  }
  this.setState({filterProducts:filteredArray})
