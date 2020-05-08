@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button , Col, Container, Form } from 'react-bootstrap';
-import Header from "../../header/header";
+import Header from "../../sellerComponents/sellerHeader/sellerHeader";
 import axios from 'axios';
 import exportData from '../../../config/config';
 
@@ -41,7 +41,7 @@ class AddProduct extends React.Component {
     }
     
     onSubmitHandler = e =>{
-        const id = 1
+        const id = localStorage.getItem('id')
         const sellerName = "seller"
         const data = {
             productName: this.state.productName,

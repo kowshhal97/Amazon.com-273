@@ -11,7 +11,7 @@ import moment from 'moment';
 import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import { getSellerOrders, updateStatus } from '../../../store/actions/sellerActions/ordersActions';
-
+import Header from '../sellerHeader/sellerHeader'
 
 //let sellerName = "Apple";
 let sellerName = localStorage.getItem('sellerName');
@@ -69,6 +69,7 @@ class SellerOrders extends Component {
      //   console.log(this.props.sellerOrders);
         return (
             <div>
+                <Header/>
                 <div>
                     <OrderHeader />
                     <br></br>

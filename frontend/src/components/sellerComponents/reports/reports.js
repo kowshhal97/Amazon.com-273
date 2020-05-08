@@ -7,6 +7,7 @@ import axios from 'axios';
 import exportData from '../../../config/config';
 import moment from 'moment';
 import { Redirect } from 'react-router';
+import Header from '../sellerHeader/sellerHeader'
 
 let seller_id = localStorage.getItem('id');
 
@@ -131,7 +132,7 @@ class Reports extends Component {
 
         return (
             <div>
-              
+              <Header />
                 <div>
                     {!this.state.loading && <div>
                         
