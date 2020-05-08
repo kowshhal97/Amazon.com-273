@@ -47,7 +47,7 @@ router.put('/:orderId', async (req, res) => {
             return res.status(404).send('Order not found!');
         }
         const {customerName, customerId} = order;
-        order.products.map((product) => {
+        order.products.map(async (product) => {
             if(product.productId === productId) {
                 if(orderStatus) {
                     product.orderStatus = orderStatus;
