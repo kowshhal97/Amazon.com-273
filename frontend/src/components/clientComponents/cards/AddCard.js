@@ -52,6 +52,7 @@ class AddCard extends React.Component {
           <div>
             <Header />
             <Container>
+                {this.state.redirect}
                 <br/>
                 <h2>Add a new card:</h2>
                 <br/>
