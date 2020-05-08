@@ -46,7 +46,7 @@ render(){
       <Nav.Link href="/user/cart/">Cart</Nav.Link>
     </Nav>
     <DropdownButton id="dropdown-item-button" title="user"  bg="light" variant="dark">
-  <Dropdown.Item as="button">Profile</Dropdown.Item>
+  <Dropdown.Item  href="/user/profile/"> Profile </Dropdown.Item>
   <Dropdown.Item as="button" onClick={this.logout}>Logout</Dropdown.Item>
   <Dropdown.Item as="button">Something else</Dropdown.Item>
 </DropdownButton>

@@ -34,7 +34,8 @@ render(){
         Price :{this.props.cproducts.price}
         </Card.Text>
         {/* <Card.Link href="/user/Productdetails">View Product</Card.Link> */}
-    <Button  variant="warning" type="button" onClick={this.getDetails}>View Product</Button> 
+    {/* <Button  variant="warning" type="button" onClick={this.getDetails}>View Product</Button>  */}
+    <Link to={{ pathname: "/user/Productdetails", state: { productID: this.props.cproducts.id } }} style={{ color: 'black' }}>View Product</Link>
     </Card.Body>
   </Card>
   </div>
