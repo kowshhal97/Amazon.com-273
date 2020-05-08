@@ -12,45 +12,59 @@ import "../../CSS/styles.css";
 import Header from "../../header/header";
 import { connect } from 'react-redux';
 import { getALLProducts } from '../../../store/actions/clientActions/productsActions';
+import PageNation from '../../pagenation/pagenation'
+const _ = require('lodash');
 
 class UserHome extends Component {
   constructor() {
     super();
     this.state = {
-      loading: true
+      loading: true,
+      productList: [],
+      filterProducts: []
     };
   }
 
 async componentDidMount() {
 
     await  this.props.getALLProducts()
-    this.setState({
+      this.setState({
+        productList: this.props.allProducts,
+        filterProducts : this.props.allProducts,
         loading: false
     })
-  
-  //  console.log(this.allProducts.data)
-
 }
+
+
+productSearchHandler = (e) => {
+  let searchProductTxt = e.target.value;
+  let list = this.state.productList;
+  let fList = _.filter(list, function (o) { return o.productName.toLowerCase().includes(searchProductTxt.toLowerCase()); });
+  this.setState({
+      filterProducts: fList,
+      searchProductName: searchProductTxt
+  })
+}
+
 
 displayProducts = () => {
   //for loop
-  for(let i=0; i<this.props.allProducts.length; i+=3){
+  for(let i=0; i<this.state.filterProducts.length; i+=3){
     return (<div>
       <Row>
         <Col md={4}>
-     { this.props.allProducts[i] && <ProductCard  cproducts = {this.props.allProducts[i]} key={i}/>}
+     { this.state.filterProducts[i] && <ProductCard  cproducts = {this.state.filterProducts[i]} key={i}/>}
      </Col>
      <Col md={4}>
-    { this.props.allProducts[i+1] && <ProductCard  cproducts = {this.props.allProducts[i+1]} key={i+1}/> }
+    { this.state.filterProducts[i+1] && <ProductCard  cproducts = {this.state.filterProducts[i+1]} key={i+1}/> }
     </Col>
-    { this.props.allProducts[i+2] && <ProductCard  cproducts = {this.props.allProducts[i+2]} key={i+2}/>}
+    { this.state.filterProducts[i+2] && <ProductCard  cproducts = {this.state.filterProducts[i+2]} key={i+2}/>}
     </Row>
     </div>)
   }
 }
   render() {
-    const products = this.props.allProducts
-    // console.log(products);
+    // console.log(this.state.filterProducts);
     return (
 
       <div>
@@ -59,6 +73,16 @@ displayProducts = () => {
           <Header />
         </div>
         <Container fluid>
+        <Row>
+          <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    className="form-control form-control-lg"
+                    onChange={this.productSearchHandler}
+                    required
+                  />
+    </Row>
           <Row>
             <Col md={3}>
               <h4>Product Categories</h4>
@@ -77,16 +101,19 @@ displayProducts = () => {
                 </Form>
               </span>
             </Col>
-            {this.props.allProducts.length===0?null:<Col md={9}>
+            {this.state.filterProducts.length===0?null:<Col md={9}>
               {this.displayProducts()}
-              {/* {this.props.allProducts.map((product, ind)=>{    
+              {/* {this.state.filterProducts.map((product, ind)=>{    
               return (<Row><Col sm = {12}><ProductCard  cproducts = {product} key={ind}/></Col></Row>)
             })} */}
             </Col>}
             
           </Row>
-          {this.props.allProducts.length===0?null:
-          <Row>PageNation</Row>}
+          {this.state.filterProducts.length===0?null:
+          <Row>
+            <PageNation/>
+            </Row>}
+          
         </Container>
       </div>
     );
