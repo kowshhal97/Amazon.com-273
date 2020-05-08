@@ -23,8 +23,9 @@ router.post('/', async (req, res) => {
         if (user === null) {
             return res.status(404).send("User not found!");
         }
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if (isMatch) {
+       // const isMatch = await bcrypt.compare(req.body.password, user.password);
+        
+        if (req.body.password === user.password) {
             if (user.userType === 'customer') {
                 const customer = await Customer.findOne({
                     where: {
