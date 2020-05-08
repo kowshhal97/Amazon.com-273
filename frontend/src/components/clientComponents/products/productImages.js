@@ -9,12 +9,16 @@ import Carousel from 'react-bootstrap/Carousel'
 class ProductImages extends Component{
 
 render(){
+  if(this.props.images===undefined){
+    return null;
+  }
+
     return(
 <Carousel >
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={logo}
+      src={this.props.images[0].imageUrl}
       alt="First slide"
     />
     <Carousel.Caption>
@@ -23,7 +27,7 @@ render(){
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={logo}
+      src={this.props.images[1].imageUrl}
       alt="Third slide"
     />
 
@@ -34,7 +38,19 @@ render(){
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={logo}
+      src={this.props.images[2].imageUrl}
+      alt="Third slide"
+    />
+
+    <Carousel.Caption>
+      {/* <h3>Third slide label</h3> */}
+    </Carousel.Caption>
+  </Carousel.Item>
+
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={this.props.images[3].imageUrl}
       alt="Third slide"
     />
 
