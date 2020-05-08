@@ -14,7 +14,7 @@ class Login extends Component {
       email: "",
       password: "",
       userType: "",
-      redirect
+      redirect:'',
     };
 
   }
