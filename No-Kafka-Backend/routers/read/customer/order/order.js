@@ -3,18 +3,18 @@ const router = express.Router();
 const Order = require('../../../../mongoModels/orders');
 
 
-// router.get('/:orderId', async (req, res) => {
-//     try {
-//         const order = await Order.findOne({_id: req.params.orderId})
-//         if(!order) {
-//             return res.status(404).send('Order not found!');
-//         }
-//         return res.status(200).send(order);
-//     } catch(err) {
-//         console.log(err);
-//         return res.status(500).send('Internal Server Error!')
-//     }
-// })
+router.get('/order/:orderId', async (req, res) => {
+    try {
+        const order = await Order.findOne({_id: req.params.orderId})
+        if(!order) {
+            return res.status(404).send('Order not found!');
+        }
+        return res.status(200).send(order);
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send('Internal Server Error!')
+    }
+})
 
 router.get('/:userId', async (req, res) => {
     const sellerName = req.query.sellerName;
