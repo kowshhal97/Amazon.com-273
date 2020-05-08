@@ -31,7 +31,10 @@ class Checkout extends React.Component {
             name: '',
             cardNumber: '',
             expirationDate: '',
-            CVV: ''
+            CVV: '',
+            cartProducts:[],
+            showGiftTextBox: false,
+            giftMessage: ''
         }
     }
 
@@ -99,6 +102,81 @@ class Checkout extends React.Component {
         })
     }
 
+    onPlaceOrder = e => {
+        var cartProducts = this.state.cartProducts
+        console.log(cartProducts)
+        var productArray = []
+        for(var i=0; i< cartProducts.length; i++){
+            let product = {
+                productId: '',
+                productName: '',
+                sellerName: '',
+                quantity: '',
+                perQuantityPrice: '',
+                totalPrice: '',
+                orderStatus: '0',
+                orderUpdates: [],
+                gift: {
+                    gift: false,
+                    giftMessage: ''
+                }
+            }
+            product.productId = cartProducts[i].productId
+            product.productName = cartProducts[i].productName
+            product.sellerName = cartProducts[i].sellerName
+            product.quantity = cartProducts[i].quantity
+            product.perQuantityPrice = cartProducts[i].price
+            product.totalPrice = product.quantity * product.perQuantityPrice
+            if(cartProducts[i].gift===1){
+                product.gift.gift = true 
+                product.gift.giftMessage = this.state.giftMessage
+            }
+            var orderUpdates = [{
+                date: '',
+                deliveryStatus : '0'
+            }]
+            product.orderUpdates = orderUpdates
+            productArray.push(product) 
+        }
+        var netPrice = 0;
+        for(var j=0 ; j<productArray.length; j++){
+            netPrice += productArray[j].totalPrice
+        }
+        var shippingAddress = {
+            name: this.state.selectedAddress.name,
+            address1 : this.state.selectedAddress.address1,
+            adress2 :this.state.selectedAddress.address2,
+            city: this.state.selectedAddress.city,
+            state: this.state.selectedAddress.state,
+            country: this.state.selectedAddress.country,
+            zipcode: this.state.selectedAddress.zipcode,
+            phoneNumber: this.state.selectedAddress.phoneNumber
+        }
+        var customerId = 1
+        var customerName = "user"
+        var billing = {
+            name : this.state.selectedCard.name,
+            cardNumber: this.state.selectedCard.cardNumber,
+            totalPrice: netPrice
+        }
+        const data = {
+            customerId : customerId,
+            customerName : customerName,
+            billing: billing,
+            shippingAddress : shippingAddress,
+            products : productArray
+        }
+
+        // axios.post(exportData.backenedURL + 'write/customer/profile/address/' + customerId, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             console.log(res)
+        //             this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
+        //         } 
+        //     })
+
+    }
+
     onSaveNewCard = e => {
         e.preventDefault();
         const id = 1
@@ -123,6 +201,12 @@ class Checkout extends React.Component {
 
     }
 
+    onChangeHandler = e => {
+        this.setState({
+            [e.target.id] : e.target.value
+        });
+    };
+    
 
     async componentDidMount(){
         // const id = localStorage.getItem("user_id")
@@ -145,6 +229,13 @@ class Checkout extends React.Component {
         })   
         await this.props.getCartProducts(id);
         console.log(this.props.cartProducts)
+        var cartProducts = this.props.cartProducts
+        this.setState({cartProducts: cartProducts})
+        for(var i=0; i<cartProducts.length; i++){
+            if(cartProducts[i].gift===1){
+                this.setState({showGiftTextBox: true})
+            }
+        }
         // const data = {
 
         // }
@@ -229,19 +320,26 @@ class Checkout extends React.Component {
                     </Col>
                 </Form.Group>
                 <br/>
-
-                <Form.Group as={Row} controlId="formHorizontalEmail">
-                    <Form.Label column sm={10}>
-                        <h5>Gift Messages(If any):</h5>
-                    </Form.Label>
-                </Form.Group>
+                
+                {this.state.showGiftTextBox && 
+                    <Form.Group as={Row}>
+                        <Form.Label column>
+                            <h5>Gift Messages(If any):</h5>
+                            <Form.Control placeholder="Gift Message" 
+                            column id="giftMessage" 
+                            value={this.state.giftMessage} 
+                            onChange={this.onChangeHandler}/>
+                        </Form.Label>                        
+                    </Form.Group>
+                }
+                
                 <br/>
 
                 <Form.Group as={Row} controlId="formHorizontalEmail">
                     <Form.Label column sm={2}>
                     </Form.Label>
                     <Col sm={10}>
-                        <Button variant="warning">Place Order</Button>
+                        <Button variant="warning" onClick={this.onPlaceOrder}>Place Order</Button>
                     </Col>
                 </Form.Group>
 
