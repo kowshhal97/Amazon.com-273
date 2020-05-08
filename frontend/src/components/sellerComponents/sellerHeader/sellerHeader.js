@@ -26,7 +26,7 @@ class SellerHeader extends Component {
               <Nav.Link href="/seller/product/addProduct">Add Product</Nav.Link>
               <Nav.Link href="/seller/orders/">Orders</Nav.Link>
               <Nav.Link href="/seller/reports/">Reports</Nav.Link>
-
+              <Nav.Link href="/seller/inventory/">Inventory</Nav.Link>
             </Nav>
             <DropdownButton id="dropdown-item-button" title="Seller"  bg="light" variant="dark">
   <Dropdown.Item  href="/seller/profile/"> Profile </Dropdown.Item>
