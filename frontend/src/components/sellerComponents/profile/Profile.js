@@ -2,23 +2,22 @@ import React from 'react';
 import { Col , Row, Container, Form, Card, Button, Media, Modal, Image } from 'react-bootstrap';
 import Header from "../../header/header";
 import DefaultProfilePic from '../../../images/default-profile.png'
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class Profile extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            name:"Sumeet Deshpande",
-            address: "San Jose, California",
+            name:'',
+            address: '',
             profilePic: DefaultProfilePic,
             selectedFile: '',
             filePreviewUrl : '',
             temporaryName: '',
             temporaryAddress: '',
-            productsAdded: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
-            {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
-            {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
+            productsAdded: []
         }
     }
 
@@ -61,6 +60,28 @@ class Profile extends React.Component {
         });
     }
 
+    async componentDidMount(){
+        // const id = localStorage.getItem("user_id")
+        const id = localStorage.getItem("id")
+        axios.get(exportData.backenedURL + 'read/seller/profile/' + id).then(res => {
+            console.log(res)  
+            if (res.status === 200) {
+                this.setState({
+                    name : res.data.name
+                })
+            }    
+        })
+        axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
+            console.log(res)  
+            if (res.status === 200) {
+                this.setState({
+                    productsAdded : res.data
+                })
+            }    
+        })   
+    
+    }
+
     render() {
         return (
           <div>
@@ -73,7 +94,7 @@ class Profile extends React.Component {
                               width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
-                        Located At: {this.state.address}
+                        {/* Located At: {this.state.address} */}
                         <br/>
                         <br/>
                         <center>
@@ -95,7 +116,7 @@ class Profile extends React.Component {
                                 <a href="#">
                                     <h5>{product.productName}</h5>
                                 </a>
-                                Rating: {product.votes}
+                                <br/>
                                 <hr/>
                             </Media.Body>
                         </Media>
@@ -124,10 +145,10 @@ class Profile extends React.Component {
                             <Form.Label>Name:</Form.Label>
                             <Form.Control placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
                         </Form.Group>
-                        <Form.Group controlId="address">
+                        {/* <Form.Group controlId="address">
                             <Form.Label>Located At:</Form.Label>
                             <Form.Control placeholder="Address" value={this.state.temporaryAddress} id="temporaryAddress"/>
-                        </Form.Group>
+                        </Form.Group> */}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

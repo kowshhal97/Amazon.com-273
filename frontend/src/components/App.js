@@ -30,6 +30,7 @@ import SellerOrders from './sellerComponents/orders/orders';
 import SellerCancelledOrders from './sellerComponents/orders/cancelledDelivered';
 import SellerOpenOrders from './sellerComponents/orders/open';
 import SellerProfile from './sellerComponents/profile/Profile';
+import ViewSellerProfile from './sellerComponents/profile/ViewProfile';
 import AddProduct from './sellerComponents/product/AddProduct';
 import SellerHome from './sellerComponents/sellerHome/sellerHome';
 import CancelOrderSeller from './sellerComponents/orders/cancelOrder';
@@ -99,6 +100,7 @@ const App = () => {
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
         <Route path='/seller/open/' component={SellerOpenOrders} />
         <Route exact path='/seller/profile/' component={SellerProfile} />
+        <Route exact path='/seller/viewProfile/' component={ViewSellerProfile} />
         <Route path='/seller/orders/cancelOrder/' component={CancelOrderSeller} />
         <Route path='/seller/orders/orderStatus/' component={OrderStatusSeller} />
         <Route path='/seller/orders/details/' component={OrderDetailsSeller} />
