@@ -15,6 +15,7 @@ import { getALLProducts } from '../../../store/actions/clientActions/productsAct
 import PageNation from '../../pagenation/pagenation'
 import Axios from "axios";
 import Select from 'react-select';
+import { stat } from "fs";
 const _ = require('lodash');
 
 class UserHome extends Component {
@@ -27,7 +28,7 @@ class UserHome extends Component {
       allCatgories: [],
       selectedFilter: null,
       paginationStart: 0,
-      paginationEnd:10,
+      paginationEnd:9,
       search:""
     };
   }
@@ -42,7 +43,7 @@ class UserHome extends Component {
           cat.push({ value: i.id, label: i.categoryName })
         }
         this.setState({ allCatgories: cat })
-        console.log(cat);
+     
 
       })
       .catch((error) => {
@@ -50,14 +51,29 @@ class UserHome extends Component {
         console.log(error);
       })
 
+      
     await this.props.getALLProducts()
+    console.log(this.state.paginationStart+"____"+this.state.paginationEnd)
+    let paginatedList=this.props.allProducts.slice(this.state.paginationStart,this.state.paginationEnd);
     this.setState({
-      productList: this.props.allProducts,
-      filterProducts: this.props.allProducts,
+      allProduct:this.props.allProducts,
+      productList: paginatedList,
+      filterProducts: paginatedList,
       loading: false
     })
   }
 
+  paginate=(start,end)=>{
+    if(start<0||(end>(this.state.allProduct.length)+9))
+    return;
+    var clonedArray = JSON.parse(JSON.stringify(this.state.allProduct));
+    this.setState({
+      productList:clonedArray.slice(start,end),
+      filterProducts:clonedArray.slice(start,end),
+      paginationStart:start,
+      paginationEnd:end
+    })
+  }
 
   productSearchHandler = (e) => {
     let searchProductTxt = e.target.value;
@@ -93,6 +109,7 @@ search=()=>{
  this.setState({filterProducts:filteredArray})
 }
 
+
   filterProducts = (e) => {
     if(e===null){
     this.setState({selectedFilter:null,filterProducts:this.state.productList})
@@ -120,9 +137,6 @@ search=()=>{
       selectedFilter: filterValue,
       search:e.value
     })
-
-
-
 
 
     this.setState({selectedFilter:e.value})
@@ -200,7 +214,7 @@ search=()=>{
           </Row>
           {this.state.filterProducts.length === 0 ? null :
             <Row style={{ width: "50%", margin: "auto", marginTop: "5%" }}>
-              <PageNation />
+              <PageNation paginate={this.paginate} currentStart={this.state.paginationStart} currentEnd={this.state.paginationEnd} />
             </Row>}
 
         </Container>
