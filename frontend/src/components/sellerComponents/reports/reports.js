@@ -97,7 +97,7 @@ class Reports extends Component {
             let monthWiseSaleArray = [];
             monthWiseSaleArray.push(['Based on sold products', 'Amount'])
 
-            const monthWiseSale = await axios.get(exportData.backenedURL + 'read/admin/stats/seller/sales/' + seller_id);
+            const monthWiseSale = await axios.get(exportData.backenedURL + 'read/admin/stats/seller/sales/' + sellerName);
             console.log(monthWiseSale)
 
             if (monthWiseSale.data) {

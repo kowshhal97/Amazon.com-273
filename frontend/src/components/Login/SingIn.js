@@ -54,7 +54,7 @@ submitLogin = async e => {
       localStorage.setItem('usertype', this.state.userType);
       localStorage.setItem('id', this.props.loginDetails.data.id);
 
-
+        console.log(localStorage.getItem('usertype'))
       if(localStorage.getItem('usertype') === 'seller') {
         localStorage.setItem('sellerName', this.props.loginDetails.data.name);
         this.setState({redirect: <Redirect to="/seller/inventory" />})

@@ -90,7 +90,7 @@ class OpenOrders extends Component {
                                                                                     <img
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
-                                                                                        src={product.thumbNail}                                                                                    ></img>
+                                                                                        src={product.productPhotoUrl }                                                                                    ></img>
                                                                                 {/* </Link> */}
                                                                             </Col>
                                                                             <Col md={7}>

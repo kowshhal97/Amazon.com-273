@@ -90,7 +90,7 @@ class CancelledOrders extends Component {
                                                                             <img
                                                                                 alt=''
                                                                                 style={{ width: '100%' }}
-                                                                                src={product.thumbNail}
+                                                                                src={product.productPhotoUrl }
                                                                             ></img>
                                                                         {/* </Link> */}
 

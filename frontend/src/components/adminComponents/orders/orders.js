@@ -326,7 +326,7 @@ class AdminOrders extends Component {
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
                                                                                        // src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                                       src={product.thumbNail}
+                                                                                       src={product.productPhotoUrl }
                                                                                     ></img>
                                                                                 {/* </Link> */}
                                                                             </Col>
@@ -415,7 +415,7 @@ class AdminOrders extends Component {
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
                                                                                     //    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                                    src={product.thumbNail}
+                                                                                    src={product.productPhotoUrl }
                                                                                     ></img>
                                                                                 </Link>
                                                                             </Col>
@@ -506,7 +506,7 @@ class AdminOrders extends Component {
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
                                                                                     //    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                                    src={product.thumbNail}
+                                                                                    src={product.productPhotoUrl }
                                                                                     ></img>
                                                                                 </Link>
                                                                             </Col>
@@ -593,7 +593,7 @@ class AdminOrders extends Component {
                                                                                     alt=''
                                                                                     style={{ width: '100%' }}
                                                                                //     src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                               src={product.thumbNail}
+                                                                               src={product.productPhotoUrl }
                                                                                 ></img>
                                                                             </Link>
                                                                         </Col>
