@@ -14,6 +14,7 @@ class Login extends Component {
       email: "",
       password: "",
       userType: "",
+      redirect
     };
 
   }
@@ -129,7 +130,7 @@ submitLogin = async e => {
                 <small>By continuing, you agree to Amazon's Conditions of Use and Privacy Notice.</small>
                  
                   <div>
-                  <Button variant="warning" size="sm" block><Link to={{ pathname: "/signup" }} style={{ color: 'black' }}> Creat your Amazon account</Link>
+                  <Button variant="warning" size="sm" block><Link to={{ pathname: "/signup" }} style={{ color: 'black' }}> Create your Amazon account</Link>
                    
                   </Button> 
               </div>
