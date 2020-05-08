@@ -23,7 +23,8 @@ class Cart extends Component {
         super();
         this.state = {
             subtotal: 0,
-            loading: true
+            loading: true,
+            //totalCost:0
         }
 
     }
@@ -51,9 +52,12 @@ class Cart extends Component {
             //     subtotal: this.state.subtotal + cost
             // })
         }
+      
         return ("$"+cost);
 
     }
+
+    
 
     giftCheckBox = (product, e) => {
         let values = {user_id:user_id, productId:product.productId};
@@ -114,6 +118,7 @@ class Cart extends Component {
                     </Row>
                     {!this.state.loading && <div>
                     { this.props.cartProducts.length ? <div>
+                        <br></br>
                         <Row>
 
                             <Col md={9}>
@@ -216,7 +221,7 @@ class Cart extends Component {
 
                                         </Row>
                                         <Row>
-                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/orders/orderStatus/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
+                                            <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{ pathname: "/user/checkout/" }} style={{ color: 'black' }}>Checkout Amazon Cart</Link></Button>
                                         </Row>
                                     </Card.Body>
                                 </Card>

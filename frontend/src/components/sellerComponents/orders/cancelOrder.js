@@ -123,3 +123,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { cancelOrderAPI })(CancelOrder);
+

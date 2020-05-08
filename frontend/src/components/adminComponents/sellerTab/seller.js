@@ -9,19 +9,46 @@ import moment from 'moment';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import { getSellers } from '../../../store/actions/adminActions/ordersActions';
-
+import { filteredSellers } from '../../../store/actions/adminActions/sellerActions';
 
 
 class SellerList extends Component {
 
+    state = {
+        sellersList:[],
+
+    };
+
 
     async componentDidMount() {
         await this.props.getSellers();
+        this.setState({
+            sellersList:this.props.totalSellers
+        })
 
     }
 
+    handleChangeSeller = (e) => {
+        let filteredlist = [];
+        if(e){
+            console.log(this.state.sellersList);
+            for(let i =0; i<this.state.sellersList.length;i++){
+                if(this.state.sellersList[i].name === e.value){
+                    filteredlist.push(this.state.sellersList[i])
+                }
+            }
+        }
+        else{
+            filteredlist = this.state.sellersList
+        }
+
+      //  console.log(filteredlist)
+        this.props.filteredSellers(filteredlist)
+    }
+
+
     render() {
-        console.log(this.props.totalSellers);
+        //console.log(this.props.totalSellers);
         const options = [];
         this.props.totalSellers.map((seller) => {
             options.push({ value: seller.name, label: seller.name })
@@ -113,4 +140,4 @@ const mapStateToProps = (state) => {
     return { totalSellers: state.totalSellers }
 }
 
-export default connect(mapStateToProps, { getSellers })(SellerList);
+export default connect(mapStateToProps, { getSellers, filteredSellers })(SellerList);

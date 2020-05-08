@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { getSellerOrders, updateStatus } from '../../../store/actions/sellerActions/ordersActions';
 
 
-let sellerName = "OnePlus";
+let sellerName = "Apple";
 class SellerOrders extends Component {
 
     state = {
