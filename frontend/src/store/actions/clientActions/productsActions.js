@@ -22,9 +22,9 @@ export const getALLProducts = () => async dispatch => {
 }
 
 
-export const getProductDetails = (prod_id) => async dispatch => {
+export const getProductDetails = (user_id,prod_id) => async dispatch => {
 
-     const response = await axios.get(exportData.backenedURL + 'read/products/' + prod_id);
+     const response = await axios.get(exportData.backenedURL + 'read/products/' + user_id + '/' + prod_id);
   //   console.log(response)
  
      if (response.data) {

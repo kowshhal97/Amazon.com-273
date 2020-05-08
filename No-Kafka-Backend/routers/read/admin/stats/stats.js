@@ -4,6 +4,7 @@ const Sale = require('../../../../mongoModels/sales');
 const Purchase = require('../../../../mongoModels/customerPurchase');
 const Order = require('../../../../mongoModels/orders');
 const Product = require('../../../../mysqlModels/Product');
+const ProductView = require('../../../../mongoModels/ProductView');
 
 const Votes = require('../../../../mysqlModels/votes');
 const sequelize = require('sequelize')
@@ -117,6 +118,29 @@ router.get('/products/rating/', async (req, res) => {
 })
 
 
+router.get('/viewcount', async (req, res) => {
+    try { 
+        let count = {}
+        let day = new Date().toISOString().slice(0, 10);
+        const views = await ProductView.find({date: day})
+        views.map((view) => {
+            count[view.productName] = count[view.productName] === undefined? 1: 1 + count[view.productName];
+        })
 
+        console.log(count);
+        var products = Object.keys(count).map((key) => {
+            return [key, count[key]];
+        });
+
+        products.sort((first, second) => {
+            return second[1] - first[1];
+        }); 
+        console.log(products);
+        return res.status(200).send(products.slice(0, 10));
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send('Internal Server Error!');
+    }
+})
 
 module.exports = router;
