@@ -167,13 +167,13 @@ class Checkout extends React.Component {
             products : productArray
         }
 
-        // axios.post(exportData.backenedURL + 'write/customer/profile/address/' + customerId, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             console.log(res)
-        //             this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
-        //         } 
-        //     })
+        axios.post(exportData.backenedURL + 'write/customer/orders/' + customerId, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res)
+                    alert("order placed successfully")
+                } 
+            })
 
     }
 
