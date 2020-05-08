@@ -86,13 +86,12 @@ class OpenOrders extends Component {
                                                                         <Card.Title>{exportData.orderStatus[product.orderStatus]}</Card.Title>
                                                                         <Row>
                                                                             <Col xs={2}>
-                                                                                <Link to={{ pathname: '//', state: {} }}>
+                                                                                {/* <Link to={{ pathname: '//', state: {} }}> */}
                                                                                     <img
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
-                                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
-                                                                                    ></img>
-                                                                                </Link>
+                                                                                        src={product.thumbNail}                                                                                    ></img>
+                                                                                {/* </Link> */}
                                                                             </Col>
                                                                             <Col md={7}>
                                                                                 <Row>

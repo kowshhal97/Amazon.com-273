@@ -8,7 +8,8 @@ import { getSave4LaterProducts, moveToCart } from '../../../store/actions/client
 import Spinner from 'react-bootstrap/Spinner';
 import { connect } from 'react-redux';
 
-let user_id = 1;
+let user_id = localStorage.getItem('id');
+let userType=localStorage.getItem('usertype');
 
 class Save4Later extends Component {
 
@@ -111,7 +112,7 @@ class Save4Later extends Component {
                                                                 <img
                                                                     alt=''
                                                                     style={{ width: '100%' }}
-                                                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                    src={product.thumbNail}
                                                                 ></img>
                                                             </Link>
                                                         </Col>

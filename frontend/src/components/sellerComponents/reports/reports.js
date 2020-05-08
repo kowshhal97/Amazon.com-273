@@ -8,8 +8,9 @@ import exportData from '../../../config/config';
 import moment from 'moment';
 import { Redirect } from 'react-router';
 
-let seller_id = 1;
-let sellerName = 'Apple';
+let seller_id = localStorage.getItem('id');
+
+let sellerName = localStorage.getItem('sellerName');
 class Reports extends Component {
 
     constructor(props) {
