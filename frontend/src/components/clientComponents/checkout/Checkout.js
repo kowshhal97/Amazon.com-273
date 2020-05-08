@@ -108,10 +108,12 @@ class Checkout extends React.Component {
         console.log(cartProducts)
         var customerId
         var productArray = []
-        customerId = localStorage.getItem("id")
+        customerId = localStorage.getItem("id");
+        
         for(var i=0; i< cartProducts.length; i++){
             let product = {
                 productId: '',
+                
                 productName: '',
                 sellerName: '',
                 quantity: '',
@@ -124,13 +126,13 @@ class Checkout extends React.Component {
                     giftMessage: ''
                 }
             }
-            
+            console.log(cartProducts[i])
             product.productId = cartProducts[i].productId
             product.productName = cartProducts[i].productName
             product.sellerName = cartProducts[i].sellerName
             product.quantity = cartProducts[i].quantity
             product.perQuantityPrice = cartProducts[i].price
-            product.thumbnail = cartProducts[i].thumbnail
+            product.productPhotoUrl = cartProducts[i].thumbNail
             product.totalPrice = product.quantity * product.perQuantityPrice
             if(cartProducts[i].gift===1){
                 product.gift.gift = true 
@@ -167,7 +169,7 @@ class Checkout extends React.Component {
         }
         const data = {
             customerId : customerId,
-            // customerName : customerName,
+             customerName : customerName,
             billing: billing,
             shippingAddress : shippingAddress,
             products : productArray

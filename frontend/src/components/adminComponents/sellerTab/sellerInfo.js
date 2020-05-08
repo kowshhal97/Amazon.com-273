@@ -45,7 +45,7 @@ class SellerInfo extends Component {
             let monthWiseSaleArray = [];
             monthWiseSaleArray.push(['Based on sold products', 'Amount'])
 
-            const monthWiseSale = await axios.get(exportData.backenedURL + 'read/admin/stats/seller/sales/' + this.state.seller.id);
+            const monthWiseSale = await axios.get(exportData.backenedURL + 'read/admin/stats/seller/sales/' + this.state.seller.name);
             console.log(monthWiseSale)
 
             if (monthWiseSale.data) {
