@@ -10,26 +10,26 @@ class ViewProfile extends React.Component {
     constructor() {
         super();
         this.state = {
-            name:"Sumeet Deshpande",
+            name:'',
             profilePic: '',
-            productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
-            {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
-            {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}]
+            productReviews: []
         }
     }
 
     componentDidMount(){
-        // const id = localStorage.getItem("user_id")
-        const id = 1
+        const id = localStorage.getItem("id")
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
           console.log(res)  
           if (res.status === 200) {
               this.setState({
                 name : res.data.name,
-                profilePic: res.data.profilePicUrl
               })
-            }    
+              if(res.data.profilePicUrl==null){
+                this.setState({profilePic : DefaultProfilePic})
+              } else {
+                this.setState({profilePic : res.data.profilePicUrl})
+              }
+           }    
         })    
     }
 
@@ -50,7 +50,7 @@ class ViewProfile extends React.Component {
                 </Card>
             </div>
             {/* Comments And Ratings Component  */}
-            <div style={{float:"left", marginLeft:"5%"}}>
+            {/* <div style={{float:"left", marginLeft:"5%"}}>
                 <h2>Product Reviews and Comments:</h2>
                 <br/>
                 <h3>Product Ratings: </h3>
@@ -90,7 +90,7 @@ class ViewProfile extends React.Component {
                         </Media>
                     )
                 })}
-            </div>
+            </div> */}
           </div>
         );
     }

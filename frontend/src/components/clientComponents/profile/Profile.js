@@ -10,15 +10,12 @@ class Profile extends React.Component {
     constructor() {
         super();
         this.state = {
-            name:"Sumeet Deshpande",
+            name:'',
             selectedFile: '',
             filePreviewUrl : '',
             profilePic: '',
             temporaryName: '',
-            productReviews: [{productName: "Adidas Shoes", votes: "3.5/5", comments:"Good Product"},
-            {productName: "Apple iPhone", votes: "4.5/5", comments:"Best Product"},
-            {productName: "Nike Bag", votes: "2.5/5", comments:"Bad Product"},
-            {productName: "Samsung Tab", votes: "4/5", comments:"Good Product"}],
+            productReviews: [],
             showModal: false
         }
     }
@@ -52,6 +49,30 @@ class Profile extends React.Component {
         })
     }
 
+    handleSave = () => {
+        const id = localStorage.getItem("id")
+        const data = {
+            name: this.state.temporaryName
+        }
+        axios.put(exportData.backenedURL + 'write/customer/profile/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                var name = this.state.temporaryName
+                this.setState({name: name})
+                const formData = new FormData();
+                formData.append('upl', this.state.selectedFile)
+                axios.put(exportData.backenedURL + 'write/customer/profile/uploads/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+                .then(res => {
+                    if (res.status === 200) {
+                        console.log(res)
+                    } 
+                })
+                this.setState({showModal: false})
+            } 
+        })
+    }
+
     onFileSelect = (e) => {
         this.setState({
             selectedFile: e.target.files[0],
@@ -59,22 +80,30 @@ class Profile extends React.Component {
         });
     }
 
-    onUploadClick = (e) => {
-        
-    }
-
     componentDidMount(){
-        // const id = localStorage.getItem("user_id")
-        const id = 1
+        const id = localStorage.getItem("id")
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
           console.log(res)  
           if (res.status === 200) {
               this.setState({
                 name : res.data.name,
-                profilePic: res.data.profilePicUrl
               })
+              if(res.data.profilePicUrl==null){
+                  this.setState({profilePic : DefaultProfilePic})
+              } else {
+                this.setState({profilePic : res.data.profilePicUrl})
+              }
             }    
-        })    
+        })
+        
+        // axios.get(exportData.backenedURL + 'read/customer/comments/' + id).then(res => {
+        //     console.log(res)  
+        //     if (res.status === 200) {
+        //         this.setState({
+        //             productReviews: res.data
+        //         })
+        //       }    
+        //   })
     }
 
     render() {
@@ -97,10 +126,10 @@ class Profile extends React.Component {
                 </Card>
             </div>
             {/* Comments And Ratings Component  */}
-            <div style={{float:"left", marginLeft:"5%"}}>
+            {/* <div style={{float:"left", marginLeft:"5%"}}>
                 <h2>Product Reviews and Comments:</h2>
                 <br/>
-                <h3>Product Ratings: </h3>
+                <h3>Product Comments: </h3>
                 <br/>
                 {this.state.productReviews.map((productReview)=>{
                     return (
@@ -118,8 +147,8 @@ class Profile extends React.Component {
                         </Media>
                     )
                 })}
-                <hr/>
-                <h3>Product Comments:</h3>
+                <hr/> */}
+                {/* <h3>Product Comments:</h3>
                 <br/>                
                 {this.state.productReviews.map((productReview)=>{
                     return (
@@ -136,8 +165,8 @@ class Profile extends React.Component {
                             </Media.Body>
                         </Media>
                     )
-                })}
-            </div>
+                })} */}
+            {/* </div> */}
             {/* Edit Profile Modal  */}
             <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
                 <Modal.Header closeButton>
@@ -153,18 +182,22 @@ class Profile extends React.Component {
                     <br/>
                     <div className="mb-3">
                         <Form.File id="formcheck-api-regular">
-                            <Form.File.Input onChange={this.onFileSelect}/>
+                            <Form.File.Input onChange={this.onFileSelect} required/>
                         </Form.File>
                     </div>
                     <Form>
                         <Form.Group controlId="formGroupEmail">
                             <Form.Label>Name:</Form.Label>
-                            <Form.Control type="Name" placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
+                            <Form.Control placeholder="Name" 
+                                    value={this.state.temporaryName} 
+                                    id="temporaryName"
+                                    required
+                                    onChange={this.onChangeHandler}/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="warning" onClick={this.handleClose}>
+                    <Button variant="warning" onClick={this.handleSave}>
                         Save Changes
                     </Button>
                     <Button variant="light" onClick={this.handleClose}>
