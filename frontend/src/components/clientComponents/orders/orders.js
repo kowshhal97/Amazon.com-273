@@ -19,6 +19,7 @@ import Header from "../../header/header";
 //change it to local storage
 let user_id = localStorage.getItem("id") ;
 
+
 class Orders extends Component {
 
     state = {
@@ -27,6 +28,7 @@ class Orders extends Component {
     }
 
    async componentDidMount(){
+       console.log(localStorage.getItem("id"))
        await this.props.getCustOrders(user_id);
         this.setState({
             loading:false
