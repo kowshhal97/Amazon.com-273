@@ -98,13 +98,15 @@ console.log(response)
   render() {
     const product = this.props.ProductDetails
      let res = null;
-   // console.log(product)
+    // console.log(product)
   //  console.log(added)
    const comments = this.props.allComments
    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
       //  redirectVar = <Redirect to="/unauthorised" />
    }
+
     return (
+      
       <div>
          {this.state.redirect}
        
@@ -114,7 +116,7 @@ console.log(response)
           <Container>
             <Row>
               <Col>
-                <ProductImages />
+                <ProductImages images={product.productImages} />
               </Col>
               <Col xs={6}>
                 <Row>{product.productName}</Row>
