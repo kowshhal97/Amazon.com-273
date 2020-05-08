@@ -53,7 +53,7 @@ submitLogin = async e => {
         localStorage.setItem('sellerName', this.props.loginDetails.name);
         this.props.history.push('/seller/inventory')
       }else if(localStorage.getItem('usertype') === 'customer'){
-       
+        localStorage.setItem('customerName', this.props.loginDetails.name);
         this.props.history.push('/userHome')
          }else if(localStorage.getItem('usertype') === 'admin'){
           this.props.history.push('/admin/inventory/');
