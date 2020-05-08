@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col , Row, Container, Form, Card, Button, Media, Modal, Image } from 'react-bootstrap';
-import Header from "../../header/header";
+import Header from "../../sellerComponents/sellerHeader/sellerHeader";
 import DefaultProfilePic from '../../../images/default-profile.png'
 
 class Profile extends React.Component {

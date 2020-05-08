@@ -92,8 +92,8 @@ const App = () => {
         <Route path='/user/viewProfile/' component={ViewCustomerProfile} />
         <Route path='/user/checkout/' component={Checkout} />
 
-        {/* <Route path='/sellerHome' component={SellerHome} /> */}
-        <Route path='/seller' component={SellerHeader} />
+        <Route path='/sellerHome' component={SellerHome} />
+        {/* <Route path='/seller' component={SellerHeader} /> */}
         <Route exact path='/seller/orders/' component={SellerOrders} />
         <Route path='/seller/product/addProduct' component={AddProduct} />
         <Route path='/seller/cancelledDelivered/' component={SellerCancelledOrders} />
