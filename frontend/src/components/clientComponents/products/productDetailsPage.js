@@ -56,28 +56,34 @@ onChangeHandler = e => {
    const data = {
     comment: this.state.commentt,  
   }
-  console.log(data)
+
   // this.props.postCommentForProduct(localStorage.getItem('prod_id'),localStorage.getItem('id'),data)
-   this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
-
-
+    this.props.postCommentForProduct(this.props.location.state.productID,localStorage.getItem('id'),data)
+   
 }
 
-addtoCart = e =>{
+ addtoCart =  async e =>  {
   const data = {
     quantity: 1,
     flag: 0,
     gift: 0  
   }
-  console.log(data)
+  
 // this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
-this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state.productID,data)
+ const res = await this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state.productID,data)
+ console.log(res)
+ if(res.data.status === 2000){
+    //  <Redirect to="/user/cart" />
+ }
+ 
 }
 
 
   render() {
     const product = this.props.ProductDetails
-    console.log(product)
+   
+   // console.log(product)
+  //  console.log(added)
    const comments = this.props.allComments
    let redirectVar = null;
    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
@@ -142,7 +148,7 @@ this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state
                       size="sm"
                       block 
                       onClick ={this.addtoCart}
-                    ><Link to={{ pathname: "/user/cart/" }} style={{ color: 'black' }}>  Add to Cart</Link>  
+                    >  Add to Cart
                     </Button>
                   </div>
 
@@ -208,7 +214,9 @@ this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state
 //fetching from store
 const mapStateToProps = (state) => {
   return { ProductDetails: state.ProductDetails ,
-             allComments : state.allComments}
+             allComments : state.allComments,
+             addToCart: state.addToCart
+            }
 }
 
 export default connect(mapStateToProps, { getProductDetails, getALLCommentsForProduct, postCommentForProduct,addProductToCart})(ProductDetailsPage);
