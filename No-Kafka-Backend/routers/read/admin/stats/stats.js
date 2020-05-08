@@ -77,11 +77,14 @@ router.get('/seller/sales/:sellerName', async (req, res) => {
         const orders = await Order.find({ orderDate: { $gte: day } })
         orders.map((order) => {
             order.products.map((product) => {
+                console.log(product)
                 if (product.sellerName === sellerName) {
+                    console.log(total)
                     total += product.totalPrice;
                 }
             })
         })
+        console.log(orders);
         console.log(total);
         return res.status(200).send({ total });
     } catch (err) {
