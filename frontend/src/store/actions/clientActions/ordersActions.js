@@ -46,8 +46,8 @@ export const cancelOrderAPI = (values) => async dispatch => {
                 console.log(res)
             }
             else {
-
-             console.log(res)
+                dispatch(getCustOrders(values.user_id));
+                console.log(res)
             }
         })
         .catch(err => {
