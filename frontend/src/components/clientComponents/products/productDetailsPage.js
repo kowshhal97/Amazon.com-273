@@ -32,7 +32,7 @@ class ProductDetailsPage extends Component {
 
   async componentDidMount() {
     console.log(localStorage.getItem('prod_id'))
-    await this.props.getProductDetails(localStorage.getItem('prod_id'))
+    await this.props.getProductDetails(localStorage.getItem('used_id'),localStorage.getItem('prod_id'))
     await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
     this.setState({
         loading: false

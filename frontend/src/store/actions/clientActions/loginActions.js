@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import exportData from '../../../config/config';
 
-export const login = (values) => async dispatch => {
+export const login = (data) => async dispatch => {
 
-    await axios.post(exportData.backenedURL + 'write/login' , JSON.stringify(values) , {
+    await axios.post(exportData.backenedURL + 'write/login' , data , {
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

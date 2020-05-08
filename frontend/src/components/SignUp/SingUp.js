@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { SignUp } from '../../store/actions/clientActions/loginActions';
+import Logo from '../../images/Amazon.svg'
 
 class Register extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class Register extends Component {
         <div className="container fill-graywhite">
           <div className="container content">
             <div className="login-container">
-             
+            <img src = {Logo} height='100px' width='100px' style={{marginLeft:'480px'}}/>
 
               <div className="login-form-container col-lg-6 col-md-6 col-sm-12 offset-lg-3 offset-md-3 border">
                 <h2>Create account</h2>
