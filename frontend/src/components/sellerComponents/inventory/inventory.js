@@ -83,10 +83,18 @@ class SellerInventory extends Component {
             //all products under seller api
             const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + sellerID);
             console.log(response)
+            
+            let productsDropDownArray = [];
 
             if (response.data.length) {
+                response.data.map((product) => {
+                    productsDropDownArray.push({ value: product.id, label: product.productName })
+                })
                 this.setState({
-                    products: response.data
+                    products: response.data,
+                    productsBkUp: response.data,
+
+                    productsDropDown: productsDropDownArray
                 })
             }
             else {
