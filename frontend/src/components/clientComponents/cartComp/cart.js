@@ -10,13 +10,16 @@ import Save4Later from './save4Later';
 import { connect } from 'react-redux';
 import { getCartProducts, updateIsGift, moveToLater, changeQuantity, deleteProduct } from '../../../store/actions/clientActions/cartActions';
 import Header from "../../header/header";
-
+import { Redirect } from 'react-router';
 import Spinner from 'react-bootstrap/Spinner';
 //import Button from 'react-bootstrap/Button';
 
 
 //change it to local storage
-let user_id = 1;
+//let user_id = 1;
+let user_id = localStorage.getItem('id');
+let userType=localStorage.getItem('usertype');
+
 class Cart extends Component {
 
     constructor() {
@@ -24,9 +27,10 @@ class Cart extends Component {
         this.state = {
             subtotal: 0,
             loading: true,
+            redirect:'',
             //totalCost:0
         }
-
+        
     }
 
     async componentDidMount() {
@@ -36,6 +40,7 @@ class Cart extends Component {
             loading: false
 
         })
+        console.log(localStorage.getItem('id'), localStorage.getItem('usertype'))
 
        // this.checkTotalCost();
 
@@ -105,9 +110,13 @@ class Cart extends Component {
 
 
     render() {
-
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                 <Header />
 

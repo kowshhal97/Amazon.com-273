@@ -8,6 +8,7 @@ import OrderHeader from './orderHeader';
 import { Link } from 'react-router-dom';
 import exportData from '../../../config/config';
 import moment from 'moment';
+import { Redirect } from 'react-router';
 
 import { connect } from 'react-redux';
 import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
@@ -16,7 +17,7 @@ import Header from "../../header/header";
 
 
 //change it to local storage
-let user_id = 1;
+let user_id = localStorage.getItem("id") ;
 
 class Orders extends Component {
 
@@ -41,9 +42,13 @@ class Orders extends Component {
     render() {
 
         console.log(this.props.customerOrders)
-
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                     <Header />
                     <OrderHeader selected={1}/>

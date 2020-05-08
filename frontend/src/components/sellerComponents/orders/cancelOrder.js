@@ -9,6 +9,7 @@ import { cancelOrderAPI } from '../../../store/actions/sellerActions/ordersActio
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Toast from 'react-bootstrap/Toast'
+let sellerName = "Apple";
 
 class CancelOrder extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class CancelOrder extends Component {
     orderCancelled = () => {
      
 
-        let values = { orderUpdateItem: "6", productId: this.state.productInfo.productId, orderId: this.state.orderInfo._id }
+        let values = { orderUpdateItem: "6", productId: this.state.productInfo.productId, orderId: this.state.orderInfo._id, sellerName:sellerName}
         // console.log(values)
         this.props.cancelOrderAPI(values)
 

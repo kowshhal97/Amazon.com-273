@@ -16,6 +16,7 @@ export const login = (values) => async dispatch => {
         console.log(res)
     }
     else {   
+        console.log(res)
         dispatch({
             type: 'LOGIN',
             payload: res.data

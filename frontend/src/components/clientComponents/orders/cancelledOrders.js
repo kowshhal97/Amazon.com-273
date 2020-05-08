@@ -11,8 +11,9 @@ import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 import { getCustOrders, } from '../../../store/actions/clientActions/ordersActions';
 import Header from "../../header/header";
+import { Redirect } from 'react-router';
 
-let user_id = 1;
+let user_id = localStorage.getItem("id");
 class CancelledOrders extends Component {
 
     componentDidMount () {
@@ -20,9 +21,13 @@ class CancelledOrders extends Component {
 
     }
     render() {
-
+        let redirectVar = null;
+        if (!localStorage.getItem("id")|| localStorage.getItem("usertype") !== 'customer') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                 <Header />
                     <OrderHeader />
