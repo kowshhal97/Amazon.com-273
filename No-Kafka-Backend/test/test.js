@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 
 var agent = require('chai').request.agent(app);
 
-ROOT_URL="localhost:3000"
+ROOT_URL="https://amazonbackend273.herokuapp.com"
 
 it("Get all Products", function (done) {
     chai.request(ROOT_URL)
@@ -31,7 +31,7 @@ it("Get products by seller Id", function (done) {
 
 it("Get customer Profile", function (done) {
     chai.request(ROOT_URL)
-        .get('/read/customer/profile/4')
+        .get('/read/customer/profile/1')
         .end(function (err, res) {
             expect(res).to.have.status(200);
             done();
@@ -67,7 +67,7 @@ it("Get Orders by Customer Id", function (done) {
 
 it("Get Votes by product Id", function (done) {
     chai.request(ROOT_URL)
-        .get('/read/customer/product/votes/3')
+        .get('/read/customer/product/votes/1')
         .end(function (err, res) {
             expect(res).to.have.status(200);
             done();
