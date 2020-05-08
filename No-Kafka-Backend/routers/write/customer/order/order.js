@@ -19,7 +19,7 @@ router.post('/:userId',async (req, res) => {
             var customer = new Purchase({customerId: customerId, customerName: req.body.customerName, purchase: order.billing.totalPrice })
             await customer.save()
         }
-
+        
         order.products.map(async (product) => {
             var seller = await Sale.findOne({sellerName: product.sellerName})
             console.log("seller", seller);
@@ -57,10 +57,17 @@ router.put('/:orderId', async (req, res) => {
                     product.orderUpdates = list
                 }
                 if(totalPrice){
-                    const sale = new Sale({sellerName: product.sellerName, sales: -1*product.totalPrice})
-                    await sale.save();
-                    const purchase = new Purchase({customerId: customerId, customerName: customerName, purchase: -1*product.totalPrice});
-                    await purchase.save();
+                    const seller = Sale.find({sellerName: sellerName})
+                    if(seller !== null) {
+                        seller.sales -= product.totalPrice;
+                        await seller.save();
+                    }
+                    
+                    const customer = Purchase.find({customerId: customerId})
+                    if(customer !== null) {
+                        customer.purchase -= product.totalPrice;
+                        await customer.save();
+                    }
                     product.totalPrice = 0;
 
                 }
