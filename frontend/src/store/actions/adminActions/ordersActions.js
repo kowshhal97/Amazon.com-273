@@ -70,7 +70,7 @@ export const updateStatus = (values) => async dispatch => {
                 console.log(res)
             }
             else {
-
+//dispatch(getAdminOrders())
                 console.log(res)
             }
         })

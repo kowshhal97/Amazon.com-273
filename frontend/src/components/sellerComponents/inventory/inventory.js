@@ -24,13 +24,14 @@ class SellerInventory extends Component {
             products: [],
             productsDropDown: [],
             productsBkUp: [],
+            loading:true,
         }
     }
 
     async componentDidMount() {
         try {
 
-            const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + sellerID);
+            const response = await axios.get(exportData.backenedURL + 'read/seller/product/' + localStorage.getItem('id'));
             console.log(response)
             let productsDropDownArray = [];
 
@@ -98,7 +99,12 @@ class SellerInventory extends Component {
                 })
             }
             else {
+                this.setState({
+                    products: [],
+                    productsBkUp: [],
 
+                    productsDropDown: []
+                })
             }
             this.setState({
                 loading: false
@@ -188,7 +194,7 @@ class SellerInventory extends Component {
                             <Col md={1}></Col>
                             <Col md={8}>
 
-                                {this.state.products.length ? <div>
+                                {!this.state.loading && this.state.products.length ? <div>
                                     <br></br>
                                     <h2 style={{ marginLeft: '35%' }}>List of products</h2>
                                     <br></br>
@@ -197,7 +203,7 @@ class SellerInventory extends Component {
                                             console.log(product)
                                             return (<Col md={4} key={i}>
                                                 <Card style={{ width: '20rem' }}>
-                                                    <Card.Img variant="top" src={product.thumbNail} />
+                                                    <Card.Img variant="top" src={product.thumbNail} style={{}}/>
 
                                                     <Card.Body>
                                                         <Row>
