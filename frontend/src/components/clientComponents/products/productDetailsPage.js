@@ -32,10 +32,11 @@ class ProductDetailsPage extends Component {
 
 
   async componentDidMount() {
-    console.log(localStorage.getItem('prod_id'))
+    // console.log(localStorage.getItem('prod_id'))
+    console.log(this.props.location.state)
     // await this.props.getProductDetails(localStorage.getItem('prod_id'))
     // await this.props.getALLCommentsForProduct(localStorage.getItem('prod_id'))
-    await this.props.getProductDetails(this.props.location.state.productID)
+    await this.props.getProductDetails(localStorage.getItem('id'),this.props.location.state.productID)
     await this.props.getALLCommentsForProduct(this.props.location.state.productID);
     this.setState({
         loading: false
@@ -69,13 +70,14 @@ addtoCart = e =>{
     gift: 0  
   }
   console.log(data)
-this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
-
+// this.props.addProductToCart(localStorage.getItem('id'),localStorage.getItem('prod_id'),data)
+this.props.addProductToCart(localStorage.getItem('id'),this.props.location.state.productID,data)
 }
 
 
   render() {
     const product = this.props.ProductDetails
+    console.log(product)
    const comments = this.props.allComments
    let redirectVar = null;
    if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
