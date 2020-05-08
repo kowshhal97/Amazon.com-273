@@ -11,7 +11,7 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:'',
-            profilePic: DefaultProfilePic,
+            profilePic: '',
             productsAdded: []
         }
     }
@@ -25,6 +25,11 @@ class Profile extends React.Component {
                 this.setState({
                     name : res.data.name
                 })
+                if(res.data.profilePicUrl==null){
+                    this.setState({profilePic : DefaultProfilePic})
+                } else {
+                  this.setState({profilePic : res.data.profilePicUrl})
+                }
             }    
         })
         axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
