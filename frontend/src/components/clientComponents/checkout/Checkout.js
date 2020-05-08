@@ -152,14 +152,14 @@ class Checkout extends React.Component {
     }
 
     render(){
-        // console.log(this.props.cartProducts)
-        let redirectVar = null;
-        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
-            redirectVar = <Redirect to="/unauthorised" />
-        }
+         console.log(this.props.cartProducts)
+        // let redirectVar = null;
+        // if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'customer') {
+        //     redirectVar = <Redirect to="/unauthorised" />
+        // }
         return(
           <div>
-               {redirectVar}
+               {/* {redirectVar} */}
             <Header />
             {this.state.redirect}
             <Container>
