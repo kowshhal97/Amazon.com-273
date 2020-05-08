@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import moment from 'moment';
 import axios from 'axios';
 import exportData from '../../../config/config';
+import { Redirect } from 'react-router';
 
 
 class Analytics extends React.Component {
@@ -132,8 +133,13 @@ class Analytics extends React.Component {
 
 
     render() {
+        let redirectVar = null;
+        if (!localStorage.getItem("id") || localStorage.getItem("usertype") !== 'admin') {
+            redirectVar = <Redirect to="/unauthorised" />
+        }
         return (
             <div>
+                {redirectVar}
                 <div>
                     {this.state.loading && <Spinner animation="grow" variant="primary" style={{ marginLeft: '34%' }} />}
                     {!this.state.loading && <div>
