@@ -65,7 +65,7 @@ class Profile extends React.Component {
                 axios.put(exportData.backenedURL + 'write/customer/profile/upload/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(res => {
                     if (res.status === 200) {
-                        console.log(res)
+                        this.setState({profilePic: res.config.url})
                     } 
                 })
                 this.setState({showModal: false})

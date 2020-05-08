@@ -43,7 +43,7 @@ const uploadProfilePhoto = multer({
     try {
         const seller = await Seller.update({profilePicUrl: `https://amazon-273.s3.amazonaws.com/seller/profile_${sellerId}`}, {where: {id: sellerId}});
         console.log(seller);
-        return res.status(200).send('uploaded');
+        return res.status(200).send(seller);
     } catch(err) {
         console.log(err);
         return res.status(500).send('Internal Server Error!');

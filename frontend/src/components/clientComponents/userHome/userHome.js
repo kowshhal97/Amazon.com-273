@@ -37,7 +37,7 @@ class UserHome extends Component {
 
   async componentDidMount() {
 
-    await Axios.get(exportData.backenedURL + 'read/admin/category/noProductsMapped')
+    await Axios.get(exportData.backenedURL + 'read/admin/category')
       .then((response) => {
         let cat = []
         for (let i of response.data) {

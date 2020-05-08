@@ -24,10 +24,12 @@ class ProductCard extends Component{
 
 
 render(){
+
     return(
       <div>    
   <Card> 
-    <Card.Img variant="top" src={Lion} />
+    
+    {this.props.cproducts?<Card.Img variant="top" src={this.props.cproducts.thumbNail} />:<Card.Img variant="top" src={Lion} />}
     <Card.Body>
       <Card.Title>{this.props.cproducts.productName}</Card.Title>
       <Card.Text>

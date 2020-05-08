@@ -41,7 +41,7 @@ render(){
       <Button variant="outline-info" >Search</Button>
     </Form>
     <Nav className="mr-auto">
-      <Nav.Link href="/userHome">Accounts</Nav.Link>
+      <Nav.Link href="/userHome">Home</Nav.Link>
       <Nav.Link href="/user/orders">Orders</Nav.Link>
       <Nav.Link href="/user/cart/">Cart</Nav.Link>
     </Nav>
