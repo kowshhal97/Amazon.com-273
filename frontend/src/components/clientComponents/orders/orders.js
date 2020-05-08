@@ -135,6 +135,7 @@ class Orders extends Component {
                                                                         <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f3cf75', border: '#f3cf75', color: 'black' }} > <Link to={{pathname:"/user/orders/orderStatus/", state:{ productInfo:product}}} style={{color:'black'}}>Track Package</Link></Button>
                                                                         <br></br>
                                                                         <br></br>
+                                                                        {console.log(product.orderStatus)}
                                                                         {product.orderStatus == 0 &&
                                                                         <Button variant="primary" style={{ float: 'right', width: '100%', background: '#f0f1f4', border: '#f0f1f4', color: 'black' }}> <Link to={{pathname:"/user/orders/cancelOrder/", state:{orderInfo:orders, productInfo:product}}} style={{color:'black'}}>Cancel Order</Link></Button>
                                                                         }
