@@ -28,7 +28,7 @@ class SellerOrders extends Component {
 
     }
 
-    orderStatusUpdate = (orderDetail, e) => {
+    orderStatusUpdate = async (orderDetail, e) => {
       //  console.log((e.target.value))
        // console.log(orderDetail);
 

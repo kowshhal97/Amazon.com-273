@@ -9,6 +9,7 @@ import moment from 'moment';
 import exportData from '../../../config/config';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
+import Header from '../sellerHeader/sellerHeader'
 
 let sellerName = localStorage.getItem('sellerName');
 
@@ -23,6 +24,7 @@ class SellerOpenOrders extends Component {
       
         return (
             <div>
+                <Header />
                 <div>
                     <OrderHeader />
                     <br></br>

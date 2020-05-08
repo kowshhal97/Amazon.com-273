@@ -68,7 +68,7 @@ submitLogin = async e => {
          }
          
          else if(localStorage.getItem('usertype') === 'admin'){
-          this.setState({redirect: <Redirect to="/admin" />})
+          this.setState({redirect: <Redirect to="/admin/inventory/" />})
          // this.props.history.push('/admin/inventory/');
          }
 
