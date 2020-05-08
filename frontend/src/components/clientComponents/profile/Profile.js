@@ -62,7 +62,7 @@ class Profile extends React.Component {
                 this.setState({name: name})
                 const formData = new FormData();
                 formData.append('upl', this.state.selectedFile)
-                axios.put(exportData.backenedURL + 'write/customer/profile/uploads/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+                axios.put(exportData.backenedURL + 'write/customer/profile/upload/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(res => {
                     if (res.status === 200) {
                         console.log(res)

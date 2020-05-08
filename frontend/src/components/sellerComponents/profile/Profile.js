@@ -11,13 +11,18 @@ class Profile extends React.Component {
         super();
         this.state = {
             name:'',
-            address: '',
-            profilePic: DefaultProfilePic,
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            country: '',
+            zipcode: '',
+            profilePic: '',
             selectedFile: '',
             filePreviewUrl : '',
             temporaryName: '',
-            temporaryAddress: '',
-            productsAdded: []
+            productsAdded: [],
+            showModal: false
         }
     }
 
@@ -35,12 +40,22 @@ class Profile extends React.Component {
     handleShow = () => {
         var filePreviewUrl = this.state.profilePic
         var temporaryName = this.state.name
-        var temporaryAddress = this.state.address
+        var temporaryAddress1 = this.state.address1
+        var temporaryAddress2 = this.state.address2
+        var temporaryCity = this.state.city
+        var temporaryState = this.state.state
+        var temporaryCountry = this.state.country
+        var temporaryZipcode = this.state.zipcode
         this.setState({
             showModal: true,
             filePreviewUrl: filePreviewUrl,
             temporaryName: temporaryName,
-            temporaryAddress: temporaryAddress
+            temporaryAddress1 : temporaryAddress1,
+            temporaryAddress2 : temporaryAddress2,
+            temporaryCity : temporaryCity,
+            temporaryState: temporaryState,
+            temporaryCountry: temporaryCountry,
+            temporaryZipcode: temporaryZipcode
         })
     }
   
@@ -49,7 +64,56 @@ class Profile extends React.Component {
             showModal: false,
             filePreviewUrl: '',
             temporaryName: '',
-            temporaryAddress: ''
+            temporaryAddress1 : '',
+            temporaryAddress2 : '',
+            temporaryCity : '',
+            temporaryState: '',
+            temporaryCountry: '',
+            temporaryZipcode: ''
+        })
+    }
+
+    handleSave = () => {
+        const id = localStorage.getItem("id")
+        const data = {
+            name: this.state.temporaryName,
+            address1: this.state.temporaryAddress1,
+            address2: this.state.temporaryAddress2,
+            city: this.state.temporaryCity,
+            state: this.state.temporaryState,
+            country: this.state.temporaryCountry,
+            zipcode: this.state.temporaryZipcode
+        }
+        axios.put(exportData.backenedURL + 'write/seller/profile/data/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        .then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                var name = this.state.temporaryName
+                var address1= this.state.temporaryAddress1
+                var address2= this.state.temporaryAddress2
+                var city= this.state.temporaryCity
+                var state= this.state.temporaryState
+                var country= this.state.temporaryCountry
+                var zipcode= this.state.temporaryZipcode
+                this.setState({
+                    name: name,
+                    address1: address1,
+                    address2: address2,
+                    city: city,
+                    state: state,
+                    country: country,
+                    zipcode: zipcode
+                })
+                const formData = new FormData();
+                formData.append('upl', this.state.selectedFile)
+                axios.put(exportData.backenedURL + 'write/seller/profile/upload/' + id, formData, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+                .then(res => {
+                    if (res.status === 200) {
+                        console.log(res)
+                    } 
+                })
+                this.setState({showModal: false})
+            } 
         })
     }
 
@@ -61,17 +125,22 @@ class Profile extends React.Component {
     }
 
     async componentDidMount(){
-        // const id = localStorage.getItem("user_id")
+        
         const id = localStorage.getItem("id")
-        axios.get(exportData.backenedURL + 'read/seller/profile/' + id).then(res => {
+        await axios.get(exportData.backenedURL + 'read/seller/profile/' + id).then(res => {
             console.log(res)  
             if (res.status === 200) {
                 this.setState({
                     name : res.data.name
                 })
+                if(res.data.profilePicUrl==null){
+                    this.setState({profilePic : DefaultProfilePic})
+                } else {
+                  this.setState({profilePic : res.data.profilePicUrl})
+                }
             }    
         })
-        axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
+        await axios.get(exportData.backenedURL + 'read/seller/product/' + id).then(res => {
             console.log(res)  
             if (res.status === 200) {
                 this.setState({
@@ -94,7 +163,7 @@ class Profile extends React.Component {
                               width={200} height={200}/>
                     <Card.Body>
                         <Card.Title>{this.state.name}</Card.Title>
-                        {/* Located At: {this.state.address} */}
+                        Located At: {this.state.city + ", " + this.state.state + ", " + this.state.country}
                         <br/>
                         <br/>
                         <center>
@@ -110,10 +179,10 @@ class Profile extends React.Component {
                     return (
                         <Media>
                             <img width={64} height={64} className="mr-3"
-                                src={DefaultProfilePic}
+                                src={this.state.profilePic}
                                 alt="Generic placeholder"/>
                             <Media.Body>
-                                <a href="#">
+                                <a id={product.id}>
                                     <h5>{product.productName}</h5>
                                 </a>
                                 <br/>
@@ -136,23 +205,78 @@ class Profile extends React.Component {
                     <div className="mb-3">
                         <Form.File id="formcheck-api-regular">
                             <Form.File.Label>Profile Picture:</Form.File.Label>
-                            {/* <Button variant="primary" style={{float:"right"}}>Upload</Button> */}
                             <Form.File.Input onChange={this.onFileSelect}/>
                         </Form.File>
                     </div>
                     <Form>
                         <Form.Group controlId="name">
                             <Form.Label>Name:</Form.Label>
-                            <Form.Control placeholder="Name" value={this.state.temporaryName} id="temporaryName"/>
+                            <Form.Control placeholder="Name" 
+                                    value={this.state.temporaryName} 
+                                    id="temporaryName"
+                                    required
+                                    onChange={this.onChangeHandler}/>
                         </Form.Group>
-                        {/* <Form.Group controlId="address">
-                            <Form.Label>Located At:</Form.Label>
-                            <Form.Control placeholder="Address" value={this.state.temporaryAddress} id="temporaryAddress"/>
-                        </Form.Group> */}
+                        <Form.Group>
+                            <Form.Label>Street Address Line 1:</Form.Label>
+                            <Form.Control id="temporaryAddress1" 
+                                        value={this.state.temporaryAddress1} 
+                                        onChange={this.onChangeHandler} 
+                                        placeholder="Street Address Line 1"
+                                        required/>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Street Address Line 2:</Form.Label>
+                            <Form.Control id="temporaryAddress2" 
+                                        value={this.state.temporaryAddress2} 
+                                        onChange={this.onChangeHandler} 
+                                        placeholder="Street Address Line 2" 
+                                        required/>
+                        </Form.Group>
+
+                        <Form.Row>
+                            <Form.Group as={Col}>
+                                <Form.Label>City:</Form.Label>
+                                <Form.Control id="temporaryCity" 
+                                            value={this.state.temporaryCity} 
+                                            onChange={this.onChangeHandler} 
+                                            placeholder="City"
+                                            required/>
+                            </Form.Group>
+
+                            <Form.Group as={Col}>
+                                <Form.Label>State:</Form.Label>
+                                <Form.Control id="temporaryState" 
+                                            value={this.state.temporaryState} 
+                                            onChange={this.onChangeHandler} 
+                                            placeholder="State"
+                                            required/>
+                            </Form.Group>
+
+                            <Form.Group as={Col}>
+                                <Form.Label>Zip Code:</Form.Label>
+                                <Form.Control id="temporaryZipcode" 
+                                            type="number" value={this.state.temporaryZipcode} 
+                                            onChange={this.onChangeHandler} 
+                                            placeholder="Zip Code"
+                                            required/>
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Group>
+                            <Form.Label>Country:</Form.Label>
+                            <Form.Control id="temporaryCountry" 
+                                        value={this.state.temporaryCountry} 
+                                        onChange={this.onChangeHandler} 
+                                        placeholder="Country" 
+                                        required/>
+                        </Form.Group>
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="warning" onClick={this.handleClose}>
+                    <Button variant="warning" onClick={this.handleSave}>
                         Save Changes
                     </Button>
                     <Button variant="light" onClick={this.handleClose}>
