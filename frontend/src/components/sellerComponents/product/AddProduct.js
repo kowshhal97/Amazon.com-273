@@ -41,8 +41,8 @@ class AddProduct extends React.Component {
     }
     
     onSubmitHandler = e =>{
-        const id = localStorage.getItem('id')
-        const sellerName = localStorage.getItem('sellerName')
+        const id = localStorage.getItem("id")
+        const sellerName = localStorage.getItem("sellerName")
         const data = {
             productName: this.state.productName,
             sellerName: sellerName,

@@ -76,7 +76,7 @@ class AddCard extends React.Component {
 
                     <Form.Group>
                         <Form.Label>Expiration Date:</Form.Label>
-                        <Form.Control id="expirationDate" type="date"
+                        <Form.Control id="expirationDate" 
                                       value={this.state.expirationDate} 
                                       onChange={this.onChangeHandler} 
                                       placeholder="Expiration Date" 
