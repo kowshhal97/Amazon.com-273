@@ -123,7 +123,7 @@ class Checkout extends React.Component {
                     giftMessage: ''
                 }
             }
-            customerId = cartProducts[i].customerId
+            customerId = localStorage.getItem('id')
             product.productId = cartProducts[i].productId
             product.productName = cartProducts[i].productName
             product.sellerName = cartProducts[i].sellerName
