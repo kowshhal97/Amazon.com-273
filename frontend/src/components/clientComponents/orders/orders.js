@@ -68,6 +68,7 @@ class Orders extends Component {
                                     return (
                                         <div key={i}>
                                             {orders.products.map((product, i) => {
+                                                console.log(product)
                                                 return (
                                                     <div key={i}>
                                                         <Card>

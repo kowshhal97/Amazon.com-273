@@ -36,11 +36,20 @@ class AdminOrders extends Component {
     }
 
 
-    orderStatusUpdate = (orderDetail, e) => {
+    orderStatusUpdate = async (orderDetail, e) => {
 
         let values = { orderUpdateItem: e.target.value, productId: orderDetail.product.productId, orderId: orderDetail.orderId };
 
         this.props.updateStatus(values);
+        // this.setState({
+        //     loading:true
+        // })
+        // await this.props.getAdminOrders();
+
+        // this.setState({
+        //     ordersDisplay: this.props.adminOrders,
+        //     loading:false
+        // })
     }
 
     changeStatus = (product, orders_id) => {
@@ -57,12 +66,12 @@ class AdminOrders extends Component {
                 {/* <Form.Label>Change Status</Form.Label> */}
                 <Form.Control as="select" custom>
                     <option value="1">{title}</option>
-                    {latestStatus === 2 &&
+                    {latestStatus == 2 &&
                         <option value="3">{exportData.deliveryStatus[3]}</option>
-                    }{latestStatus === 2 &&
+                    }{(latestStatus == 2 || latestStatus == 3) &&
                         <option value="4">{exportData.deliveryStatus[4]}</option>
                     }
-                    {latestStatus === 2 &&
+                    {(latestStatus == 2 || latestStatus == 3 || latestStatus == 4 )&&
                         <option value="5">{exportData.deliveryStatus[5]}</option>
                     }
 
@@ -403,7 +412,8 @@ class AdminOrders extends Component {
                                                                                     <img
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
-                                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                    //    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                    src={product.thumbNail}
                                                                                     ></img>
                                                                                 </Link>
                                                                             </Col>
@@ -493,7 +503,8 @@ class AdminOrders extends Component {
                                                                                     <img
                                                                                         alt=''
                                                                                         style={{ width: '100%' }}
-                                                                                        src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                    //    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                                    src={product.thumbNail}
                                                                                     ></img>
                                                                                 </Link>
                                                                             </Col>
@@ -579,7 +590,8 @@ class AdminOrders extends Component {
                                                                                 <img
                                                                                     alt=''
                                                                                     style={{ width: '100%' }}
-                                                                                    src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                               //     src={'https://imagesbuckethandshake.s3-us-west-1.amazonaws.com/product.jpg'}
+                                                                               src={product.thumbNail}
                                                                                 ></img>
                                                                             </Link>
                                                                         </Col>

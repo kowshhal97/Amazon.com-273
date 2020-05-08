@@ -31,8 +31,8 @@ class Analytics extends React.Component {
         let mostSoldProductsArray = [], topSellersArray = [], topCustomersArray = [], topProdRatingArray = [], topProdViewedArray = [];
 
         ordersCountArray.push(['Number of orders', 'Count']);
-        mostSoldProductsArray.push(['Top Sold Products', 'Count']);
-        topSellersArray.push(['System top sellers', 'Count']);
+        mostSoldProductsArray.push(['Top Sold Products', 'Amount']);
+        topSellersArray.push(['System top sellers', 'Amount']);
         topCustomersArray.push(['System top customers', 'Count']);
         topProdRatingArray.push(['Top products based on ratings', 'Count']);
         topProdViewedArray.push(['Top products based on number of views', 'Count'])
@@ -63,6 +63,7 @@ class Analytics extends React.Component {
        
        await axios.get(exportData.backenedURL + 'read/admin/stats/top/customer')
         .then((response) => {
+            console.log(response)
             response.data.map((value)=>{
                 topCustomersArray.push([value.customerName, value.purchase])
             })
