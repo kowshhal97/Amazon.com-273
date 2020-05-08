@@ -27,8 +27,8 @@ class AddCard extends React.Component {
         if(this.state.name==='' || this.state.cardNumber==='' || this.state.expirationDate==='' || this.state.CVV===''){
             alert("Please fill all the form details before submitting")
         } else{
-            // const id = localStorage.getItem("user_id")
-            const id = 1
+            const id = localStorage.getItem("id")
+            // const id = 1
             const data = {
                 name: this.state.name,
                 cardNumber: this.state.cardNumber,

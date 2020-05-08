@@ -2,18 +2,22 @@ import React from 'react';
 import {Redirect} from 'react-router';
 import { Button , Col, Container, Form } from 'react-bootstrap';
 import Header from "../../header/header";
+import axios from 'axios';
+import exportData from '../../../config/config';
 
 class EditAddress extends React.Component {
 
     constructor(){
         super();
         this.state = {
+            addressId:'',
             fullName: '',
             streetAddressLine1: '',
             streetAddressLine2: '',
             city: '',
             state: '',
             zipCode: '',
+            country: '',
             phoneNumber: '',
             redirect: ''
         }
@@ -26,8 +30,54 @@ class EditAddress extends React.Component {
     };
     
     onSubmitHandler = e =>{
-
+        if(this.state.fullName==='' || this.state.streetAddressLine1==='' || this.state.streetAddressLine2==='' || 
+        this.state.city==='' || this.state.state===''|| this.state.country==='' || this.state.phoneNumber===''){
+            alert("Please fill all the form details before submitting")
+        } else{
+            const id = this.state.addressId
+            
+            const data = {
+                name: this.state.fullName,
+                address1: this.state.streetAddressLine1,
+                address2: this.state.streetAddressLine2,
+                city: this.state.city,
+                state: this.state.zipCode,
+                country: this.state.country,
+                phoneNumber: this.state.phoneNumber            
+            }
+            console.log(data)
+            axios.put(exportData.backenedURL + 'write/customer/profile/address/' + id, JSON.stringify(data), {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res)
+                    this.setState({redirect: <Redirect to={{pathname: '/user/address/manageAddresses/'}} />})
+                } 
+            })
+        }
     }
+
+    componentDidMount() {
+        var addressId = this.props.location.state.addressCard.id
+        var name = this.props.location.state.addressCard.name
+        var address1 = this.props.location.state.addressCard.address1;
+        var address2 = this.props.location.state.addressCard.address2;
+        var city = this.props.location.state.addressCard.city;
+        var state = this.props.location.state.addressCard.state;
+        var country = this.props.location.state.addressCard.country;
+        var zipcode = this.props.location.state.addressCard.zipcode;
+        var phoneNumber = this.props.location.state.addressCard.phoneNumber;
+        this.setState({
+            addressId: addressId,
+            fullName: name,
+            streetAddressLine1: address1,
+            streetAddressLine2: address2,
+            city: city,
+            state: state,
+            zipCode: zipcode,
+            country: country,
+            phoneNumber: phoneNumber, 
+        })
+    }    
 
     onCancelClick = e => {
         e.preventDefault();
@@ -43,7 +93,7 @@ class EditAddress extends React.Component {
                 <br/>
                 <h2>Edit address:</h2>
                 <br/>
-                <Form onSubmit={this.onSubmitHandler}>                    
+                <Form>                    
                     <Form.Group>
                         <Form.Label>Full Name:</Form.Label>
                         <Form.Control id="fullName" 
@@ -101,6 +151,15 @@ class EditAddress extends React.Component {
                     </Form.Row>
 
                     <Form.Group>
+                        <Form.Label>Country:</Form.Label>
+                        <Form.Control id="country" 
+                                      value={this.state.country} 
+                                      onChange={this.onChangeHandler} 
+                                      placeholder="Country" 
+                                      required/>
+                    </Form.Group>
+
+                    <Form.Group>
                         <Form.Label>Phone Number:</Form.Label>
                         <Form.Control id="phoneNumber" 
                                       type="number" 
@@ -110,7 +169,7 @@ class EditAddress extends React.Component {
                                       required/>
                     </Form.Group>
                     <br/>
-                    <Button variant="warning" type="submit">
+                    <Button variant="warning" onClick={this.onSubmitHandler}>
                         Save Changes
                     </Button>
                     &nbsp; &nbsp;
