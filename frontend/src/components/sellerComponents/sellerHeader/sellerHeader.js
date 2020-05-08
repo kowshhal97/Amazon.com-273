@@ -22,6 +22,7 @@ class SellerHeader extends Component {
             <Navbar bg="dark" variant="dark">
                  <Navbar.Brand href="/"> <img src = {Logo} height='30px' width='120px'/></Navbar.Brand>
             <Nav className="mr-auto" style={{marginLeft:'5%'}}>
+              <Nav.Link href="/sellerHome">Home</Nav.Link>
               <Nav.Link href="/seller/product/addProduct">Add Product</Nav.Link>
               <Nav.Link href="/seller/orders/">Orders</Nav.Link>
               <Nav.Link href="/seller/reports/">Reports</Nav.Link>

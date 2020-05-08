@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import exportData from "../../../config/config";
 import Form from "react-bootstrap/Form";
-import ProductCard from "../../clientComponents/products/productCard";
+import ProductCard from "../../sellerComponents/product/productCard";
 import "../../CSS/styles.css";
 import Header from "../sellerHeader/sellerHeader";
 import { connect } from 'react-redux';
@@ -163,16 +163,17 @@ for(let i of filteredArray){
 
 displayProducts = () => {
   //for loop
-  for(let i=0; i<this.props.filterProducts.length; i+=3){
+  console.log(this.state.filterProducts)
+  for(let i=0; i<this.state.filterProducts.length; i+=3){
     return (<div>
       <Row>
         <Col md={4}>
-     { this.props.filterProducts[i] && <ProductCard  cproducts = {this.props.filterProducts[i]} key={i}/>}
+     { this.state.filterProducts[i] && <ProductCard  cproducts = {this.state.filterProducts[i]} key={i}/>}
      </Col>
      <Col md={4}>
-    { this.props.filterProducts[i+1] && <ProductCard  cproducts = {this.props.filterProducts[i+1]} key={i+1}/> }
+    { this.state.filterProducts[i+1] && <ProductCard  cproducts = {this.state.filterProducts[i+1]} key={i+1}/> }
     </Col>
-    { this.props.filterProducts[i+2] && <ProductCard  cproducts = {this.props.filterProducts[i+2]} key={i+2}/>}
+    { this.state.filterProducts[i+2] && <ProductCard  cproducts = {this.state.filterProducts[i+2]} key={i+2}/>}
     </Row>
     </div>)
   }
@@ -189,6 +190,7 @@ displayProducts = () => {
           <Header />
         </div>
         <Container fluid>
+          <br></br>
 
 <Row>
   <Col md={3}>
