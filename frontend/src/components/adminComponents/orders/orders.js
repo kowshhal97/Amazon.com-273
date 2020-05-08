@@ -40,16 +40,18 @@ class AdminOrders extends Component {
 
         let values = { orderUpdateItem: e.target.value, productId: orderDetail.product.productId, orderId: orderDetail.orderId };
 
-        this.props.updateStatus(values);
-        // this.setState({
-        //     loading:true
-        // })
-        // await this.props.getAdminOrders();
+      await  this.props.updateStatus(values);
 
-        // this.setState({
-        //     ordersDisplay: this.props.adminOrders,
-        //     loading:false
-        // })
+         this.setState({
+             loading:true,
+             ordersDisplay:[]
+         })
+         await this.props.getAdminOrders();
+
+         this.setState({
+             ordersDisplay: this.props.adminOrders,
+             loading:false
+         })
     }
 
     changeStatus = (product, orders_id) => {

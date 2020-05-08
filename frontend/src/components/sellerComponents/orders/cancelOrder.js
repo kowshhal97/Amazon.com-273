@@ -9,6 +9,7 @@ import { cancelOrderAPI } from '../../../store/actions/sellerActions/ordersActio
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Toast from 'react-bootstrap/Toast'
+
 let sellerName = localStorage.getItem('sellerName');
 
 
