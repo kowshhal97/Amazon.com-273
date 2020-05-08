@@ -184,7 +184,7 @@ class Checkout extends React.Component {
 
     onSaveNewCard = e => {
         e.preventDefault();
-        const id = 1
+        const id = localStorage.getItem("id")
         const newCard = {
             name : this.state.name,
             cardNumber: this.state.cardNumber,
@@ -215,7 +215,7 @@ class Checkout extends React.Component {
 
     async componentDidMount(){
         // const id = localStorage.getItem("user_id")
-        const id = 1
+        const id = localStorage.getItem("id")
         axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
             console.log(res)  
             if (res.status === 200) {
