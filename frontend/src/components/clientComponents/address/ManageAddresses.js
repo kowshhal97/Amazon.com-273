@@ -4,6 +4,7 @@ import { Button , Container, Card, CardColumns, Modal } from 'react-bootstrap';
 import Header from "../../header/header";
 import axios from 'axios';
 import exportData from '../../../config/config';
+import AddressCard from './AddressCard';
 
 class ManageAddresses extends React.Component {
 
@@ -21,27 +22,8 @@ class ManageAddresses extends React.Component {
       this.setState({ redirect: <Redirect to='/user/address/addAddress/' /> });
     }
 
-    onEditClick = e => {
-      e.preventDefault();
-      this.setState({ redirect: <Redirect to='/user/address/editAddress/' /> });
-    }
-
-    onDeleteClick = e => {
-      e.preventDefault();
-      this.handleShow()
-    }
-
-    handleShow = () => {
-      this.setState({showModal: true})
-    }
-
-    handleClose = () => {
-      this.setState({showModal: false})
-    }
-
     componentDidMount(){
-      // const id = localStorage.getItem("user_id")
-      const id = 1
+      const id = localStorage.getItem("id")
       axios.get(exportData.backenedURL + 'read/customer/profile/' + id).then(res => {
         console.log(res)  
         if (res.status === 200) {
@@ -66,50 +48,10 @@ class ManageAddresses extends React.Component {
                 <br/>
                 <CardColumns>
                   {this.state.addressCards.map((addressCard)=>{
-                    return (
-                      <Card>
-                        <Card.Header>
-                          {addressCard.name}
-                        </Card.Header>
-                        <Card.Body>
-                          <Card.Text>
-                            Address Line 1: {addressCard.address1}
-                            <br/>
-                            Address Line 2: {addressCard.address2}
-                            <br/>
-                            City: {addressCard.city}
-                            <br/>
-                            State: {addressCard.state}
-                            <br/>
-                            Country: {addressCard.country}
-                            <br/>
-                            Zip Code: {addressCard.zipcode}
-                            <br/>
-                            Phone Number: {addressCard.phoneNumber}
-                          </Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                          <Button variant="outline-success" onClick={this.onEditClick}>Edit</Button>
-                          &nbsp; &nbsp;
-                          <Button variant="outline-danger" onClick={this.onDeleteClick}>Delete</Button>
-                        </Card.Footer>
-                      </Card>)
+                    return <AddressCard key={addressCard.id} addressCard={addressCard} />
                   })}
                 </CardColumns>
-                <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Delete Address</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>Are you sure you want to delete this address?</Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
-                      No
-                    </Button>
-                    <Button variant="primary" onClick={this.handleClose}>
-                      Yes
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                
             </Container>                
           </div>
         );
