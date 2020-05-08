@@ -5,13 +5,13 @@ import axios from 'axios';
 import exportData from '../../../config/config';
 import {Redirect} from 'react-router';
 
-class AddressCard extends React.Component {
+class PaymentCard extends React.Component {
 
     constructor(){
         super();
         this.state = {
-          showModal: false,
-          redirect: ''
+            showModal: false,
+            redirect:''
         }
     }
 
@@ -23,7 +23,7 @@ class AddressCard extends React.Component {
 
     onEditClick = e => {
         e.preventDefault();
-        this.setState({ redirect: <Redirect to={{pathname: '/user/address/editAddress/', state: {addressCard: this.props.addressCard }}} /> });
+        this.setState({ redirect: <Redirect to={{pathname: '/user/address/editCard/', state: {paymentCard: this.props.paymentCard }}} /> });
       }
   
       onDeleteClick = e => {
@@ -40,8 +40,8 @@ class AddressCard extends React.Component {
       }
 
       handleDelete = () => {
-        const id = this.props.addressCard.id
-        axios.delete(exportData.backenedURL + 'write/customer/profile/address/' + id, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        const id = this.props.paymentCard.id
+        axios.delete(exportData.backenedURL + 'write/customer/profile/cards/' + id, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
         .then(res => {
             if (res.status === 200) {
                 console.log(res)
@@ -54,26 +54,18 @@ class AddressCard extends React.Component {
     render(){
         return(
           <div>
-            {this.state.redirect}
-                    <Card>
+              {this.state.redirect}
+              <Card>
                         <Card.Header>
-                          {this.props.addressCard.name}
+                          {this.props.paymentCard.name}
                         </Card.Header>
                         <Card.Body>
                           <Card.Text>
-                            Address Line 1: {this.props.addressCard.address1}
+                            Card Number: {this.props.paymentCard.cardNumber}
                             <br/>
-                            Address Line 2: {this.props.addressCard.address2}
+                            Expiration Date: {this.props.paymentCard.expirationDate}
                             <br/>
-                            City: {this.props.addressCard.city}
-                            <br/>
-                            State: {this.props.addressCard.state}
-                            <br/>
-                            Country: {this.props.addressCard.country}
-                            <br/>
-                            Zip Code: {this.props.addressCard.zipcode}
-                            <br/>
-                            Phone Number: {this.props.addressCard.phoneNumber}
+                            Security Code or CVV: {this.props.paymentCard.cvv}
                           </Card.Text>
                         </Card.Body>
                         <Card.Footer>
@@ -81,12 +73,12 @@ class AddressCard extends React.Component {
                           &nbsp; &nbsp;
                           <Button variant="outline-danger" onClick={this.onDeleteClick}>Delete</Button>
                         </Card.Footer>
-                    </Card>
+                      </Card>
                     <Modal show={this.state.showModal} onHide={this.handleClose} animation={false} centered>
                   <Modal.Header closeButton>
-                    <Modal.Title>Delete Address</Modal.Title>
+                    <Modal.Title>Delete Card</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>Are you sure you want to delete this address?</Modal.Body>
+                  <Modal.Body>Are you sure you want to delete this Card?</Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={this.handleClose}>
                       No
@@ -101,4 +93,4 @@ class AddressCard extends React.Component {
     }
 }
 
-export default AddressCard;
+export default PaymentCard;
