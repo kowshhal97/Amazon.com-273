@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import Navbar from 'react-bootstrap/NavBar';
+import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import exportData from '../../config/config';

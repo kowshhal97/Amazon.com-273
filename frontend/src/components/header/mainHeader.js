@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import Navbar from 'react-bootstrap/NavBar';
+import Navbar from 'react-bootstrap/Navbar';
 import FormControl from 'react-bootstrap/FormControl';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
