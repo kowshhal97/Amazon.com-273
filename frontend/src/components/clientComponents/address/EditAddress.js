@@ -41,7 +41,8 @@ class EditAddress extends React.Component {
                 address1: this.state.streetAddressLine1,
                 address2: this.state.streetAddressLine2,
                 city: this.state.city,
-                state: this.state.zipCode,
+                state: this.state.state,
+                zipcode: this.state.zipCode,
                 country: this.state.country,
                 phoneNumber: this.state.phoneNumber            
             }

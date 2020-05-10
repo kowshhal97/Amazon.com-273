@@ -39,13 +39,15 @@ class AddressCard extends React.Component {
         this.setState({showModal: false})
       }
 
-      handleDelete = () => {
+      handleDelete = (e) => {
+        e.preventDefault()
         const id = this.props.addressCard.id
         axios.delete(exportData.backenedURL + 'write/customer/profile/address/' + id, {headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
         .then(res => {
             if (res.status === 200) {
                 console.log(res)
                 this.setState({showModal: false})
+                window.location.reload(true);
             } 
         })
       }
